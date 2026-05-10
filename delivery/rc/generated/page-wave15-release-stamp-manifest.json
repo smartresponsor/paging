@@ -1,0 +1,15 @@
+{
+  "wave": 15,
+  "name": "page-release-stamp",
+  "component": "Paging",
+  "namespace": "App\\Paging",
+  "businessPrefix": "Page",
+  "configRoot": "page",
+  "tablePrefix": "page_",
+  "scope": "Final RC release stamp and transfer memo surface; no CMS/Admin/SEO expansion.",
+  "commands": [
+    "page:release:stamp",
+    "page:release:stamp --json"
+  ],
+  "smoke": "tools/smoke/page-release-stamp-smoke.ps1"
+}

@@ -1,0 +1,17 @@
+{
+  "component": "Paging",
+  "namespace": "App\\Paging",
+  "wave": 4,
+  "name": "controller-output-surface",
+  "business_prefix": "page",
+  "scope": [
+    "public HTML page route",
+    "read JSON endpoint",
+    "bridge payload endpoint",
+    "HTML/JSON/Markdown export endpoint",
+    "revision list and create endpoints",
+    "publication list and publish endpoint",
+    "authoring create/update endpoints",
+    "HTTP payload normalization service"
+  ]
+}

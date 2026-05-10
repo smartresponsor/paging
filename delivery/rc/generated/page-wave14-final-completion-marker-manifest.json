@@ -1,0 +1,25 @@
+{
+  "component": "Paging",
+  "businessPrefix": "Page",
+  "wave": "14",
+  "name": "final-completion-marker",
+  "scope": [
+    "aggregate completion status command",
+    "machine-readable completion DTO/report",
+    "final completion service",
+    "Windows PowerShell-safe smoke wrapper",
+    "post-RC completion documentation"
+  ],
+  "notOwned": [
+    "EasyAdmin",
+    "SEO",
+    "Locale",
+    "Attachment storage",
+    "host role hierarchy",
+    "CMS module system"
+  ],
+  "commands": [
+    "page:completion:status",
+    "page:completion:status --json"
+  ]
+}

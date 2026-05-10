@@ -1,0 +1,20 @@
+{
+  "component": "Paging",
+  "businessPrefix": "Page",
+  "wave": 13,
+  "name": "canon-guard",
+  "scope": [
+    "naming canon guard",
+    "table prefix guard",
+    "responsibility boundary marker",
+    "Windows-safe smoke entrypoint",
+    "machine-readable canon report"
+  ],
+  "outOfScope": [
+    "EasyAdmin implementation",
+    "CMS module system",
+    "SEO ownership",
+    "locale ownership",
+    "attachment storage"
+  ]
+}

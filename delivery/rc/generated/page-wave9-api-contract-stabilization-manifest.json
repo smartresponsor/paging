@@ -1,0 +1,23 @@
+{
+  "component": "Paging",
+  "businessPrefix": "Page",
+  "wave": 9,
+  "name": "api-contract-stabilization",
+  "scope": [
+    "stable Page API/output contract registry",
+    "Page API contract console command",
+    "documented response shapes",
+    "PS5-safe API contract smoke script",
+    "unit coverage for contract registry"
+  ],
+  "namespace": "App\\Paging",
+  "databasePrefix": "page_",
+  "configPrefix": "page",
+  "exclusions": [
+    "no EasyAdmin inside Paging",
+    "no SEO ownership",
+    "no locale ownership",
+    "no role hierarchy",
+    "no CMS theme system"
+  ]
+}

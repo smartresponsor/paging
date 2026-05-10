@@ -1,0 +1,23 @@
+{
+  "component": "Paging",
+  "wave": 12,
+  "title": "post-rc-handoff",
+  "namespace": "App\\Paging",
+  "businessStem": "Page",
+  "databasePrefix": "page_",
+  "configPrefix": "page",
+  "scope": "handoff summary and smoke closure",
+  "newCommands": [
+    "page:handoff:summary"
+  ],
+  "newComposerScripts": [
+    "page:handoff-check"
+  ],
+  "boundaries": {
+    "admin": "Backofficing",
+    "visualShell": "Interfacing",
+    "attachmentStorage": "Attachment",
+    "localeOwnership": "Locale",
+    "roleHierarchy": "Host application"
+  }
+}

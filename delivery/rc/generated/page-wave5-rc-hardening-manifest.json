@@ -1,0 +1,21 @@
+{
+  "component": "Paging",
+  "wave": "wave5_rc_hardening",
+  "namespace": "App\\Paging",
+  "business_prefix": "Page",
+  "database_prefix": "page",
+  "scope": [
+    "page voter and local grant checks",
+    "editor payload contract and sanitizer",
+    "Symfony forms for page/revision/publication DTOs",
+    "standalone demo seeding command",
+    "RC documentation and tests"
+  ],
+  "exclusions": [
+    "EasyAdmin",
+    "role hierarchy",
+    "SEO ownership",
+    "media storage",
+    "locale ownership"
+  ]
+}

@@ -1,0 +1,84 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Paging\:
+    resource: '../src/'
+    exclude:
+      - '../src/DependencyInjection/'
+      - '../src/Entity/'
+      - '../src/Kernel.php'
+
+  App\Paging\ServiceInterface\Runtime\PageRuntimeProbeServiceInterface:
+    alias: App\Paging\Service\Runtime\PageRuntimeProbeService
+
+  App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface:
+    alias: App\Paging\Service\Authoring\PageDraftService
+
+  App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface:
+    alias: App\Paging\Service\Revision\PageRevisionService
+
+  App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface:
+    alias: App\Paging\Service\Publication\PagePublicationService
+
+  App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface:
+    alias: App\Paging\Service\Rendering\PageRenderService
+
+  App\Paging\ServiceInterface\Export\PageExportServiceInterface:
+    alias: App\Paging\Service\Export\PageExportService
+
+  App\Paging\ServiceInterface\Attachment\PageAttachmentReferenceServiceInterface:
+    alias: App\Paging\Service\Attachment\PageAttachmentReferenceService
+
+  App\Paging\ServiceInterface\Security\PageGrantServiceInterface:
+    alias: App\Paging\Service\Security\PageGrantService
+
+  App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface:
+    alias: App\Paging\Service\Contract\PageBridgePayloadFactory
+
+  App\Paging\ServiceInterface\Contract\PageApiContractServiceInterface:
+    alias: App\Paging\Service\Contract\PageApiContractService
+
+  App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface:
+    alias: App\Paging\Service\Http\PageHttpPayloadFactory
+
+
+  App\Paging\ServiceInterface\Editor\PageEditorPayloadNormalizerInterface:
+    alias: App\Paging\Service\Editor\PageEditorPayloadNormalizer
+
+  App\Paging\ServiceInterface\Editor\PageContentSanitizerInterface:
+    alias: App\Paging\Service\Editor\PageContentSanitizer
+
+  App\Paging\ServiceInterface\Security\PageSecuritySubjectResolverInterface:
+    alias: App\Paging\Service\Security\PageSecuritySubjectResolver
+
+  App\Paging\ServiceInterface\Acceptance\PageAcceptanceServiceInterface:
+    alias: App\Paging\Service\Acceptance\PageAcceptanceService
+
+  App\Paging\ServiceInterface\Readiness\PageRcReadinessServiceInterface:
+    alias: App\Paging\Service\Readiness\PageRcReadinessService
+
+  App\Paging\ServiceInterface\Operations\PageOperationChecklistServiceInterface:
+    alias: App\Paging\Service\Operations\PageOperationChecklistService
+
+  App\Paging\ServiceInterface\Finalization\PageFinalStatusServiceInterface:
+    alias: App\Paging\Service\Finalization\PageFinalStatusService
+
+  App\Paging\ServiceInterface\Handoff\PageHandoffSummaryServiceInterface:
+    alias: App\Paging\Service\Handoff\PageHandoffSummaryService
+
+  App\Paging\ServiceInterface\Guard\PageCanonGuardServiceInterface:
+    alias: App\Paging\Service\Guard\PageCanonGuardService
+
+  App\Paging\ServiceInterface\Completion\PageCompletionServiceInterface:
+    alias: App\Paging\Service\Completion\PageCompletionService
+
+  App\Paging\ServiceInterface\Release\PageReleaseStampServiceInterface:
+    alias: App\Paging\Service\Release\PageReleaseStampService
+
+  App\Paging\ServiceInterface\Bridge\PageBridgePayloadFactoryInterface:
+    alias: App\Paging\Service\Bridge\PageBridgePayloadFactory
+
+  App\Paging\ServiceInterface\Bridge\PageBridgeContractProviderInterface:
+    alias: App\Paging\Service\Bridge\PageBridgeContractProvider

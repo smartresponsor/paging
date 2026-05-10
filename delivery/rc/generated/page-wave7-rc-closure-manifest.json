@@ -1,0 +1,25 @@
+{
+  "component": "Paging",
+  "namespace": "App\\Paging",
+  "businessStem": "Page",
+  "databasePrefix": "page_",
+  "configPrefix": "page",
+  "wave": 7,
+  "label": "rc-closure",
+  "scope": [
+    "rc readiness service",
+    "rc readiness command",
+    "standalone smoke script",
+    "rc closure documentation",
+    "readiness unit test"
+  ],
+  "excluded": [
+    "EasyAdmin",
+    "SEO ownership",
+    "locale ownership",
+    "attachment storage",
+    "role hierarchy",
+    "theme system",
+    "full CMS module system"
+  ]
+}

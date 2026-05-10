@@ -1,0 +1,16 @@
+{
+  "component": "Paging",
+  "wave": "wave1-runtime-foundation",
+  "namespace": "App\\Paging",
+  "business_prefix": "Page",
+  "database_prefix": "page_",
+  "config_prefix": "page",
+  "scope": [
+    "standalone Symfony runtime baseline",
+    "bundle extension baseline",
+    "Doctrine mapping baseline",
+    "runtime probe service",
+    "debug command",
+    "health endpoint"
+  ]
+}

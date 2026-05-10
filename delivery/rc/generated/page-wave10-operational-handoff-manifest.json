@@ -1,0 +1,29 @@
+{
+  "component": "Paging",
+  "businessPrefix": "page",
+  "namespace": "App\\Paging",
+  "wave": "10",
+  "name": "operational-handoff",
+  "scope": [
+    "post-RC operational checklist command",
+    "Windows PowerShell operational smoke script",
+    "host handoff documentation",
+    "composer page:check script",
+    "service alias for operation checklist service"
+  ],
+  "excludedScope": [
+    "EasyAdmin screens",
+    "heavy CMS features",
+    "SEO ownership",
+    "locale ownership",
+    "attachment storage",
+    "role hierarchy"
+  ],
+  "commands": [
+    "page:operations:check",
+    "page:rc:readiness",
+    "page:api:contract",
+    "page:host:integration-check"
+  ],
+  "tablePrefix": "page_"
+}

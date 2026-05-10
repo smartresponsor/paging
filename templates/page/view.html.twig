@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ view.title }}{% endblock %}
+
+{% block body %}
+<article class="page-view" data-page-code="{{ view.code }}" data-page-version="{{ view.version }}">
+    <header class="page-view__header">
+        <h1>{{ view.title }}</h1>
+        {% if view.publishedAt %}
+            <p class="page-view__meta">Last updated: {{ view.publishedAt|date('F j, Y') }}</p>
+        {% endif %}
+        {% if view.effectiveFrom %}
+            <p class="page-view__meta">Effective from: {{ view.effectiveFrom|date('F j, Y') }}</p>
+        {% endif %}
+    </header>
+
+    <section class="page-view__body">
+        {{ view.bodyHtml|raw }}
+    </section>
+</article>
+{% endblock %}

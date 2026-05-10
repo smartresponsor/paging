@@ -1,0 +1,24 @@
+{
+  "component": "Paging",
+  "businessPrefix": "Page",
+  "databasePrefix": "page_",
+  "configPrefix": "page",
+  "wave": 11,
+  "name": "final-rc-validation",
+  "status": "rc-final-validation",
+  "scope": [
+    "final RC status command",
+    "machine-readable final status report",
+    "Windows-safe final smoke script",
+    "final RC docs"
+  ],
+  "excludedScope": [
+    "EasyAdmin implementation",
+    "Backofficing implementation",
+    "Interfacing theme implementation",
+    "Locale ownership",
+    "Attachment storage",
+    "SEO subsystem",
+    "role hierarchy"
+  ]
+}

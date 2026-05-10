@@ -1,0 +1,22 @@
+{
+  "component": "Paging",
+  "wave": 6,
+  "name": "runtime-audit-acceptance",
+  "namespace": "App\\Paging",
+  "businessPrefix": "Page",
+  "databasePrefix": "page",
+  "scope": [
+    "Doctrine migration baseline",
+    "PageAcceptance legal acceptance entity",
+    "Acceptance service and API endpoints",
+    "Runtime readiness audit command",
+    "API examples"
+  ],
+  "exclusions": [
+    "EasyAdmin",
+    "SEO ownership",
+    "Locale ownership",
+    "Attachment storage",
+    "Role hierarchy"
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "name": "smart-responsor/paging",
+  "description": "Smart Responsor Paging component for governed pages, revisions, publications, and page bridge contracts.",
+  "type": "symfony-bundle",
+  "license": "proprietary",
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../Objecting",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
+  "require": {
+    "doctrine/dbal": "^4.0",
+    "doctrine/doctrine-bundle": "^3.0",
+    "doctrine/doctrine-migrations-bundle": "^4.0",
+    "doctrine/orm": "^3.0",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "smart-responsor/objecting": "*@dev",
+    "php": ">=8.4",
+    "symfony/console": "^8.0",
+    "symfony/dependency-injection": "^8.0",
+    "symfony/dotenv": "^8.0",
+    "symfony/flex": "^2.0",
+    "symfony/form": "^8.0",
+    "symfony/framework-bundle": "^8.0",
+    "symfony/runtime": "^8.0",
+    "symfony/security-bundle": "^8.0",
+    "symfony/twig-bundle": "^8.0",
+    "symfony/validator": "^8.0",
+    "symfony/yaml": "^8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^12.0",
+	"friendsofphp/php-cs-fixer": "^3.95",
+    "symfony/browser-kit": "^8.0",
+    "symfony/css-selector": "^8.0",
+    "symfony/maker-bundle": "^1.67"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\Paging\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Paging\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "symfony/flex": true,
+      "symfony/runtime": true
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "symfony": {
+      "require": "8.0.*"
+    }
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ],
+    "page:check": [
+      "php bin/console lint:container",
+      "php bin/console page:operations:check",
+      "php bin/console page:rc:readiness",
+      "php bin/console page:api:contract",
+      "php bin/console page:host:integration-check",
+      "php bin/console page:rc:final-status",
+      "php bin/console page:handoff:summary",
+      "php bin/console page:canon:guard",
+      "php bin/console page:completion:status",
+      "php bin/console page:bridge:contract"
+    ],
+    "page:final-check": [
+      "php bin/console lint:container",
+      "php bin/console page:rc:readiness",
+      "php bin/console page:api:contract",
+      "php bin/console page:host:integration-check",
+      "php bin/console page:operations:check",
+      "php bin/console page:rc:final-status",
+      "php bin/console page:handoff:summary",
+      "php bin/console page:canon:guard",
+      "php bin/console page:completion:status",
+      "php bin/console page:bridge:contract"
+    ],
+    "page:handoff-check": [
+      "php bin/console lint:container",
+      "php bin/console page:rc:final-status",
+      "php bin/console page:handoff:summary",
+      "php bin/console page:handoff:summary --json",
+      "php bin/console page:canon:guard"
+    ],
+    "page:canon-check": [
+      "php bin/console lint:container",
+      "php bin/console page:canon:guard",
+      "php bin/console page:canon:guard --json"
+    ],
+    "page:completion-check": [
+      "php bin/console lint:container",
+      "php bin/console page:completion:status",
+      "php bin/console page:completion:status --json",
+      "php bin/console page:canon:guard",
+      "php bin/console page:rc:final-status"
+    ],
+    "page:release-check": [
+      "php bin/console lint:container",
+      "php bin/console page:release:stamp",
+      "php bin/console page:release:stamp --json",
+      "php bin/console page:completion:status",
+      "php bin/console page:canon:guard",
+      "php bin/console page:bridge:contract"
+    ],
+    "page:bridge-check": [
+      "php bin/console lint:container",
+      "php bin/console page:bridge:contract",
+      "php bin/console page:bridge:contract --json"
+    ]
+  }
+}

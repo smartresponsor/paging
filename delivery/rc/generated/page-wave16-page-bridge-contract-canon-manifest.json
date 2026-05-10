@@ -1,0 +1,28 @@
+{
+  "wave": 16,
+  "name": "page-bridge-contract-canon",
+  "component": "Paging",
+  "namespace": "App\\Paging",
+  "business_stem": "Page",
+  "scope": "Canonizes the stable Page bridge output boundary for Interfacing consumers.",
+  "added": [
+    "DTO/Bridge/PageBridgePayload",
+    "DTO/Bridge/PageBridgeAttachment",
+    "DTO/Bridge/PageBridgeRenderHints",
+    "DTO/Bridge/PageBridgeLegalNotice",
+    "ServiceInterface/Bridge/PageBridgePayloadFactoryInterface",
+    "ServiceInterface/Bridge/PageBridgeContractProviderInterface",
+    "Service/Bridge/PageBridgePayloadFactory",
+    "Service/Bridge/PageBridgeContractProvider",
+    "Command/PageBridgeContractCommand",
+    "docs/bridge/page-interfacing-bridge-contract.md",
+    "tools/smoke/page-bridge-contract-smoke.ps1"
+  ],
+  "excluded": [
+    "EasyAdmin",
+    "CMS module system",
+    "SEO ownership",
+    "Locale ownership",
+    "Attachment storage"
+  ]
+}

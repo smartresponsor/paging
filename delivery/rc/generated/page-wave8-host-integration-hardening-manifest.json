@@ -1,0 +1,27 @@
+{
+  "component": "Paging",
+  "wave": 8,
+  "title": "host integration hardening",
+  "namespace": "App\\Paging",
+  "business_prefix": "Page",
+  "database_prefix": "page_",
+  "config_prefix": "page",
+  "scope": [
+    "host integration check command",
+    "PS5-safe host smoke script",
+    "host bundle integration documentation",
+    "Backofficing bridge boundary documentation",
+    "Interfacing bridge boundary documentation"
+  ],
+  "intentionally_excluded": [
+    "EasyAdmin implementation inside Paging",
+    "SEO ownership",
+    "locale ownership",
+    "attachment storage ownership",
+    "role hierarchy"
+  ],
+  "commands": [
+    "php bin/console page:host:integration-check",
+    "powershell -ExecutionPolicy Bypass -File tools/smoke/page-host-integration-smoke.ps1 -ProjectRoot D:\\PhpstormProjects\\www\\Paging"
+  ]
+}
