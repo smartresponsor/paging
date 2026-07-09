@@ -6,7 +6,9 @@ namespace App\Paging\ValueObject;
 
 final readonly class PageCode
 {
-    public function __construct(private string $value)
+    private string $value;
+
+    public function __construct(string $value)
     {
         $this->value = trim($value);
         if ('' === $this->value || 1 !== preg_match('/^[a-z0-9][a-z0-9_\\-:.]{1,126}[a-z0-9]$/', $this->value)) {

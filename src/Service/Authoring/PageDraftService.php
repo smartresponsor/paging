@@ -27,7 +27,8 @@ final readonly class PageDraftService implements PageDraftServiceInterface
 
     public function updatePage(Page $page, PageUpdateInput $input): Page
     {
-        $page->rename($input->title, $input->slug);
+        $slug = '' === trim($input->slug) ? $page->getSlug() : $input->slug;
+        $page->rename($input->title, $slug);
         $page->assignOwner($input->ownerUserId);
         $this->entityManager->flush();
 

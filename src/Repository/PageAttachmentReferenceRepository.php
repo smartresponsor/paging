@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Paging\Repository;
 
 use App\Paging\Entity\PageAttachmentReference;
+use App\Paging\RepositoryInterface\PageAttachmentReferenceRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @extends ServiceEntityRepository<PageAttachmentReference>
  */
-final class PageAttachmentReferenceRepository extends ServiceEntityRepository
+final class PageAttachmentReferenceRepository extends ServiceEntityRepository implements PageAttachmentReferenceRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -26,6 +26,7 @@ final class PageContentSanitizer implements PageContentSanitizerInterface
 
     public function toPlainText(string $html): string
     {
+        $html = preg_replace('/<\s*\/?\s*(address|article|aside|blockquote|br|div|footer|h[1-6]|header|hr|li|main|nav|ol|p|pre|section|table|tbody|td|tfoot|th|thead|tr|ul)\b[^>]*>/i', ' ', $html) ?? '';
         $text = html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $text = preg_replace('/\s+/u', ' ', $text) ?? '';
 

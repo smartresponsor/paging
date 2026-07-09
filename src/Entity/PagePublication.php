@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'page_publication')]
 #[ORM\Index(name: 'page_publication_page_idx', columns: ['page_id'])]
 #[ORM\Index(name: 'page_publication_status_idx', columns: ['status'])]
+#[ORM\Index(name: 'IDX_PAGE_PUBLICATION_REVISION', columns: ['revision_id'])]
 class PagePublication
 {
     #[ORM\Id]

@@ -6,7 +6,9 @@ namespace App\Paging\ValueObject;
 
 final readonly class PageChecksum
 {
-    public function __construct(private string $value)
+    private string $value;
+
+    public function __construct(string $value)
     {
         $this->value = strtolower(trim($value));
         if (1 !== preg_match('/^[a-f0-9]{64}$/', $this->value)) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Paging\Repository;
 
 use App\Paging\Entity\Page;
+use App\Paging\RepositoryInterface\PageRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @extends ServiceEntityRepository<Page>
  */
-final class PageRepository extends ServiceEntityRepository
+final class PageRepository extends ServiceEntityRepository implements PageRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

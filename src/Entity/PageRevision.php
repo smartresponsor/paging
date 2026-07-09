@@ -53,6 +53,8 @@ class PageRevision
 
     #[ORM\Column(name: 'locked_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $lockedAt = null;
+    #[ORM\Column(name: 'locked_by', type: 'string', length: 128, nullable: true)]
+    private ?string $lockedBy = null;
 
     public function __construct(Page $page, int $revisionNumber, string $title, string $bodyHtml, string $bodyText, ?string $bodyMarkdown = null, ?array $bodyJson = null, ?string $changeNote = null, ?string $createdByUserId = null)
     {
@@ -88,6 +90,11 @@ class PageRevision
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
     }
 
     public function getBodyHtml(): string
@@ -130,9 +137,29 @@ class PageRevision
         return $this->createdAt;
     }
 
+    public function createdAt(): \DateTimeImmutable
+    {
+        return $this->getCreatedAt();
+    }
+
     public function getLockedAt(): ?\DateTimeImmutable
     {
         return $this->lockedAt;
+    }
+
+    public function lockedAt(): ?\DateTimeImmutable
+    {
+        return $this->getLockedAt();
+    }
+
+    public function getLockedBy(): ?string
+    {
+        return $this->lockedBy;
+    }
+
+    public function lockedBy(): ?string
+    {
+        return $this->getLockedBy();
     }
 
     public function isLocked(): bool
@@ -140,8 +167,15 @@ class PageRevision
         return null !== $this->lockedAt;
     }
 
-    public function lock(): void
+    public function lock(?string $lockedBy = null, ?\DateTimeImmutable $lockedAt = null): void
     {
-        $this->lockedAt ??= new \DateTimeImmutable();
+        $this->lockedBy = $lockedBy;
+        $this->lockedAt = $lockedAt ?? new \DateTimeImmutable();
+    }
+
+    public function unlock(): void
+    {
+        $this->lockedAt = null;
+        $this->lockedBy = null;
     }
 }

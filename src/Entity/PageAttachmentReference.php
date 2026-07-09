@@ -10,8 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PageAttachmentReferenceRepository::class)]
 #[ORM\Table(name: 'page_attachment_reference')]
-#[ORM\Index(name: 'page_attachment_reference_page_idx', columns: ['page_id'])]
-#[ORM\Index(name: 'page_attachment_reference_attachment_idx', columns: ['attachment_id'])]
+#[ORM\Index(name: 'page_attachment_page_idx', columns: ['page_id'])]
+#[ORM\Index(name: 'page_attachment_revision_idx', columns: ['revision_id'])]
+#[ORM\Index(name: 'page_attachment_usage_idx', columns: ['usage'])]
 class PageAttachmentReference
 {
     #[ORM\Id]
@@ -23,7 +24,7 @@ class PageAttachmentReference
     private Page $page;
 
     #[ORM\ManyToOne(targetEntity: PageRevision::class)]
-    #[ORM\JoinColumn(name: 'revision_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'revision_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?PageRevision $revision = null;
 
     #[ORM\Column(name: 'attachment_id', type: 'string', length: 128)]

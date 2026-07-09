@@ -7,6 +7,7 @@ namespace App\Paging\Entity;
 use App\Paging\Enum\PageKind;
 use App\Paging\Enum\PageStatus;
 use App\Paging\Repository\PageRepository;
+use App\Paging\ValueObject\PageSlug;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,13 +21,14 @@ use Doctrine\ORM\Mapping as ORM;
 class Page
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'string', length: 32)]
-    private string $id;
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 128)]
     private string $code;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 36)]
     private string $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -76,9 +78,8 @@ class Page
     public function __construct(string $code, string $slug, string $title, PageKind $kind = PageKind::Page, ?string $ownerUserId = null)
     {
         $now = new \DateTimeImmutable();
-        $this->id = self::newId();
         $this->code = $code;
-        $this->slug = $slug;
+        $this->slug = PageSlug::fromSource($slug)->value();
         $this->title = $title;
         $this->kind = $kind;
         $this->ownerUserId = $ownerUserId;
@@ -90,7 +91,7 @@ class Page
         $this->grants = new ArrayCollection();
     }
 
-    public function getId(): string
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -172,7 +173,7 @@ class Page
     public function rename(string $title, string $slug): void
     {
         $this->title = $title;
-        $this->slug = $slug;
+        $this->slug = PageSlug::fromSource($slug)->value();
         $this->touch();
     }
 
@@ -207,10 +208,5 @@ class Page
     private function touch(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
-    }
-
-    private static function newId(): string
-    {
-        return bin2hex(random_bytes(16));
     }
 }

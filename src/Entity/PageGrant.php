@@ -29,7 +29,7 @@ class PageGrant
     #[ORM\Column(name: 'subject_role', type: 'string', length: 128, nullable: true)]
     private ?string $subjectRole = null;
 
-    #[ORM\Column(type: 'string', length: 32, enumType: PageGrantType::class)]
+    #[ORM\Column(name: 'grant_type', type: 'string', length: 32, enumType: PageGrantType::class)]
     private PageGrantType $grant;
 
     #[ORM\Column(name: 'created_by_user_id', type: 'string', length: 128, nullable: true)]
