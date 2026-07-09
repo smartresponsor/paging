@@ -29,7 +29,7 @@ final class PageApiContractAuditCommand extends Command
             ['Name', 'Method', 'Path', 'Formats', 'Write', 'Published revision', 'Purpose'],
             array_map(
                 static fn ($endpoint): array => [
-                    $endpoint->name,
+                    $endpoint->nameEntity,
                     $endpoint->method,
                     $endpoint->path,
                     implode(', ', $endpoint->formats),

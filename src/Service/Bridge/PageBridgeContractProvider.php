@@ -9,6 +9,7 @@ use App\Paging\Entity\Page;
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Bridge\PageBridgeContractProviderInterface;
 use App\Paging\ServiceInterface\Bridge\PageBridgePayloadFactoryInterface;
+use App\Paging\ValueObject\PageSlug;
 
 final readonly class PageBridgeContractProvider implements PageBridgeContractProviderInterface
 {
@@ -30,7 +31,7 @@ final readonly class PageBridgeContractProvider implements PageBridgeContractPro
 
     public function bySlug(string $slug): PageBridgePayload
     {
-        $page = $this->pageRepository->findOneBy(['slug' => $slug]);
+        $page = $this->pageRepository->findOneBy(['slug' => PageSlug::fromSource($slug)->value()]);
         if (!$page instanceof Page) {
             throw new \RuntimeException(sprintf('Page with slug "%s" was not found for bridge output.', $slug));
         }

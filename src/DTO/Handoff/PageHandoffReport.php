@@ -25,6 +25,21 @@ final readonly class PageHandoffReport
         return 'ready';
     }
 
+    public function passed(): bool
+    {
+        return 'ready' === $this->status();
+    }
+
+    public function passedCount(): int
+    {
+        return count(array_filter($this->items, static fn (PageHandoffItem $item): bool => 'ready' === $item->status));
+    }
+
+    public function failedCount(): int
+    {
+        return count($this->items) - $this->passedCount();
+    }
+
     /** @return array<string, mixed> */
     public function toArray(): array
     {

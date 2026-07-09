@@ -126,7 +126,7 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
             }
 
             $table = $attributes[0]->newInstance()->name;
-            if ('page' !== $table && !str_starts_with($table, 'page_')) {
+            if (!is_string($table) || ('page' !== $table && !str_starts_with($table, 'page_'))) {
                 $invalid[] = $class.' => '.$table;
             }
         }

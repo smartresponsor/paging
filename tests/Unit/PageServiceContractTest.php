@@ -9,6 +9,7 @@ use App\Paging\Entity\Page;
 use App\Paging\Enum\PageGrantType;
 use App\Paging\Service\Rendering\PageRenderService;
 use App\Paging\Service\Revision\PageRevisionService;
+use App\Paging\ValueObject\PageSlug;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +17,7 @@ final class PageServiceContractTest extends TestCase
 {
     public function testRenderPublishedPageRequiresPublishedRevision(): void
     {
-        $page = new Page('privacy_policy', 'privacy-policy', 'Privacy Policy');
+        $page = new Page('privacy_policy', PageSlug::fromSource('privacy_policy')->value(), 'Privacy Policy');
 
         $this->expectException(\RuntimeException::class);
         (new PageRenderService())->renderPublished($page);
@@ -28,7 +29,7 @@ final class PageServiceContractTest extends TestCase
         $entityManager->expects(self::once())->method('persist');
         $entityManager->expects(self::once())->method('flush');
 
-        $page = new Page('terms', 'terms', 'Terms');
+        $page = new Page('terms', PageSlug::fromSource('terms')->value(), 'Terms');
         $service = new PageRevisionService($entityManager);
         $revision = $service->createRevision($page, new PageRevisionCreateInput('Terms', '<h1>Terms</h1><p>Hello</p>'));
 

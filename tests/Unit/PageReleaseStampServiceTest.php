@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\DTO\Canon\PageCanonGuardReport;
 use App\Paging\DTO\Completion\PageCompletionReport;
+use App\Paging\DTO\Guard\PageCanonGuardReport;
 use App\Paging\DTO\Handoff\PageHandoffReport;
 use App\Paging\Service\Release\PageReleaseStampService;
 use App\Paging\ServiceInterface\Completion\PageCompletionServiceInterface;

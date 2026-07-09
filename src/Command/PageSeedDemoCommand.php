@@ -12,6 +12,7 @@ use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
+use App\Paging\ValueObject\PageSlug;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -67,7 +68,7 @@ final class PageSeedDemoCommand extends Command
         return [
             [
                 'code' => 'privacy_policy',
-                'slug' => 'privacy-policy',
+                'slug' => PageSlug::fromSource('privacy-policy')->value(),
                 'title' => 'Privacy Policy',
                 'kind' => PageKind::Policy,
                 'bodyHtml' => '<h1>Privacy Policy</h1><p>This demo policy is managed by Paging revisions.</p>',
@@ -75,7 +76,7 @@ final class PageSeedDemoCommand extends Command
             ],
             [
                 'code' => 'terms_of_service',
-                'slug' => 'terms-of-service',
+                'slug' => PageSlug::fromSource('terms-of-service')->value(),
                 'title' => 'Terms of Service',
                 'kind' => PageKind::Policy,
                 'bodyHtml' => '<h1>Terms of Service</h1><p>This demo terms page is published from a locked revision.</p>',
@@ -83,7 +84,7 @@ final class PageSeedDemoCommand extends Command
             ],
             [
                 'code' => 'about',
-                'slug' => 'about',
+                'slug' => PageSlug::fromSource('about')->value(),
                 'title' => 'About',
                 'kind' => PageKind::Page,
                 'bodyHtml' => '<h1>About</h1><p>A simple public page rendered by the Paging component.</p>',
@@ -91,7 +92,7 @@ final class PageSeedDemoCommand extends Command
             ],
             [
                 'code' => 'sample_blog',
-                'slug' => 'sample-blog',
+                'slug' => PageSlug::fromSource('sample-blog')->value(),
                 'title' => 'Sample Blog',
                 'kind' => PageKind::Blog,
                 'bodyHtml' => '<h1>Sample Blog</h1><p>A minimal blog-shaped page using the same Page model.</p>',
