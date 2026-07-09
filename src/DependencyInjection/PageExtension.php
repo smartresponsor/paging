@@ -28,14 +28,6 @@ final class PageExtension extends Extension implements PrependExtensionInterface
                 $templateDir => null,
             ],
         ]);
-
-        if ($container->hasExtension('doctrine_migrations')) {
-            $container->prependExtensionConfig('doctrine_migrations', [
-                'migrations_paths' => [
-                    'App\\Paging\\Migrations' => dirname(__DIR__, 2).'/migrations',
-                ],
-            ]);
-        }
     }
 
     /**
@@ -48,8 +40,8 @@ final class PageExtension extends Extension implements PrependExtensionInterface
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        foreach ($config as $name => $value) {
-            $container->setParameter('page.'.$name, $value);
+        foreach ($config as $nameEntity => $value) {
+            $container->setParameter('page.'.$nameEntity, $value);
         }
 
         $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__, 2).'/config'));

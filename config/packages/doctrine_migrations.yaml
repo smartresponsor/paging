@@ -1,4 +1,3 @@
 doctrine_migrations:
-  migrations_paths:
-    App\Paging\Migrations: '%kernel.project_dir%/migrations'
+  migrations_paths: {}
   enable_profiler: false
