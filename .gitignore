@@ -23,3 +23,7 @@
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+# Local generated analysis and backup artifacts
+/.codebase-memory/
+/config/*.bak-*
