@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
     ->in([__DIR__.'/src', __DIR__.'/tests'])
-    ->name('*.php');
+    ->name('*.php')
+    ->notPath('config/reference.php');
 
 return new PhpCsFixer\Config()
     ->setRiskyAllowed(true)
