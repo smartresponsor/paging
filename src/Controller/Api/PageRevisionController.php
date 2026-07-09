@@ -9,13 +9,13 @@ use App\Paging\Entity\Page;
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/pages/{code}/revisions')]
-final class PageRevisionController extends AbstractController
+#[Route('/api/page/revision')]
+final class PageRevisionController
 {
     public function __construct(
         private readonly PageRepository $pageRepository,
@@ -24,7 +24,7 @@ final class PageRevisionController extends AbstractController
     ) {
     }
 
-    #[Route('', name: 'page_api_revisions', methods: ['GET'])]
+    #[Route('/{code}', name: 'page_api_revisions', methods: ['GET'])]
     public function list(string $code): JsonResponse
     {
         $page = $this->findPage($code);
@@ -33,13 +33,13 @@ final class PageRevisionController extends AbstractController
             $revisions[] = $this->pageHttpPayloadFactory->revisionToArray($revision);
         }
 
-        return $this->json([
+        return new JsonResponse([
             'page' => $this->pageHttpPayloadFactory->pageToArray($page),
             'revisions' => $revisions,
         ]);
     }
 
-    #[Route('', name: 'page_api_revision_create', methods: ['POST'])]
+    #[Route('/{code}', name: 'page_api_revision_create', methods: ['POST'])]
     public function create(string $code, Request $request): JsonResponse
     {
         $page = $this->findPage($code);
@@ -55,14 +55,14 @@ final class PageRevisionController extends AbstractController
             isset($payload['createdByUserId']) ? (string) $payload['createdByUserId'] : null,
         ));
 
-        return $this->json(['revision' => $this->pageHttpPayloadFactory->revisionToArray($revision)], 201);
+        return new JsonResponse(['revision' => $this->pageHttpPayloadFactory->revisionToArray($revision)], 201);
     }
 
     private function findPage(string $code): Page
     {
         $page = $this->pageRepository->findOneBy(['code' => $code]);
         if (null === $page) {
-            throw $this->createNotFoundException(sprintf('Page "%s" was not found.', $code));
+            throw new NotFoundHttpException(sprintf('Page "%s" was not found.', $code));
         }
 
         return $page;

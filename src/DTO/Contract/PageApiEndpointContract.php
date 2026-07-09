@@ -14,7 +14,7 @@ final readonly class PageApiEndpointContract
 {
     /** @param list<string> $formats */
     public function __construct(
-        public string $name,
+        public string $nameEntity,
         public string $method,
         public string $path,
         public string $purpose,

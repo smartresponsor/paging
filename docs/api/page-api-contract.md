@@ -6,35 +6,37 @@ Wave 9 freezes the first RC-facing Page API/output surface. The contract remains
 
 ### Public render
 
-- `GET /pages/{slug}` renders the published Page revision using the standalone Twig fallback template.
+- `GET /page/` renders the public Page index surface.
+- `GET /page/{slug}` renders the published Page revision using the standalone Twig fallback template.
 
 ### Read and bridge
 
-- `GET /api/page/pages/{code}` returns the published Page render view as JSON.
-- `GET /api/page/pages/{code}/bridge` returns `PageBridgePayload` for Interfacing/host bridge rendering.
+- `GET /api/page/{code}` returns the published Page render view as JSON.
+- `GET /api/page/bridge/{code}` returns `PageBridgePayload` for Interfacing/host bridge rendering.
 
 ### Export
 
-- `GET /api/page/export/{code}.html`
-- `GET /api/page/export/{code}.json`
-- `GET /api/page/export/{code}.md`
+- `GET /api/page/export/{code}?format=html`
+- `GET /api/page/export/{code}?format=json`
+- `GET /api/page/export/{code}?format=md`
 
 The export surface is for Page content distribution. It is not a CMS theme system and does not own SEO, locale, or attachment storage.
 
 ### Authoring, revision, publication
 
-- `POST /api/page/authoring/pages`
-- `PATCH /api/page/authoring/pages/{code}`
-- `GET /api/page/pages/{code}/revisions`
-- `POST /api/page/pages/{code}/revisions`
-- `GET /api/page/pages/{code}/publications`
-- `POST /api/page/pages/{code}/publications/revision/{revisionNumber}`
+- `POST /api/page/authoring/page`
+- `PATCH /api/page/authoring/page/{code}`
+- `GET /api/page/revision/{code}`
+- `POST /api/page/revision/{code}`
+- `GET /api/page/publication/{code}`
+- `POST /api/page/publication/revision/{revisionNumber}?code={code}`
 
 Revision creation must not mutate already published revision history.
 
 ### Legal acceptance
 
-- `POST /api/page/pages/{code}/acceptances/revision/{revisionNumber}` records acceptance against a concrete revision/checksum.
+- `POST /api/page/acceptance/revision/{revisionNumber}?code={code}` records acceptance against a concrete revision/checksum.
+- `GET /api/page/acceptance/subject/{subjectUserId}?code={code}&revisionNumber={revisionNumber}` checks acceptance for a concrete revision/checksum.
 
 ## Runtime check
 

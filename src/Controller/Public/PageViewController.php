@@ -6,11 +6,12 @@ namespace App\Paging\Controller\Public;
 
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Paging\ValueObject\PageSlug;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class PageViewController extends AbstractController
+final class PageViewController
 {
     public function __construct(
         private readonly PageRepository $pageRepository,
@@ -19,22 +20,48 @@ final class PageViewController extends AbstractController
     }
 
     #[Route('/page/', name: 'page_public_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(): Response|array
     {
-        return $this->render('page/index.html.twig');
+        return [
+            '_view' => [
+                'surface' => 'page',
+                'operation' => 'index',
+                'component' => 'Paging',
+                'intent' => 'surface',
+            ],
+            'locations' => [],
+            'data' => [
+                'resourcePath' => '/page/{slug}',
+            ],
+            'meta' => [
+                'source' => 'paging_public_boundary',
+            ],
+        ];
     }
 
     #[Route('/page/{slug}', name: 'page_public_view', methods: ['GET'])]
-    public function __invoke(string $slug): Response
+    public function __invoke(string $slug): Response|array
     {
-        $page = $this->pageRepository->findOneBy(['slug' => $slug]);
+        $page = $this->pageRepository->findOneBy(['slug' => PageSlug::fromSource($slug)->value()]);
         if (null === $page || null === $page->getPublishedRevision()) {
-            throw $this->createNotFoundException(sprintf('Published page "%s" was not found.', $slug));
+            throw new NotFoundHttpException(sprintf('Published page "%s" was not found.', $slug));
         }
 
-        return $this->render('page/view.html.twig', [
-            'page' => $page,
-            'view' => $this->pageRenderService->renderPublished($page),
-        ]);
+        return [
+            '_view' => [
+                'surface' => 'page',
+                'operation' => 'view',
+                'component' => 'Paging',
+                'intent' => 'surface',
+            ],
+            'locations' => [],
+            'data' => [
+                'page' => $page,
+                'view' => $this->pageRenderService->renderPublished($page),
+            ],
+            'meta' => [
+                'source' => 'paging_public_boundary',
+            ],
+        ];
     }
 }

@@ -3,7 +3,7 @@
 ## Create page
 
 ```http
-POST /api/page/authoring/pages
+POST /api/page/authoring/page
 Content-Type: application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
 ## Create revision
 
 ```http
-POST /api/page/pages/privacy_policy/revisions
+POST /api/page/revision/privacy_policy
 Content-Type: application/json
 
 {
@@ -34,7 +34,7 @@ Content-Type: application/json
 ## Publish revision
 
 ```http
-POST /api/page/pages/privacy_policy/publications/revision/1
+POST /api/page/publication/revision/1?code=privacy_policy
 Content-Type: application/json
 
 {
@@ -46,15 +46,15 @@ Content-Type: application/json
 ## Export published page
 
 ```http
-GET /api/page/export/privacy_policy.html
-GET /api/page/export/privacy_policy.json
-GET /api/page/export/privacy_policy.md
+GET /api/page/export/privacy_policy?format=html
+GET /api/page/export/privacy_policy?format=json
+GET /api/page/export/privacy_policy?format=md
 ```
 
 ## Accept legal revision
 
 ```http
-POST /api/page/pages/privacy_policy/acceptance/revision/1
+POST /api/page/acceptance/revision/1?code=privacy_policy
 Content-Type: application/json
 
 {
@@ -69,5 +69,5 @@ Content-Type: application/json
 ## Check acceptance
 
 ```http
-GET /api/page/pages/privacy_policy/acceptance/revision/1/subject/user-123
+GET /api/page/acceptance/subject/user-123?code=privacy_policy&revisionNumber=1
 ```

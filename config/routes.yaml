@@ -1,5 +1,2 @@
-controllers:
-  resource:
-    path: ../src/Controller/
-    namespace: App\Paging\Controller
-  type: attribute
+page_routes:
+  resource: routes/page.yaml

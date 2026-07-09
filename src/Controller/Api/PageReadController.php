@@ -9,12 +9,12 @@ use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface;
 use App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/pages')]
-final class PageReadController extends AbstractController
+#[Route('/api/page')]
+final class PageReadController
 {
     public function __construct(
         private readonly PageRepository $pageRepository,
@@ -29,18 +29,18 @@ final class PageReadController extends AbstractController
     {
         $page = $this->findPublishedPage($code);
 
-        return $this->json([
+        return new JsonResponse([
             'page' => $this->pageHttpPayloadFactory->pageToArray($page),
             'render' => $this->pageHttpPayloadFactory->renderViewToArray($this->pageRenderService->renderPublished($page)),
         ]);
     }
 
-    #[Route('/{code}/bridge', name: 'page_api_bridge', methods: ['GET'])]
+    #[Route('/bridge/{code}', name: 'page_api_bridge', methods: ['GET'])]
     public function bridge(string $code): JsonResponse
     {
         $page = $this->findPublishedPage($code);
 
-        return $this->json([
+        return new JsonResponse([
             'bridge' => $this->pageHttpPayloadFactory->bridgePayloadToArray($this->pageBridgePayloadFactory->createForPublishedPage($page)),
         ]);
     }
@@ -49,7 +49,7 @@ final class PageReadController extends AbstractController
     {
         $page = $this->pageRepository->findOneBy(['code' => $code]);
         if (null === $page || null === $page->getPublishedRevision()) {
-            throw $this->createNotFoundException(sprintf('Published page "%s" was not found.', $code));
+            throw new NotFoundHttpException(sprintf('Published page "%s" was not found.', $code));
         }
 
         return $page;

@@ -9,13 +9,14 @@ use App\Paging\Entity\Page;
 use App\Paging\Entity\PageAcceptance;
 use App\Paging\Entity\PageRevision;
 use App\Paging\Enum\PageKind;
+use App\Paging\ValueObject\PageSlug;
 use PHPUnit\Framework\TestCase;
 
 final class PageAcceptanceServiceTest extends TestCase
 {
     public function testAcceptanceViewUsesRevisionChecksum(): void
     {
-        $page = new Page('privacy_policy', 'privacy-policy', 'Privacy Policy', PageKind::Policy, 'owner-1');
+        $page = new Page('privacy_policy', PageSlug::fromSource('privacy_policy')->value(), 'Privacy Policy', PageKind::Policy, 'owner-1');
         $revision = new PageRevision($page, 1, 'Privacy Policy', '<p>Policy</p>', 'Policy');
         $acceptance = new PageAcceptance($page, $revision, 'user-1', 'ip-hash', 'agent-hash', ['surface' => 'test']);
 
@@ -26,7 +27,7 @@ final class PageAcceptanceServiceTest extends TestCase
 
     public function testAcceptanceInputCarriesRevisionAndSubject(): void
     {
-        $page = new Page('terms', 'terms', 'Terms', PageKind::Policy, null);
+        $page = new Page('terms', PageSlug::fromSource('terms')->value(), 'Terms', PageKind::Policy, null);
         $revision = new PageRevision($page, 1, 'Terms', '<p>Terms</p>', 'Terms');
         $input = new PageAcceptanceInput($revision, 'user-2', '127.0.0.1', 'UnitTest', ['surface' => 'signup']);
 

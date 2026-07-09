@@ -10,13 +10,13 @@ use App\Paging\Entity\PageRevision;
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/pages/{code}/publications')]
-final class PagePublicationController extends AbstractController
+#[Route('/api/page/publication')]
+final class PagePublicationController
 {
     public function __construct(
         private readonly PageRepository $pageRepository,
@@ -25,7 +25,7 @@ final class PagePublicationController extends AbstractController
     ) {
     }
 
-    #[Route('', name: 'page_api_publications', methods: ['GET'])]
+    #[Route('/{code}', name: 'page_api_publications', methods: ['GET'])]
     public function list(string $code): JsonResponse
     {
         $page = $this->findPage($code);
@@ -34,17 +34,18 @@ final class PagePublicationController extends AbstractController
             $publications[] = $this->pageHttpPayloadFactory->publicationToArray($publication);
         }
 
-        return $this->json([
+        return new JsonResponse([
             'page' => $this->pageHttpPayloadFactory->pageToArray($page),
             'publications' => $publications,
         ]);
     }
 
     #[Route('/revision/{revisionNumber}', name: 'page_api_publish_revision', methods: ['POST'])]
-    public function publish(string $code, int $revisionNumber, Request $request): JsonResponse
+    public function publish(int $revisionNumber, Request $request): JsonResponse
     {
-        $revision = $this->findRevision($code, $revisionNumber);
         $payload = $this->jsonPayload($request);
+        $code = $this->pageCodeFromRequest($request, $payload);
+        $revision = $this->findRevision($code, $revisionNumber);
 
         $publication = $this->pagePublicationService->publishRevision($revision, new PagePublishInput(
             $this->dateFromPayload($payload['effectiveFrom'] ?? null),
@@ -52,10 +53,21 @@ final class PagePublicationController extends AbstractController
             isset($payload['publishedByUserId']) ? (string) $payload['publishedByUserId'] : null,
         ));
 
-        return $this->json([
+        return new JsonResponse([
             'page' => $this->pageHttpPayloadFactory->pageToArray($publication->getPage()),
             'publication' => $this->pageHttpPayloadFactory->publicationToArray($publication),
         ], 201);
+    }
+
+    /** @param array<string, mixed> $payload */
+    private function pageCodeFromRequest(Request $request, array $payload): string
+    {
+        $code = $payload['code'] ?? $request->query->get('code');
+        if (!is_string($code) || '' === trim($code)) {
+            throw new NotFoundHttpException('Page code is required.');
+        }
+
+        return $code;
     }
 
     private function findRevision(string $code, int $revisionNumber): PageRevision
@@ -67,14 +79,14 @@ final class PagePublicationController extends AbstractController
             }
         }
 
-        throw $this->createNotFoundException(sprintf('Page "%s" revision %d was not found.', $code, $revisionNumber));
+        throw new NotFoundHttpException(sprintf('Page "%s" revision %d was not found.', $code, $revisionNumber));
     }
 
     private function findPage(string $code): Page
     {
         $page = $this->pageRepository->findOneBy(['code' => $code]);
         if (null === $page) {
-            throw $this->createNotFoundException(sprintf('Page "%s" was not found.', $code));
+            throw new NotFoundHttpException(sprintf('Page "%s" was not found.', $code));
         }
 
         return $page;

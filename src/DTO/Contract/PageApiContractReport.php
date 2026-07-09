@@ -24,7 +24,7 @@ final readonly class PageApiContractReport
     {
         return array_map(
             static fn (PageApiEndpointContract $endpoint): array => [
-                'name' => $endpoint->name,
+                'nameEntity' => $endpoint->nameEntity,
                 'method' => $endpoint->method,
                 'path' => $endpoint->path,
                 'purpose' => $endpoint->purpose,

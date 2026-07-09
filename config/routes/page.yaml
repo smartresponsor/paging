@@ -1,0 +1,69 @@
+page_health:
+  path: /_page/health
+  controller: App\Paging\Controller\Public\PageHealthController::__invoke
+  methods: [GET]
+
+page_public_index:
+  path: /page/
+  controller: App\Paging\Controller\Public\PageViewController::index
+  methods: [GET]
+
+page_public_view:
+  path: /page/{slug}
+  controller: App\Paging\Controller\Public\PageViewController::__invoke
+  methods: [GET]
+
+page_api_read:
+  path: /api/page/{code}
+  controller: App\Paging\Controller\Api\PageReadController::read
+  methods: [GET]
+
+page_api_bridge:
+  path: /api/page/bridge/{code}
+  controller: App\Paging\Controller\Api\PageReadController::bridge
+  methods: [GET]
+
+page_api_export:
+  path: /api/page/export/{code}
+  controller: App\Paging\Controller\Api\PageExportController::export
+  methods: [GET]
+
+page_api_revisions:
+  path: /api/page/revision/{code}
+  controller: App\Paging\Controller\Api\PageRevisionController::list
+  methods: [GET]
+
+page_api_revision_create:
+  path: /api/page/revision/{code}
+  controller: App\Paging\Controller\Api\PageRevisionController::create
+  methods: [POST]
+
+page_api_publications:
+  path: /api/page/publication/{code}
+  controller: App\Paging\Controller\Api\PagePublicationController::list
+  methods: [GET]
+
+page_api_publish_revision:
+  path: /api/page/publication/revision/{revisionNumber}
+  controller: App\Paging\Controller\Api\PagePublicationController::publish
+  methods: [POST]
+
+page_api_accept_revision:
+  path: /api/page/acceptance/revision/{revisionNumber}
+  controller: App\Paging\Controller\Api\PageAcceptanceController::accept
+  methods: [POST]
+
+page_api_acceptance_check:
+  path: /api/page/acceptance/subject/{subjectUserId}
+  controller: App\Paging\Controller\Api\PageAcceptanceController::check
+  methods: [GET]
+
+page_api_authoring_create:
+  path: /api/page/authoring/page
+  controller: App\Paging\Controller\Api\PageAuthoringController::create
+  methods: [POST]
+
+page_api_authoring_update:
+  path: /api/page/authoring/page/{code}
+  controller: App\Paging\Controller\Api\PageAuthoringController::update
+  methods: [PATCH]

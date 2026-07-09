@@ -10,13 +10,13 @@ use App\Paging\Enum\PageKind;
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
 use App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/authoring/pages')]
-final class PageAuthoringController extends AbstractController
+#[Route('/api/page/authoring/page')]
+final class PageAuthoringController
 {
     public function __construct(
         private readonly PageRepository $pageRepository,
@@ -37,7 +37,7 @@ final class PageAuthoringController extends AbstractController
             isset($payload['ownerUserId']) ? (string) $payload['ownerUserId'] : null,
         ));
 
-        return $this->json(['page' => $this->pageHttpPayloadFactory->pageToArray($page)], 201);
+        return new JsonResponse(['page' => $this->pageHttpPayloadFactory->pageToArray($page)], 201);
     }
 
     #[Route('/{code}', name: 'page_api_authoring_update', methods: ['PATCH'])]
@@ -45,7 +45,7 @@ final class PageAuthoringController extends AbstractController
     {
         $page = $this->pageRepository->findOneBy(['code' => $code]);
         if (null === $page) {
-            throw $this->createNotFoundException(sprintf('Page "%s" was not found.', $code));
+            throw new NotFoundHttpException(sprintf('Page "%s" was not found.', $code));
         }
 
         $payload = $this->jsonPayload($request);
@@ -55,7 +55,7 @@ final class PageAuthoringController extends AbstractController
             array_key_exists('ownerUserId', $payload) ? (is_string($payload['ownerUserId']) ? $payload['ownerUserId'] : null) : $page->getOwnerUserId(),
         ));
 
-        return $this->json(['page' => $this->pageHttpPayloadFactory->pageToArray($page)]);
+        return new JsonResponse(['page' => $this->pageHttpPayloadFactory->pageToArray($page)]);
     }
 
     /** @return array<string, mixed> */

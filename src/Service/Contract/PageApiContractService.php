@@ -39,7 +39,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_api_read',
                 'GET',
-                '/api/page/pages/{code}',
+                '/api/page/{code}',
                 'Return the published Page render view as JSON payload.',
                 ['json'],
                 true,
@@ -47,7 +47,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_api_bridge',
                 'GET',
-                '/api/page/pages/{code}/bridge',
+                '/api/page/bridge/{code}',
                 'Return the PageBridgePayload for Interfacing/host rendering bridges.',
                 ['json'],
                 true,
@@ -55,7 +55,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_export_html',
                 'GET',
-                '/api/page/export/{code}.html',
+                '/api/page/export/{code}?format=html',
                 'Export the published Page revision as sanitized HTML.',
                 ['html'],
                 true,
@@ -63,7 +63,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_export_json',
                 'GET',
-                '/api/page/export/{code}.json',
+                '/api/page/export/{code}?format=json',
                 'Export the published Page revision as a stable JSON document.',
                 ['json'],
                 true,
@@ -71,7 +71,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_export_markdown',
                 'GET',
-                '/api/page/export/{code}.md',
+                '/api/page/export/{code}?format=md',
                 'Export the published Page revision as Markdown/source text when available.',
                 ['markdown'],
                 true,
@@ -79,14 +79,14 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_revision_list',
                 'GET',
-                '/api/page/pages/{code}/revisions',
+                '/api/page/revision/{code}',
                 'List Page revisions for authoring and audit surfaces.',
                 ['json'],
             ),
             new PageApiEndpointContract(
                 'page_revision_create',
                 'POST',
-                '/api/page/pages/{code}/revisions',
+                '/api/page/revision/{code}',
                 'Create the next Page revision without mutating published history.',
                 ['json'],
                 false,
@@ -95,14 +95,14 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_publication_list',
                 'GET',
-                '/api/page/pages/{code}/publications',
+                '/api/page/publication/{code}',
                 'List Page publication events for audit and legal traceability.',
                 ['json'],
             ),
             new PageApiEndpointContract(
                 'page_publication_create',
                 'POST',
-                '/api/page/pages/{code}/publications/revision/{revisionNumber}',
+                '/api/page/publication/revision/{revisionNumber}',
                 'Publish a concrete Page revision with effective-date metadata.',
                 ['json'],
                 false,
@@ -111,7 +111,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_authoring_create',
                 'POST',
-                '/api/page/authoring/pages',
+                '/api/page/authoring/page',
                 'Create a logical Page draft through the business authoring service.',
                 ['json'],
                 false,
@@ -120,7 +120,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_authoring_update',
                 'PATCH',
-                '/api/page/authoring/pages/{code}',
+                '/api/page/authoring/page/{code}',
                 'Update draft-level Page metadata without editing immutable revisions.',
                 ['json'],
                 false,
@@ -129,11 +129,18 @@ final class PageApiContractService implements PageApiContractServiceInterface
             new PageApiEndpointContract(
                 'page_acceptance_create',
                 'POST',
-                '/api/page/pages/{code}/acceptances/revision/{revisionNumber}',
+                '/api/page/acceptance/revision/{revisionNumber}',
                 'Record user acceptance for a concrete Page revision/checksum.',
                 ['json'],
                 false,
                 true,
+            ),
+            new PageApiEndpointContract(
+                'page_acceptance_check',
+                'GET',
+                '/api/page/acceptance/subject/{subjectUserId}?code={code}&revisionNumber={revisionNumber}',
+                'Check whether a subject accepted a concrete Page revision/checksum.',
+                ['json'],
             ),
         ]);
     }

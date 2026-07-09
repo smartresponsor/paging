@@ -10,13 +10,13 @@ use App\Paging\Entity\Page;
 use App\Paging\Entity\PageRevision;
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Acceptance\PageAcceptanceServiceInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/pages/{code}/acceptance')]
-final class PageAcceptanceController extends AbstractController
+#[Route('/api/page/acceptance')]
+final class PageAcceptanceController
 {
     public function __construct(
         private readonly PageRepository $pageRepository,
@@ -25,13 +25,14 @@ final class PageAcceptanceController extends AbstractController
     }
 
     #[Route('/revision/{revisionNumber}', name: 'page_api_accept_revision', methods: ['POST'])]
-    public function accept(string $code, int $revisionNumber, Request $request): JsonResponse
+    public function accept(int $revisionNumber, Request $request): JsonResponse
     {
-        $revision = $this->findRevision($code, $revisionNumber);
         $payload = $this->jsonPayload($request);
+        $code = $this->pageCodeFromRequest($request, $payload);
+        $revision = $this->findRevision($code, $revisionNumber);
         $subjectUserId = (string) ($payload['subjectUserId'] ?? '');
         if ('' === $subjectUserId) {
-            return $this->json(['error' => 'subjectUserId is required.'], 422);
+            return new JsonResponse(['error' => 'subjectUserId is required.'], 422);
         }
 
         $acceptance = $this->pageAcceptanceService->accept(new PageAcceptanceInput(
@@ -42,21 +43,44 @@ final class PageAcceptanceController extends AbstractController
             isset($payload['acceptanceContext']) && is_array($payload['acceptanceContext']) ? $payload['acceptanceContext'] : null,
         ));
 
-        return $this->json(['acceptance' => $this->viewToArray($this->pageAcceptanceService->view($acceptance))], 201);
+        return new JsonResponse(['acceptance' => $this->viewToArray($this->pageAcceptanceService->view($acceptance))], 201);
     }
 
     #[Route('/revision/{revisionNumber}/subject/{subjectUserId}', name: 'page_api_acceptance_check', methods: ['GET'])]
-    public function check(string $code, int $revisionNumber, string $subjectUserId): JsonResponse
+    public function check(string $subjectUserId, Request $request): JsonResponse
     {
+        $code = $this->pageCodeFromRequest($request, []);
+        $revisionNumber = $this->revisionNumberFromRequest($request);
         $revision = $this->findRevision($code, $revisionNumber);
 
-        return $this->json([
+        return new JsonResponse([
             'pageCode' => $revision->getPage()->getCode(),
             'revisionNumber' => $revision->getRevisionNumber(),
             'subjectUserId' => $subjectUserId,
             'accepted' => $this->pageAcceptanceService->hasAccepted($revision, $subjectUserId),
             'checksum' => $revision->getChecksum(),
         ]);
+    }
+
+    /** @param array<string, mixed> $payload */
+    private function pageCodeFromRequest(Request $request, array $payload): string
+    {
+        $code = $payload['code'] ?? $request->query->get('code');
+        if (!is_string($code) || '' === trim($code)) {
+            throw new NotFoundHttpException('Page code is required.');
+        }
+
+        return $code;
+    }
+
+    private function revisionNumberFromRequest(Request $request): int
+    {
+        $revisionNumber = $request->attributes->get('revisionNumber') ?? $request->query->get('revisionNumber');
+        if (is_numeric($revisionNumber) && (int) $revisionNumber > 0) {
+            return (int) $revisionNumber;
+        }
+
+        throw new NotFoundHttpException('Page revision number is required.');
     }
 
     private function findRevision(string $code, int $revisionNumber): PageRevision
@@ -68,14 +92,14 @@ final class PageAcceptanceController extends AbstractController
             }
         }
 
-        throw $this->createNotFoundException(sprintf('Page "%s" revision %d was not found.', $code, $revisionNumber));
+        throw new NotFoundHttpException(sprintf('Page "%s" revision %d was not found.', $code, $revisionNumber));
     }
 
     private function findPage(string $code): Page
     {
         $page = $this->pageRepository->findOneBy(['code' => $code]);
         if (null === $page) {
-            throw $this->createNotFoundException(sprintf('Page "%s" was not found.', $code));
+            throw new NotFoundHttpException(sprintf('Page "%s" was not found.', $code));
         }
 
         return $page;
