@@ -1,6 +1,6 @@
 {
-  "name": "smart-responsor/paging",
-  "description": "Smart Responsor Paging component for governed pages, revisions, publications, and page bridge contracts.",
+  "name": "paging/page",
+  "description": "Paging process app",
   "type": "symfony-bundle",
   "license": "proprietary",
   "minimum-stability": "stable",
@@ -18,10 +18,10 @@
     "doctrine/dbal": "^4.0",
     "doctrine/doctrine-bundle": "^3.0",
     "doctrine/doctrine-migrations-bundle": "^4.0",
-    "doctrine/orm": "^3.0",
+    "doctrine/orm": "^3.3",
     "ext-ctype": "*",
     "ext-iconv": "*",
-    "smart-responsor/objecting": "*@dev",
+    "objecting/object": "*@dev",
     "php": ">=8.4",
     "symfony/console": "^8.0",
     "symfony/dependency-injection": "^8.0",
@@ -39,8 +39,7 @@
     "phpunit/phpunit": "^12.0",
 	"friendsofphp/php-cs-fixer": "^3.95",
     "symfony/browser-kit": "^8.0",
-    "symfony/css-selector": "^8.0",
-    "symfony/maker-bundle": "^1.67"
+    "symfony/css-selector": "^8.0"
   },
   "autoload": {
     "psr-4": {

@@ -10,5 +10,4 @@ return [
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     App\Objecting\ObjectBundle::class => ['all' => true],
     App\Paging\PageBundle::class => ['all' => true],
-    Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
 ];
