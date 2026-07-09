@@ -79,7 +79,7 @@ final class PagingDemoFixtures
 
     private function introSentence(): string
     {
-        return 'It reads like a real commerce landing page instead of a placeholder.';
+        return 'It reads like a real commerce landing page with concrete commerce copy.';
     }
 
     private function updateParagraph(string $title): string
