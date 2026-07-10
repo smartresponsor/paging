@@ -20,10 +20,14 @@ use App\Paging\ServiceInterface\Contract\PageApiContractServiceInterface;
 use App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface;
 use App\Paging\ServiceInterface\Editor\PageContentSanitizerInterface;
 use App\Paging\ServiceInterface\Export\PageExportServiceInterface;
+use App\Paging\ServiceInterface\Interfacing\PageInterfacingContractServiceInterface;
+use App\Paging\ServiceInterface\Navigation\PageNavigationContractServiceInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
 use App\Paging\ServiceInterface\Security\PageGrantServiceInterface;
+use App\Paging\ServiceInterface\Security\PageSecurityContractServiceInterface;
+use App\Paging\ServiceInterface\Workflow\PageWorkflowAcceptanceServiceInterface;
 
 final readonly class PageCompletionService implements PageCompletionServiceInterface
 {
@@ -39,6 +43,10 @@ final readonly class PageCompletionService implements PageCompletionServiceInter
         private PageApiContractServiceInterface $pageApiContractService,
         private PageContentSanitizerInterface $pageContentSanitizer,
         private PageAcceptanceServiceInterface $pageAcceptanceService,
+        private PageNavigationContractServiceInterface $pageNavigationContractService,
+        private PageInterfacingContractServiceInterface $pageInterfacingContractService,
+        private PageSecurityContractServiceInterface $pageSecurityContractService,
+        private PageWorkflowAcceptanceServiceInterface $pageWorkflowAcceptanceService,
     ) {
     }
 
@@ -52,6 +60,7 @@ final readonly class PageCompletionService implements PageCompletionServiceInter
             $this->securityBoundary(),
             $this->editorBoundary(),
             $this->integrationBoundary(),
+            $this->userUsabilityBoundary(),
         ]);
     }
 
@@ -135,6 +144,22 @@ final readonly class PageCompletionService implements PageCompletionServiceInter
 
     private function integrationBoundary(): PageCompletionItem
     {
-        return new PageCompletionItem('integration_boundary', 'Neighbor integration boundary', true, 'Backofficing owns EasyAdmin, Interfacing owns visual shell, Attachment owns storage, Locale owns locale policy.');
+        return new PageCompletionItem('integration_boundary', 'Neighbor integration boundary', true, 'Paging owns service-driven EasyAdmin entrypoints and bridge contracts; Interfacing, Navigating, Attachment, and host security own their final host behavior.');
+    }
+
+    private function userUsabilityBoundary(): PageCompletionItem
+    {
+        $reports = [
+            $this->pageNavigationContractService->buildReport()->itemCount() > 0,
+            $this->pageInterfacingContractService->buildReport()->passed(),
+            $this->pageSecurityContractService->buildReport()->passed(),
+            $this->pageWorkflowAcceptanceService->buildReport()->passed(),
+        ];
+
+        if (in_array(false, $reports, true)) {
+            return new PageCompletionItem('user_usability_boundary', 'User usability contracts', false, 'At least one user usability contract is incomplete.');
+        }
+
+        return new PageCompletionItem('user_usability_boundary', 'User usability contracts', true, 'Navigation, Interfacing, security, and full workflow acceptance contracts are ready.');
     }
 }

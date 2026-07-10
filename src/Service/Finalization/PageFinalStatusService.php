@@ -7,8 +7,13 @@ namespace App\Paging\Service\Finalization;
 use App\Paging\Command\PageApiContractAuditCommand;
 use App\Paging\Command\PageAuditReadinessCommand;
 use App\Paging\Command\PageHostIntegrationCheckCommand;
+use App\Paging\Command\PageInterfacingContractCommand;
+use App\Paging\Command\PageNavigationContractCommand;
 use App\Paging\Command\PageOperationalChecklistCommand;
 use App\Paging\Command\PageRcReadinessCommand;
+use App\Paging\Command\PageSecurityContractCommand;
+use App\Paging\Command\PageUserUsabilityCommand;
+use App\Paging\Command\PageWorkflowAcceptanceCommand;
 use App\Paging\DTO\Finalization\PageFinalStatusItem;
 use App\Paging\DTO\Finalization\PageFinalStatusReport;
 use App\Paging\Entity\Page;
@@ -33,9 +38,9 @@ use Doctrine\ORM\Mapping\Table;
  *
  * The service deliberately checks only Paging responsibilities: Page naming,
  * page_ table prefix, page config prefix, bundle entry, service contracts,
- * runtime commands, smoke scripts, and generated manifests. Backofficing,
- * EasyAdmin screens, Interfacing themes, Locale ownership, and Attachment
- * storage remain outside this component boundary.
+ * runtime commands, smoke scripts, generated manifests, and user-usable host
+ * contracts. Interfacing themes, Navigating placement, host security policy,
+ * and Attachment storage remain outside this component boundary.
  */
 final class PageFinalStatusService implements PageFinalStatusServiceInterface
 {
@@ -74,6 +79,11 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
                 PageHostIntegrationCheckCommand::class,
                 PageApiContractAuditCommand::class,
                 PageOperationalChecklistCommand::class,
+                PageUserUsabilityCommand::class,
+                PageNavigationContractCommand::class,
+                PageInterfacingContractCommand::class,
+                PageSecurityContractCommand::class,
+                PageWorkflowAcceptanceCommand::class,
             ]),
             $this->paths('config_prefix', 'Config uses the page prefix', ['config/packages/page.yaml']),
             $this->paths('smoke_scripts', 'Windows-safe smoke scripts exist', [
@@ -85,6 +95,11 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
             ]),
             $this->paths('docs_and_manifests', 'Final RC docs and manifests exist', [
                 'docs/rc/wave11-final-rc-validation.md',
+                'docs/host/page-user-usability-integration.md',
+                'docs/host/page-navigating-integration.md',
+                'docs/host/page-interfacing-e2e.md',
+                'docs/host/page-security-access-integration.md',
+                'docs/host/page-full-user-workflow-acceptance.md',
                 'delivery/rc/generated/page-wave11-final-rc-validation-manifest.json',
             ]),
         ]);

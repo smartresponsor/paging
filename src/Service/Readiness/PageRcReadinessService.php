@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Readiness;
 
+use App\Paging\Command\PageInterfacingContractCommand;
+use App\Paging\Command\PageNavigationContractCommand;
+use App\Paging\Command\PageSecurityContractCommand;
 use App\Paging\Command\PageUserUsabilityCommand;
+use App\Paging\Command\PageWorkflowAcceptanceCommand;
 use App\Paging\Controller\Api\PageAcceptanceController;
 use App\Paging\Controller\Api\PageExportController;
 use App\Paging\Controller\Api\PagePublicationController;
@@ -28,12 +32,16 @@ use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
 use App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface;
 use App\Paging\ServiceInterface\Editor\PageEditorPayloadNormalizerInterface;
 use App\Paging\ServiceInterface\Export\PageExportServiceInterface;
+use App\Paging\ServiceInterface\Interfacing\PageInterfacingContractServiceInterface;
+use App\Paging\ServiceInterface\Navigation\PageNavigationContractServiceInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use App\Paging\ServiceInterface\Readiness\PageRcReadinessServiceInterface;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
 use App\Paging\ServiceInterface\Security\PageGrantServiceInterface;
+use App\Paging\ServiceInterface\Security\PageSecurityContractServiceInterface;
 use App\Paging\ServiceInterface\Usability\PageUserUsabilityServiceInterface;
+use App\Paging\ServiceInterface\Workflow\PageWorkflowAcceptanceServiceInterface;
 use App\Paging\Voter\PageVoter;
 
 /**
@@ -88,6 +96,14 @@ final class PageRcReadinessService implements PageRcReadinessServiceInterface
             $this->classes('user_usability', 'Host user/admin usability contract', [
                 PageUserUsabilityServiceInterface::class,
                 PageUserUsabilityCommand::class,
+                PageNavigationContractServiceInterface::class,
+                PageNavigationContractCommand::class,
+                PageInterfacingContractServiceInterface::class,
+                PageInterfacingContractCommand::class,
+                PageSecurityContractServiceInterface::class,
+                PageSecurityContractCommand::class,
+                PageWorkflowAcceptanceServiceInterface::class,
+                PageWorkflowAcceptanceCommand::class,
             ]),
         ]);
     }

@@ -15,6 +15,7 @@ final class PageOperationChecklistServiceTest extends TestCase
 
         self::assertTrue($report->passed(), 'The operational checklist should pass in the component source tree.');
         self::assertGreaterThanOrEqual(5, $report->passedCount());
+        self::assertContains('handoff_docs', array_map(static fn ($item): string => $item->code, $report->items));
         self::assertSame(0, $report->failedCount());
     }
 }

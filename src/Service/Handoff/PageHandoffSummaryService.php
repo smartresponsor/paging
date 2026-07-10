@@ -12,7 +12,7 @@ use App\Paging\ServiceInterface\Handoff\PageHandoffSummaryServiceInterface;
  * Describes the final handoff boundary after the Paging RC waves.
  *
  * This is intentionally descriptive and local. It does not reach into
- * Backofficing, Interfacing, Locale, Attachment, or host security layers.
+ * Backofficing, Interfacing, Navigating, Attachment, or host security layers.
  */
 final class PageHandoffSummaryService implements PageHandoffSummaryServiceInterface
 {
@@ -24,8 +24,9 @@ final class PageHandoffSummaryService implements PageHandoffSummaryServiceInterf
             new PageHandoffItem('contracts', 'ready', 'Service interfaces, DTOs, bridge payloads, and API contracts are present.'),
             new PageHandoffItem('outputs', 'ready', 'HTML, Markdown, JSON, and bridge output surfaces are defined.'),
             new PageHandoffItem('security', 'ready', 'Local owner/grant/voter checks are present without owning host role hierarchy.'),
-            new PageHandoffItem('admin_boundary', 'ready', 'EasyAdmin remains outside Paging and belongs to Backofficing.'),
-            new PageHandoffItem('visual_boundary', 'ready', 'Visual shell and rendering composition remain outside Paging and belong to Interfacing.'),
+            new PageHandoffItem('admin_boundary', 'ready', 'Paging owns a service-driven EasyAdmin operator surface as the admin UI exception.'),
+            new PageHandoffItem('navigation_boundary', 'ready', 'Paging exposes Navigating-compatible entrypoint metadata; Navigating owns shell placement.'),
+            new PageHandoffItem('visual_boundary', 'ready', 'Paging owns bridge payloads; Interfacing owns visual shell and rendering composition.'),
             new PageHandoffItem('storage_boundary', 'ready', 'Attachment storage remains outside Paging; only references are owned here.'),
         ]);
     }

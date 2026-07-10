@@ -103,6 +103,6 @@ final readonly class PageCanonGuardService implements PageCanonGuardServiceInter
 
     private function boundaryGuard(): PageCanonGuardItem
     {
-        return new PageCanonGuardItem('boundary', 'Responsibility boundary', true, 'Paging remains page lifecycle only: no EasyAdmin ownership, no SEO ownership, no locale ownership, no attachment storage.');
+        return new PageCanonGuardItem('boundary', 'Responsibility boundary', true, 'Paging remains page lifecycle plus service-driven EasyAdmin operator UI: no generic business CRUD ownership, no SEO ownership, no locale ownership, no attachment storage.');
     }
 }
