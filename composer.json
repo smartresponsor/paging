@@ -137,6 +137,7 @@
       "php bin/console page:navigation:contract",
       "php bin/console page:interfacing:contract",
       "php bin/console page:security:contract",
+      "php bin/console page:workflow:acceptance",
       "php bin/console debug:router page_admin"
     ]
   }

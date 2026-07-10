@@ -38,6 +38,7 @@ use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
 use App\Paging\ServiceInterface\Security\PageGrantServiceInterface;
 use App\Paging\ServiceInterface\Security\PageSecurityContractServiceInterface;
 use App\Paging\ServiceInterface\Usability\PageUserUsabilityServiceInterface;
+use App\Paging\ServiceInterface\Workflow\PageWorkflowAcceptanceServiceInterface;
 use App\Paging\Voter\PageVoter;
 
 /**
@@ -100,6 +101,9 @@ final class PageUserUsabilityService implements PageUserUsabilityServiceInterfac
             ]),
             $this->classes('navigating_handoff', 'Navigating', [
                 PageNavigationContractServiceInterface::class,
+            ]),
+            $this->classes('workflow_acceptance', 'Host application', [
+                PageWorkflowAcceptanceServiceInterface::class,
             ]),
         ]);
     }
