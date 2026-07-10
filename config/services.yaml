@@ -91,3 +91,6 @@ services:
 
   App\Paging\ServiceInterface\Interfacing\PageInterfacingContractServiceInterface:
     alias: App\Paging\Service\Interfacing\PageInterfacingContractService
+
+  App\Paging\ServiceInterface\Security\PageSecurityContractServiceInterface:
+    alias: App\Paging\Service\Security\PageSecurityContractService

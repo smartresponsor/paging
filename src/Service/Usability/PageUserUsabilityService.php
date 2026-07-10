@@ -36,6 +36,7 @@ use App\Paging\ServiceInterface\Navigation\PageNavigationContractServiceInterfac
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
 use App\Paging\ServiceInterface\Security\PageGrantServiceInterface;
+use App\Paging\ServiceInterface\Security\PageSecurityContractServiceInterface;
 use App\Paging\ServiceInterface\Usability\PageUserUsabilityServiceInterface;
 use App\Paging\Voter\PageVoter;
 
@@ -93,6 +94,7 @@ final class PageUserUsabilityService implements PageUserUsabilityServiceInterfac
             ]),
             $this->classes('host_security_bridge', 'Host security', [
                 PageGrantServiceInterface::class,
+                PageSecurityContractServiceInterface::class,
                 PageAcceptanceServiceInterface::class,
                 PageVoter::class,
             ]),
