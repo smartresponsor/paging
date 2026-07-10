@@ -85,3 +85,6 @@ services:
 
   App\Paging\ServiceInterface\Usability\PageUserUsabilityServiceInterface:
     alias: App\Paging\Service\Usability\PageUserUsabilityService
+
+  App\Paging\ServiceInterface\Navigation\PageNavigationContractServiceInterface:
+    alias: App\Paging\Service\Navigation\PageNavigationContractService
