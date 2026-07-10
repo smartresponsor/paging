@@ -1,6 +1,6 @@
 # Page Backofficing bridge contract
 
-Paging does not embed EasyAdmin. Backofficing should consume Paging through forms, services, and DTO contracts.
+Paging allows EasyAdmin as the admin UI exception. Backofficing and EasyAdmin should consume Paging through forms, services, and DTO contracts.
 
 ## Backofficing may use
 
@@ -34,4 +34,4 @@ Paging does not embed EasyAdmin. Backofficing should consume Paging through form
 - View acceptance history
 - View grants
 
-Every action should call a Paging service interface rather than mutating Doctrine entities directly from an EasyAdmin controller.
+Every action should call a Paging service interface rather than mutating Doctrine entities directly from an EasyAdmin controller. Generic business CRUD routes remain the responsibility of Cruding; EasyAdmin is only the operator UI exception.

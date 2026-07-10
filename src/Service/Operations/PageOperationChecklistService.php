@@ -10,6 +10,7 @@ use App\Paging\Command\PageDebugContainerCommand;
 use App\Paging\Command\PageHostIntegrationCheckCommand;
 use App\Paging\Command\PageRcReadinessCommand;
 use App\Paging\Command\PageSeedDemoCommand;
+use App\Paging\Command\PageUserUsabilityCommand;
 use App\Paging\DTO\Operations\PageOperationChecklistItem;
 use App\Paging\DTO\Operations\PageOperationChecklistReport;
 use App\Paging\PageBundle;
@@ -36,6 +37,7 @@ final class PageOperationChecklistService implements PageOperationChecklistServi
                 PageRcReadinessCommand::class,
                 PageHostIntegrationCheckCommand::class,
                 PageApiContractAuditCommand::class,
+                PageUserUsabilityCommand::class,
             ]),
             $this->paths('smoke_scripts', 'Windows PowerShell smoke scripts exist', [
                 'tools/smoke/page-rc-smoke.ps1',
@@ -46,6 +48,7 @@ final class PageOperationChecklistService implements PageOperationChecklistServi
             $this->paths('handoff_docs', 'Host/API/RC handoff docs exist', [
                 'docs/host/page-host-integration.md',
                 'docs/host/page-backofficing-bridge.md',
+                'docs/host/page-user-usability-integration.md',
                 'docs/host/page-interfacing-bridge.md',
                 'docs/api/page-api-contract.md',
                 'docs/api/page-response-shapes.md',

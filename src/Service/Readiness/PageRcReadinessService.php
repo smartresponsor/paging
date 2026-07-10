@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Readiness;
 
+use App\Paging\Command\PageUserUsabilityCommand;
 use App\Paging\Controller\Api\PageAcceptanceController;
 use App\Paging\Controller\Api\PageExportController;
 use App\Paging\Controller\Api\PagePublicationController;
@@ -32,6 +33,7 @@ use App\Paging\ServiceInterface\Readiness\PageRcReadinessServiceInterface;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
 use App\Paging\ServiceInterface\Security\PageGrantServiceInterface;
+use App\Paging\ServiceInterface\Usability\PageUserUsabilityServiceInterface;
 use App\Paging\Voter\PageVoter;
 
 /**
@@ -82,6 +84,10 @@ final class PageRcReadinessService implements PageRcReadinessServiceInterface
             $this->classes('security', 'Local grants and voter surface', [
                 PageVoter::class,
                 PageGrantServiceInterface::class,
+            ]),
+            $this->classes('user_usability', 'Host user/admin usability contract', [
+                PageUserUsabilityServiceInterface::class,
+                PageUserUsabilityCommand::class,
             ]),
         ]);
     }

@@ -82,3 +82,6 @@ services:
 
   App\Paging\ServiceInterface\Bridge\PageBridgeContractProviderInterface:
     alias: App\Paging\Service\Bridge\PageBridgeContractProvider
+
+  App\Paging\ServiceInterface\Usability\PageUserUsabilityServiceInterface:
+    alias: App\Paging\Service\Usability\PageUserUsabilityService
