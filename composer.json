@@ -135,6 +135,7 @@
       "php bin/console lint:container",
       "php bin/console page:user-usability:check",
       "php bin/console page:navigation:contract",
+      "php bin/console page:interfacing:contract",
       "php bin/console debug:router page_admin"
     ]
   }

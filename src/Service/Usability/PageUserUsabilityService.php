@@ -31,6 +31,7 @@ use App\Paging\ServiceInterface\Attachment\PageAttachmentReferenceServiceInterfa
 use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
 use App\Paging\ServiceInterface\Bridge\PageBridgeContractProviderInterface;
 use App\Paging\ServiceInterface\Editor\PageEditorPayloadNormalizerInterface;
+use App\Paging\ServiceInterface\Interfacing\PageInterfacingContractServiceInterface;
 use App\Paging\ServiceInterface\Navigation\PageNavigationContractServiceInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
@@ -88,6 +89,7 @@ final class PageUserUsabilityService implements PageUserUsabilityServiceInterfac
             $this->classes('public_viewing', 'Viewing/Interfacing', [
                 PageViewController::class,
                 PageBridgeContractProviderInterface::class,
+                PageInterfacingContractServiceInterface::class,
             ]),
             $this->classes('host_security_bridge', 'Host security', [
                 PageGrantServiceInterface::class,
