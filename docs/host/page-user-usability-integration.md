@@ -17,8 +17,7 @@ Paging owns and exposes:
 
 ## Backofficing and EasyAdmin
 
-EasyAdmin CRUD controllers are allowed as the admin UI exception. They must be
-service-driven and must not duplicate Page lifecycle rules.
+EasyAdmin CRUD controllers are allowed as the admin UI exception. Paging now exposes a native EasyAdmin operator surface under `/admin/page`. Mutating actions must be service-driven and must not duplicate Page lifecycle rules.
 
 Allowed operator actions:
 

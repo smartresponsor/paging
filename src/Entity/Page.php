@@ -146,6 +146,11 @@ class Page
         return $this->updatedAt;
     }
 
+    public function __toString(): string
+    {
+        return sprintf('%s (%s)', $this->title, $this->code);
+    }
+
     /** @return Collection<int, PageRevision> */
     public function getRevisions(): Collection
     {

@@ -137,6 +137,11 @@ class PageRevision
         return $this->createdAt;
     }
 
+    public function __toString(): string
+    {
+        return sprintf('%s revision %d', $this->page->getCode(), $this->revisionNumber);
+    }
+
     public function createdAt(): \DateTimeImmutable
     {
         return $this->getCreatedAt();

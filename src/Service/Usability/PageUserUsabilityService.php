@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Usability;
 
+use App\Paging\Controller\Admin\PageAcceptanceCrudController;
+use App\Paging\Controller\Admin\PageAdminDashboardController;
+use App\Paging\Controller\Admin\PageCrudController;
+use App\Paging\Controller\Admin\PageGrantCrudController;
+use App\Paging\Controller\Admin\PagePublicationCrudController;
+use App\Paging\Controller\Admin\PageRevisionCrudController;
 use App\Paging\Controller\Api\PageAcceptanceController;
 use App\Paging\Controller\Api\PageAuthoringController;
 use App\Paging\Controller\Api\PagePublicationController;
@@ -55,6 +61,14 @@ final class PageUserUsabilityService implements PageUserUsabilityServiceInterfac
                 PageForm::class,
                 PageRevisionForm::class,
                 PagePublicationForm::class,
+            ]),
+            $this->classes('easyadmin_operator_surface', 'Backofficing/EasyAdmin', [
+                PageAdminDashboardController::class,
+                PageCrudController::class,
+                PageRevisionCrudController::class,
+                PagePublicationCrudController::class,
+                PageGrantCrudController::class,
+                PageAcceptanceCrudController::class,
             ]),
             $this->classes('service_driven_admin_actions', 'Backofficing/EasyAdmin', [
                 PageDraftServiceInterface::class,

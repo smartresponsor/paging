@@ -1,0 +1,4 @@
+page_admin:
+  resource: ../../src/Controller/Admin/
+  type: easyadmin.routes
+  prefix: /admin/page
