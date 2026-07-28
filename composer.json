@@ -8,6 +8,13 @@
   "repositories": [
     {
       "type": "path",
+      "url": "../Cruding",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
       "url": "../Objecting",
       "options": {
         "symlink": true
@@ -19,6 +26,7 @@
     "doctrine/doctrine-bundle": "^3.0",
     "doctrine/doctrine-migrations-bundle": "^4.0",
     "doctrine/orm": "^3.3",
+    "cruding/crud": "*@dev",
     "easycorp/easyadmin-bundle": "^5.0",
     "ext-ctype": "*",
     "ext-iconv": "*",

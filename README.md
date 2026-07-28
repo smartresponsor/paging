@@ -12,6 +12,10 @@ Smart Responsor Paging component.
 - Runtime target: PHP `>=8.4`, Symfony `^8.0`
 - Architecture: Symfony-oriented, Doctrine-first, Entity-first
 - No `/src/Domain`, no Port/Adapter pattern
+- Standalone Page component: no Doctrine or runtime coupling to Cataloging or any other business component
+- EasyAdmin is allowed as the component-owned operator UI
+- Cruding owns generic CRUD route processing
+- Objecting supplies reusable system field-pack vocabulary
 
 ## Wave 1 scope
 
@@ -60,7 +64,7 @@ Paging now includes the first RC-oriented hardening layer:
 - Symfony forms for Page, PageRevision, and PagePublication DTO boundaries.
 - `page:seed:demo` command for standalone debug/demo pages.
 
-Paging still intentionally excludes EasyAdmin and Backofficing. Those layers should consume Paging services and DTO/contracts rather than embedding admin ownership into this component.
+Paging includes EasyAdmin as its operator-facing administration surface. The EasyAdmin controllers remain thin and delegate Page lifecycle behavior to Paging services. Generic CRUD HTTP processing belongs to Cruding.
 
 ## Host integration checks
 
@@ -78,7 +82,7 @@ Windows PowerShell smoke wrapper:
 powershell -ExecutionPolicy Bypass -File tools/smoke/page-host-integration-smoke.ps1 -ProjectRoot "D:\PhpstormProjects\www\Paging"
 ```
 
-Paging does not embed EasyAdmin. Backofficing consumes Page forms/services/DTOs and Interfacing consumes Page bridge payloads.
+Paging embeds EasyAdmin for operator workflows. External back-office hosts may reuse Page forms/services/DTOs, while Interfacing consumes Page bridge payloads.
 
 ## Wave 9 API contract stabilization
 

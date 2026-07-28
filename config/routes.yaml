@@ -3,3 +3,7 @@ page_routes:
 
 page_admin_routes:
   resource: routes/easyadmin.yaml
+
+# Explicit Page routes take priority over the generic CRUD delivery routes.
+cruding_routes:
+  resource: '@CrudingBundle/config/routes.yaml'

@@ -1,6 +1,6 @@
-# Page Backofficing bridge contract
+# Page administration contract
 
-Paging allows EasyAdmin as the admin UI exception. Backofficing and EasyAdmin should consume Paging through forms, services, and DTO contracts.
+Paging owns its EasyAdmin operator UI. An external Backofficing host may also consume Paging through forms, services, and DTO contracts, but EasyAdmin is not forbidden inside this component.
 
 ## Backofficing may use
 

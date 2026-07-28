@@ -1,0 +1,31 @@
+component: Paging
+namespace: App\Paging
+business_stem: Page
+dependency: objecting/object
+profile: object_content
+mode: declared_for_migration
+field_packs:
+  - object_code
+  - object_title
+  - object_audit
+  - object_version
+aliases:
+  code: object_code
+  title: object_title.firstTitle
+ownership:
+  entity: Paging
+  doctrine_mapping: Paging
+  migrations: Paging
+  dto: Paging
+  form: Paging
+excluded_as_page_specific:
+  - slug
+  - status
+  - currentRevision
+  - publishedRevision
+  - publication lifecycle
+  - revision locking
+  - legal acceptance evidence
+notes:
+  - Existing local columns are not duplicated by Objecting embeddables.
+  - Runtime adoption requires an explicit data-safe schema migration.
