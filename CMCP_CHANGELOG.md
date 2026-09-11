@@ -59,3 +59,14 @@
 - Market/maturity comparison kept RC scope focused on revision/live publication separation, workflow authorization and deterministic content lifecycle; advanced workflow/UX features remain post-RC growth.
 - PHPUnit initially exposed two stale UUID-slug expectations; tests were aligned with the current split identity contract and rerun green: 36 tests, 237 assertions.
 
+### Iteration 5 — final acceptance and handoff
+
+- Integration commit created locally: `a8f26faf6c71c0c4d27198969c453a0cdad57cc5` (`Harden Paging RC contracts and runtime`).
+- Post-commit worktree was clean; branch `rc/paging-2026-07-09` was one commit ahead of its upstream before push.
+- Post-commit PHPUnit passed: 36 tests, 237 assertions.
+- Post-commit `page:check` passed end-to-end.
+- Post-commit `page:admin-check` passed.
+- Post-commit `composer audit` reported no security advisories.
+- Bounded residual: Doctrine mapping is valid, but live PostgreSQL schema-sync validation cannot authenticate local database user `app`; database synchronization remains environment-dependent and was not represented as green.
+
+
