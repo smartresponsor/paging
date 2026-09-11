@@ -64,6 +64,7 @@
   "require-dev": {
     "phpunit/phpunit": "^12.0",
 	"friendsofphp/php-cs-fixer": "^3.95",
+    "phpstan/phpstan": "^2.2",
     "symfony/browser-kit": "^8.1",
     "symfony/css-selector": "^8.1"
   },
@@ -164,6 +165,10 @@
       "php bin/console page:security:contract",
       "php bin/console page:workflow:acceptance",
       "php bin/console debug:router page_admin"
-    ]
+    ],
+    "cs:check": "php-cs-fixer fix --dry-run --diff --verbose",
+    "cs:fix": "php-cs-fixer fix --verbose",
+    "phpstan": "phpstan analyse -c phpstan.neon --memory-limit=1G",
+    "test": "phpunit"
   }
 }

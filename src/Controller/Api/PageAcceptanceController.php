@@ -117,6 +117,7 @@ final class PageAcceptanceController
         return is_array($payload) ? $payload : [];
     }
 
+    /** @return array<string, mixed> */
     private function viewToArray(PageAcceptanceView $view): array
     {
         return [

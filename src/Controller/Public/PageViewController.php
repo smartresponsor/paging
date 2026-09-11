@@ -7,7 +7,6 @@ namespace App\Paging\Controller\Public;
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
 use App\Paging\ValueObject\PageSlug;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -19,8 +18,9 @@ final class PageViewController
     ) {
     }
 
+    /** @return array<string, mixed> */
     #[Route('/page/', name: 'page_public_index', methods: ['GET'])]
-    public function index(): Response|array
+    public function index(): array
     {
         return [
             '_view' => [
@@ -39,8 +39,9 @@ final class PageViewController
         ];
     }
 
+    /** @return array<string, mixed> */
     #[Route('/page/{slug}', name: 'page_public_view', methods: ['GET'])]
-    public function __invoke(string $slug): Response|array
+    public function __invoke(string $slug): array
     {
         $page = $this->pageRepository->findOneBy(['slug' => PageSlug::fromSource($slug)->value()]);
         if (null === $page || null === $page->getPublishedRevision()) {

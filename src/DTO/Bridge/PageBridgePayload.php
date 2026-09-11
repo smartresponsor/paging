@@ -9,7 +9,10 @@ use App\Paging\Enum\PageStatus;
 
 final readonly class PageBridgePayload
 {
-    /** @param list<PageBridgeAttachment> $attachments */
+    /**
+     * @param array<string, mixed>|null  $bodyJson
+     * @param list<PageBridgeAttachment> $attachments
+     */
     public function __construct(
         public string $code,
         public string $slug,
