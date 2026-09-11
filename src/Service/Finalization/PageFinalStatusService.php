@@ -83,7 +83,7 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
                 PageSecurityContractCommand::class,
                 PageWorkflowAcceptanceCommand::class,
             ]),
-            $this->paths('config_prefix', 'Config uses the page prefix', ['config/packages/page.yaml']),
+            $this->paths('config_prefix', 'Config uses the page prefix', ['config/packages/page_config.yaml']),
             $this->paths('smoke_scripts', 'Windows-safe smoke scripts exist', [
                 'tools/smoke/page-rc-smoke.ps1',
                 'tools/smoke/page-host-integration-smoke.ps1',

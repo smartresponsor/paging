@@ -28,6 +28,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/** @extends AbstractCrudController<Page> */
 #[AdminRoute(path: '', name: 'page')]
 #[IsGranted('ROLE_ADMIN')]
 final class PageCrudController extends AbstractCrudController
@@ -105,10 +106,6 @@ final class PageCrudController extends AbstractCrudController
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        if (!$entityInstance instanceof Page) {
-            return;
-        }
-
         $page = $this->pageDraftService->createPage(new PageCreateInput(
             $entityInstance->getCode(),
             $entityInstance->getSlug(),
@@ -121,10 +118,6 @@ final class PageCrudController extends AbstractCrudController
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        if (!$entityInstance instanceof Page) {
-            return;
-        }
-
         $this->pageDraftService->updatePage($entityInstance, new PageUpdateInput(
             $entityInstance->getTitle(),
             $entityInstance->getSlug(),

@@ -69,4 +69,42 @@
 - Post-commit `composer audit` reported no security advisories.
 - Bounded residual: Doctrine mapping is valid, but live PostgreSQL schema-sync validation cannot authenticate local database user `app`; database synchronization remains environment-dependent and was not represented as green.
 
+## 2026-09-11 continuation on current local HEAD
+
+### Iteration 1 — refreshed reconnaissance and baseline
+
+- Authoritative workspace remained `D:\PhpstormProjects\www\Paging` through Console MCP.
+- Refreshed initial branch: `rc/paging-2026-07-09`; initial HEAD for this continuation: `df5842d7f7febaf1dc01a12d73554fdde7615da8`; upstream `origin/rc/paging-2026-07-09`, ahead `0`, behind `0`; worktree clean before mutation.
+- Re-read the original execution specification and current Paging docs/manifests/config/source/tests/scripts/policy surfaces.
+- Re-read current local Objecting, Cruding, Viewing and Interfacing contracts; no sibling repository was modified.
+- Re-read Canonization normative Canon000, Canon001, Canon002, Canon003, Canon004, Canon008, Canon009, Canon012, Canon017, Canon018, Canon019, Canon020, Canon021, Canon022, Canon023, Canon024, Canon025, Canon026, Canon027, Canon028, Canon029, Canon030, Canon031, Canon032, Canon033, Canon034, Canon035, Canon036, Canon037 and Canon038 rule files.
+- Re-read current Gating executable companions for Canon024, Canon029 and Canon038. Current-head delta from the historical run: newer canon now requires `composer.prod.json`, mandatory PHP quality tooling and collision-safe component-owned YAML filenames.
+
+### Iteration 2 — material implementation
+
+- Added `composer.prod.json` for packaged production dependency resolution without local path/symlink repositories, preserving `paging/page`, `App\\Paging\\`, PHP 8.4 and Symfony 8.1 identity/baseline.
+- Moved the active Paging config payload to `config/packages/page_config.yaml` and updated host/final acceptance diagnostics to that canonical Canon038 path.
+- The old `config/packages/page.yaml` was made inert. Console MCP rejected physical deletion because this task explicitly forbids destructive operations; the filename therefore remains a bounded Canon038 filesystem tail.
+- Added PHPStan 2.2 plus repository Composer scripts for PHPStan, PHP-CS-Fixer and PHPUnit. Adopted PHPStan level 5 as the enforced RC baseline; level-8 findings were used to expose and repair real runtime/contract errors while broader strict typing remains post-RC tightening debt.
+- Fixed Symfony bundle asset recursion by removing Paging's root-level `PageBundle::getPath()` override; the Symfony default class-directory bundle path prevents standalone `assets:install` from recursively copying `public/bundles/page` into itself.
+- Adapted the EasyAdmin dashboard to the installed EasyAdmin 5.5 controller-link API, added explicit CRUD generics, aligned the revision AdminContext generic contract, tightened neutral Viewing-array contracts, corrected API/bridge PHPDoc contracts, and aligned security subject resolution with Symfony 8 `TokenInterface` semantics.
+- Removed impossible object-availability checks from completion reporting; constructor typing and `lint:container` are now the executable wiring guarantee.
+
+### Iteration 3 — verification and fix
+
+- Initial Composer update installed/locked `phpstan/phpstan` 2.2.13 but exposed the PageBundle asset recursion during post-update `assets:install`; after the bundle-path fix, `composer install --no-interaction` completed with cache clear, assets install and importmap install all green.
+- PHPStan level 8 was intentionally probed to expose current debt. Real EasyAdmin/API/Symfony findings were fixed; the enforced level-5 baseline then passed over 191 source/test files with `0 errors`.
+- One PHPStan exception is explicit for Doctrine-generated `Page::$id` (`property.unusedType`) because base PHPStan cannot observe ORM assignment without the Doctrine extension.
+- PHP-CS-Fixer was applied only to the three reported changed-file formatting issues; follow-up `cs:check` passed with `0 of 191 files` requiring fixes.
+- PHPUnit passed: `36 tests, 237 assertions`.
+- `page:check` passed end-to-end; `page:admin-check` passed including container, user usability, Interfacing, security, workflow and EasyAdmin route checks.
+- `composer audit` passed with no security advisories.
+- `composer validate --strict --check-lock` reports only the established local-development `*@dev` warnings for Cruding/Interfacing/Objecting/Viewing path dependencies; the manifest is valid and the warnings reflect the intentional Canon023 local symlink mode.
+
+### Iteration 4 — debt closure and integration readiness
+
+- RC-critical runtime/package debt exposed in this continuation is closed except for the safety-blocked legacy `config/packages/page.yaml` filename.
+- Post-RC tightening debt is bounded to stricter-than-baseline PHPStan level-8 type coverage and replacement of the explicit Doctrine generated-ID exception with the PHPStan Doctrine extension if desired.
+- Next integration action: inspect final local diff/status, commit only this task's coherent Paging changes, push the actual local branch, then inspect/create/update the downstream PR and merge only when the remote merge gate is green.
+
 

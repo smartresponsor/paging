@@ -19,7 +19,7 @@ final readonly class PageApiContractReport
         return count($this->endpoints);
     }
 
-    /** @return list<array{name: string, method: string, path: string, purpose: string, formats: list<string>, requiresPublishedRevision: bool, writesState: bool}> */
+    /** @return list<array{nameEntity: string, method: string, path: string, purpose: string, formats: list<string>, requiresPublishedRevision: bool, writesState: bool}> */
     public function toArray(): array
     {
         return array_map(

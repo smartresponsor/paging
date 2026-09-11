@@ -13,11 +13,8 @@ final class PageSecuritySubjectResolver implements PageSecuritySubjectResolverIn
     public function userId(TokenInterface $token): ?string
     {
         $user = $token->getUser();
-        if ($user instanceof UserInterface) {
-            return $user->getUserIdentifier();
-        }
 
-        return is_string($user) && '' !== $user ? $user : null;
+        return $user instanceof UserInterface ? $user->getUserIdentifier() : null;
     }
 
     public function roles(TokenInterface $token): array

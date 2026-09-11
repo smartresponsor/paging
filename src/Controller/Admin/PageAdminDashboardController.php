@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Admin;
 
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageAcceptance;
-use App\Paging\Entity\PageGrant;
-use App\Paging\Entity\PagePublication;
-use App\Paging\Entity\PageRevision;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -38,10 +33,10 @@ final class PageAdminDashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToCrud('Pages', 'fa fa-file-lines', Page::class);
-        yield MenuItem::linkToCrud('Revisions', 'fa fa-code-branch', PageRevision::class);
-        yield MenuItem::linkToCrud('Publications', 'fa fa-bullhorn', PagePublication::class);
-        yield MenuItem::linkToCrud('Grants', 'fa fa-key', PageGrant::class);
-        yield MenuItem::linkToCrud('Acceptance history', 'fa fa-clipboard-check', PageAcceptance::class);
+        yield MenuItem::linkTo(PageCrudController::class, 'Pages', 'fa fa-file-lines');
+        yield MenuItem::linkTo(PageRevisionCrudController::class, 'Revisions', 'fa fa-code-branch');
+        yield MenuItem::linkTo(PagePublicationCrudController::class, 'Publications', 'fa fa-bullhorn');
+        yield MenuItem::linkTo(PageGrantCrudController::class, 'Grants', 'fa fa-key');
+        yield MenuItem::linkTo(PageAcceptanceCrudController::class, 'Acceptance history', 'fa fa-clipboard-check');
     }
 }

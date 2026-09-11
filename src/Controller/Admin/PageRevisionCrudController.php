@@ -20,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/** @extends AbstractCrudController<PageRevision> */
 #[IsGranted('ROLE_ADMIN')]
 final class PageRevisionCrudController extends AbstractCrudController
 {
@@ -67,6 +68,7 @@ final class PageRevisionCrudController extends AbstractCrudController
         yield TextField::new('lockedBy')->hideOnIndex();
     }
 
+    /** @param AdminContext<PageRevision> $context */
     public function publishRevision(AdminContext $context): RedirectResponse
     {
         $revision = $this->resolveRevision($context);
@@ -75,10 +77,10 @@ final class PageRevisionCrudController extends AbstractCrudController
         return $this->redirectToRoute('page_admin_page_revision_index');
     }
 
+    /** @param AdminContext<PageRevision> $context */
     private function resolveRevision(AdminContext $context): PageRevision
     {
-        $entity = $context->getEntity();
-        $instance = null === $entity ? null : $entity->getInstance();
+        $instance = $context->getEntity()->getInstance();
 
         if (!$instance instanceof PageRevision) {
             throw $this->createNotFoundException('Page revision was not resolved for the EasyAdmin action.');

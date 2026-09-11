@@ -1,5 +1,2 @@
-page:
-  public_route_prefix: '/page'
-  api_route_prefix: '/api/page'
-  revision_lock_after_publish: true
-  standalone_runtime: true
+# Runtime configuration moved to page_config.yaml for Canon038 filename compliance.
+# This inert marker remains only because destructive file deletion is forbidden for this task.

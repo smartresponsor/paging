@@ -1,0 +1,9 @@
+parameters:
+  level: 5
+  paths:
+    - src
+    - tests
+  ignoreErrors:
+    -
+      identifier: property.unusedType
+      path: src/Entity/Page.php

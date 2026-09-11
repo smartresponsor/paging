@@ -30,7 +30,7 @@ final class PageHostIntegrationCheckCommand extends Command
 
         $checks = [
             $this->fileCheck($projectDir, 'composer.json', 'Composer package metadata'),
-            $this->fileCheck($projectDir, 'config/packages/page.yaml', 'Page configuration'),
+            $this->fileCheck($projectDir, 'config/packages/page_config.yaml', 'Page configuration'),
             $this->fileCheck($projectDir, 'config/routes.yaml', 'YAML route loader'),
             $this->fileCheck($projectDir, 'src/PageBundle.php', 'Bundle entrypoint'),
             $this->fileCheck($projectDir, 'src/DependencyInjection/PageExtension.php', 'DI extension'),

@@ -1,0 +1,51 @@
+{
+  "name": "paging/page",
+  "description": "Paging process app",
+  "type": "symfony-bundle",
+  "license": "proprietary",
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "doctrine/dbal": "^4.0",
+    "doctrine/doctrine-bundle": "^3.0",
+    "doctrine/doctrine-migrations-bundle": "^4.0",
+    "doctrine/orm": "^3.3",
+    "cruding/crud": "*@dev",
+    "easycorp/easyadmin-bundle": "^5.0",
+    "interfacing/interface": "*@dev",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "objecting/object": "*@dev",
+    "viewing/view": "*@dev",
+    "php": ">=8.4",
+    "symfony/console": "^8.1",
+    "symfony/dependency-injection": "^8.1",
+    "symfony/dotenv": "^8.1",
+    "symfony/flex": "^2.0",
+    "symfony/form": "^8.1",
+    "symfony/framework-bundle": "^8.1",
+    "symfony/runtime": "^8.1",
+    "symfony/security-bundle": "^8.1",
+    "symfony/serializer": "^8.1",
+    "symfony/twig-bundle": "^8.1",
+    "symfony/validator": "^8.1",
+    "symfony/yaml": "^8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\Paging\\": "src/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "symfony/flex": true,
+      "symfony/runtime": true
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "symfony": {
+      "require": "8.1.*"
+    }
+  }
+}

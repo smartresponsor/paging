@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/** @extends AbstractCrudController<PageAcceptance> */
 #[IsGranted('ROLE_ADMIN')]
 final class PageAcceptanceCrudController extends AbstractCrudController
 {

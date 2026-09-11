@@ -65,6 +65,9 @@
     "interfacing/interface": {
         "version": "dev-master"
     },
+    "phpstan/phpstan": {
+        "version": "2.2.13"
+    },
     "phpunit/phpunit": {
         "version": "12.5",
         "recipe": {
