@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 final class PagingDemoFixturesContractTest extends TestCase
 {
-    public function testDemoFixturesPersistIntegerPrimaryKeysAndUuidSlugs(): void
+    public function testDemoFixturesPersistIntegerPrimaryKeysAndSemanticSlugs(): void
     {
         $entityManager = $this->entityManager();
         (new PagingDemoFixtures())->load($entityManager);
@@ -32,7 +32,9 @@ final class PagingDemoFixturesContractTest extends TestCase
 
         foreach ($pages as $page) {
             self::assertIsInt($page->getId());
-            self::assertMatchesRegularExpression('/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-8[a-f0-9]{3}-[a-f0-9]{12}$/', $page->getSlug());
+            self::assertSame($page->getCode(), $page->getSlug());
+            self::assertNotSame('', $page->getObjectUuid());
+            self::assertNotSame($page->getObjectUuid(), $page->getSlug());
             self::assertSame(2, $page->getRevisions()->count());
             self::assertNotNull($page->getCurrentRevision());
             self::assertNotNull($page->getPublishedRevision());

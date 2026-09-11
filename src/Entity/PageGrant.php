@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Paging\Entity;
 
+use App\Objecting\EntityInterface\ObjectRelationEntityInterface;
+use App\Objecting\EntityTrait\Embeddable\ObjectAuditEmbeddableTrait;
 use App\Paging\Enum\PageGrantType;
 use App\Paging\Repository\PageGrantRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,8 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'page_grant_page_idx', columns: ['page_id'])]
 #[ORM\Index(name: 'page_grant_user_idx', columns: ['subject_user_id'])]
 #[ORM\Index(name: 'page_grant_role_idx', columns: ['subject_role'])]
-class PageGrant
+class PageGrant implements ObjectRelationEntityInterface
 {
+    use ObjectAuditEmbeddableTrait;
     #[ORM\Id]
     #[ORM\Column(type: 'string', length: 32)]
     private string $id;
@@ -35,9 +38,6 @@ class PageGrant
     #[ORM\Column(name: 'created_by_user_id', type: 'string', length: 128, nullable: true)]
     private ?string $createdByUserId = null;
 
-    #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
-
     public function __construct(Page $page, PageGrantType $grant, ?string $subjectUserId = null, ?string $subjectRole = null, ?string $createdByUserId = null)
     {
         $this->id = bin2hex(random_bytes(16));
@@ -46,7 +46,7 @@ class PageGrant
         $this->subjectUserId = $subjectUserId;
         $this->subjectRole = $subjectRole;
         $this->createdByUserId = $createdByUserId;
-        $this->createdAt = new \DateTimeImmutable();
+        $this->initializeObjectAudit(createdBy: $createdByUserId);
     }
 
     public function getId(): string
@@ -77,10 +77,5 @@ class PageGrant
     public function getCreatedByUserId(): ?string
     {
         return $this->createdByUserId;
-    }
-
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
     }
 }

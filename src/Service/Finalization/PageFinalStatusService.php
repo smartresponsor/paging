@@ -8,7 +8,6 @@ use App\Paging\Command\PageApiContractAuditCommand;
 use App\Paging\Command\PageAuditReadinessCommand;
 use App\Paging\Command\PageHostIntegrationCheckCommand;
 use App\Paging\Command\PageInterfacingContractCommand;
-use App\Paging\Command\PageNavigationContractCommand;
 use App\Paging\Command\PageOperationalChecklistCommand;
 use App\Paging\Command\PageRcReadinessCommand;
 use App\Paging\Command\PageSecurityContractCommand;
@@ -80,7 +79,6 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
                 PageApiContractAuditCommand::class,
                 PageOperationalChecklistCommand::class,
                 PageUserUsabilityCommand::class,
-                PageNavigationContractCommand::class,
                 PageInterfacingContractCommand::class,
                 PageSecurityContractCommand::class,
                 PageWorkflowAcceptanceCommand::class,
@@ -96,7 +94,6 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
             $this->paths('docs_and_manifests', 'Final RC docs and manifests exist', [
                 'docs/rc/wave11-final-rc-validation.md',
                 'docs/host/page-user-usability-integration.md',
-                'docs/host/page-navigating-integration.md',
                 'docs/host/page-interfacing-e2e.md',
                 'docs/host/page-security-access-integration.md',
                 'docs/host/page-full-user-workflow-acceptance.md',

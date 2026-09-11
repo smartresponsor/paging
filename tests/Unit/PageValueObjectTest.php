@@ -17,10 +17,10 @@ final class PageValueObjectTest extends TestCase
         self::assertSame('privacy_policy', (new PageCode('privacy_policy'))->value());
     }
 
-    public function testPageSlugNormalizesToUuidLikeValue(): void
+    public function testPageSlugNormalizesToStableSemanticValue(): void
     {
         $slug = new PageSlug('/legal/privacy-policy/');
-        self::assertMatchesRegularExpression('/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-8[a-f0-9]{3}-[a-f0-9]{12}$/', $slug->value());
+        self::assertSame('legal-privacy-policy', $slug->value());
         self::assertSame($slug->value(), (new PageSlug('legal/privacy-policy'))->value());
     }
 

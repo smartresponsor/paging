@@ -32,7 +32,6 @@ use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
 use App\Paging\ServiceInterface\Bridge\PageBridgeContractProviderInterface;
 use App\Paging\ServiceInterface\Editor\PageEditorPayloadNormalizerInterface;
 use App\Paging\ServiceInterface\Interfacing\PageInterfacingContractServiceInterface;
-use App\Paging\ServiceInterface\Navigation\PageNavigationContractServiceInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
 use App\Paging\ServiceInterface\Security\PageGrantServiceInterface;
@@ -98,9 +97,6 @@ final class PageUserUsabilityService implements PageUserUsabilityServiceInterfac
                 PageSecurityContractServiceInterface::class,
                 PageAcceptanceServiceInterface::class,
                 PageVoter::class,
-            ]),
-            $this->classes('navigating_handoff', 'Navigating', [
-                PageNavigationContractServiceInterface::class,
             ]),
             $this->classes('workflow_acceptance', 'Host application', [
                 PageWorkflowAcceptanceServiceInterface::class,

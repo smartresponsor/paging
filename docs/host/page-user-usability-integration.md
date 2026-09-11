@@ -2,7 +2,7 @@
 
 Paging is ready for full user-facing use when the host application connects the
 component-owned Page lifecycle to Backofficing/EasyAdmin, host security,
-Viewing/Interfacing, and Navigating.
+and Viewing/Interfacing.
 
 ## Component-owned readiness
 
@@ -48,19 +48,5 @@ visual shell.
 
 Viewing/Interfacing owns layout, theme, widget zones, and final visual rendering.
 Paging owns the stable business payload and published revision metadata.
-
-## Navigating
-
-The host should add navigation entries for the operator and user surfaces:
-
-- Pages;
-- Revisions;
-- Published pages;
-- Policy and legal pages;
-- Page grants;
-- Acceptance history.
-
-Navigating should describe UI intent only. It should not execute Page lifecycle
-actions or duplicate Paging authorization logic.
 
 ## Verification

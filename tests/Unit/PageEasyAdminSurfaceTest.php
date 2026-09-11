@@ -25,6 +25,7 @@ final class PageEasyAdminSurfaceTest extends TestCase
 
         self::assertStringContainsString('extends AbstractDashboardController', $dashboard);
         self::assertStringContainsString('#[AdminDashboard(', $dashboard);
+        self::assertStringContainsString("routePath: ''", $dashboard);
         self::assertStringContainsString("routeName: 'page_admin'", $dashboard);
         self::assertStringContainsString("#[IsGranted('ROLE_ADMIN')]", $dashboard);
         self::assertStringContainsString("redirectToRoute('page_admin_page_index')", $dashboard);
@@ -35,7 +36,16 @@ final class PageEasyAdminSurfaceTest extends TestCase
         $controller = self::read('src/Controller/Admin/PageCrudController.php');
 
         self::assertStringContainsString('extends AbstractCrudController', $controller);
+        self::assertStringContainsString("#[AdminRoute(path: '', name: 'page')]", $controller);
+        self::assertStringContainsString("#[AdminRoute(path: '/index', name: 'index')]", $controller);
+        self::assertStringContainsString("#[AdminRoute(path: '/new', name: 'new')]", $controller);
+        self::assertStringContainsString("#[AdminRoute(path: '/edit/{entityId}', name: 'edit')]", $controller);
+        self::assertStringContainsString("#[AdminRoute(path: '/detail/{entityId}', name: 'detail')]", $controller);
+        self::assertStringContainsString("#[AdminRoute(path: '/delete/{entityId}', name: 'delete')]", $controller);
         self::assertStringContainsString('PageDraftServiceInterface', $controller);
+        self::assertStringContainsString('PageRevisionServiceInterface', $controller);
+        self::assertStringContainsString("TextEditorField::new('draftBodyHtml', 'Content')", $controller);
+        self::assertStringContainsString("Action::new('revisions', 'Revisions'", $controller);
         self::assertStringContainsString('createPage(new PageCreateInput', $controller);
         self::assertStringContainsString('updatePage($entityInstance, new PageUpdateInput', $controller);
         self::assertStringNotContainsString('persist($entityInstance)', $controller);

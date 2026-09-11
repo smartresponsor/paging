@@ -44,7 +44,7 @@ final class PageRevisionCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $publish = Action::new('publishRevision', 'Publish')->linkToCrudAction('publishRevision')->displayAsButton();
+        $publish = Action::new('publishRevision', 'Publish')->linkToCrudAction('publishRevision')->asSuccessAction();
 
         return $actions
             ->disable(Action::NEW, Action::EDIT, Action::DELETE)

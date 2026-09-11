@@ -25,7 +25,6 @@ final class PageHandoffSummaryService implements PageHandoffSummaryServiceInterf
             new PageHandoffItem('outputs', 'ready', 'HTML, Markdown, JSON, and bridge output surfaces are defined.'),
             new PageHandoffItem('security', 'ready', 'Local owner/grant/voter checks are present without owning host role hierarchy.'),
             new PageHandoffItem('admin_boundary', 'ready', 'Paging owns a service-driven EasyAdmin operator surface as the admin UI exception.'),
-            new PageHandoffItem('navigation_boundary', 'ready', 'Paging exposes Navigating-compatible entrypoint metadata; Navigating owns shell placement.'),
             new PageHandoffItem('visual_boundary', 'ready', 'Paging owns bridge payloads; Interfacing owns visual shell and rendering composition.'),
             new PageHandoffItem('storage_boundary', 'ready', 'Attachment storage remains outside Paging; only references are owned here.'),
         ]);

@@ -18,4 +18,9 @@ final class PageBundle extends Bundle
     {
         return DependencyInjection\PageExtension::class;
     }
+
+    public function getPath(): string
+    {
+        return \dirname(__DIR__);
+    }
 }
