@@ -9,6 +9,8 @@ return [
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     App\Cruding\CrudingBundle::class => ['all' => true],
     App\Objecting\ObjectBundle::class => ['all' => true],
+    App\Interfacing\InterfacingBundle::class => ['all' => true],
+    App\Viewing\ViewingBundle::class => ['all' => true],
     App\Paging\PageBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     Symfony\UX\TwigComponent\TwigComponentBundle::class => ['all' => true],

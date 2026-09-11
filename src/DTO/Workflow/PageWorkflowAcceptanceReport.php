@@ -30,7 +30,7 @@ final readonly class PageWorkflowAcceptanceReport
     {
         return [
             'component' => 'paging',
-            'scenario' => 'create_page_create_revision_publish_view_bridge_navigation_security',
+            'scenario' => 'create_page_create_revision_publish_view_bridge_security',
             'status' => $this->passed() ? 'ready' : 'incomplete',
             'stepCount' => $this->stepCount(),
             'steps' => array_map(static fn (PageWorkflowAcceptanceStep $step): array => $step->toArray(), $this->steps),

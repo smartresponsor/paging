@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Paging\Service\Readiness;
 
 use App\Paging\Command\PageInterfacingContractCommand;
-use App\Paging\Command\PageNavigationContractCommand;
 use App\Paging\Command\PageSecurityContractCommand;
 use App\Paging\Command\PageUserUsabilityCommand;
 use App\Paging\Command\PageWorkflowAcceptanceCommand;
@@ -33,7 +32,6 @@ use App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface;
 use App\Paging\ServiceInterface\Editor\PageEditorPayloadNormalizerInterface;
 use App\Paging\ServiceInterface\Export\PageExportServiceInterface;
 use App\Paging\ServiceInterface\Interfacing\PageInterfacingContractServiceInterface;
-use App\Paging\ServiceInterface\Navigation\PageNavigationContractServiceInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use App\Paging\ServiceInterface\Readiness\PageRcReadinessServiceInterface;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
@@ -96,8 +94,6 @@ final class PageRcReadinessService implements PageRcReadinessServiceInterface
             $this->classes('user_usability', 'Host user/admin usability contract', [
                 PageUserUsabilityServiceInterface::class,
                 PageUserUsabilityCommand::class,
-                PageNavigationContractServiceInterface::class,
-                PageNavigationContractCommand::class,
                 PageInterfacingContractServiceInterface::class,
                 PageInterfacingContractCommand::class,
                 PageSecurityContractServiceInterface::class,

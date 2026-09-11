@@ -10,13 +10,14 @@ use App\Paging\Entity\PageGrant;
 use App\Paging\Entity\PagePublication;
 use App\Paging\Entity\PageRevision;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[AdminDashboard(routePath: '/', routeName: 'page_admin')]
+#[AdminDashboard(routePath: '', routeName: 'page_admin')]
 #[IsGranted('ROLE_ADMIN')]
 final class PageAdminDashboardController extends AbstractDashboardController
 {
@@ -28,6 +29,11 @@ final class PageAdminDashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()->setTitle('Paging');
+    }
+
+    public function configureAssets(): Assets
+    {
+        return Assets::new()->addCssFile('/bundles/page/easyadmin/page-admin.css');
     }
 
     public function configureMenuItems(): iterable

@@ -9,7 +9,6 @@ use App\Paging\Command\PageAuditReadinessCommand;
 use App\Paging\Command\PageDebugContainerCommand;
 use App\Paging\Command\PageHostIntegrationCheckCommand;
 use App\Paging\Command\PageInterfacingContractCommand;
-use App\Paging\Command\PageNavigationContractCommand;
 use App\Paging\Command\PageRcReadinessCommand;
 use App\Paging\Command\PageSecurityContractCommand;
 use App\Paging\Command\PageSeedDemoCommand;
@@ -42,7 +41,6 @@ final class PageOperationChecklistService implements PageOperationChecklistServi
                 PageHostIntegrationCheckCommand::class,
                 PageApiContractAuditCommand::class,
                 PageUserUsabilityCommand::class,
-                PageNavigationContractCommand::class,
                 PageInterfacingContractCommand::class,
                 PageSecurityContractCommand::class,
                 PageWorkflowAcceptanceCommand::class,
@@ -57,7 +55,6 @@ final class PageOperationChecklistService implements PageOperationChecklistServi
                 'docs/host/page-host-integration.md',
                 'docs/host/page-backofficing-bridge.md',
                 'docs/host/page-user-usability-integration.md',
-                'docs/host/page-navigating-integration.md',
                 'docs/host/page-interfacing-bridge.md',
                 'docs/host/page-interfacing-e2e.md',
                 'docs/host/page-security-access-integration.md',

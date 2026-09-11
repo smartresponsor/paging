@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Paging\Entity;
 
+use App\Objecting\EntityInterface\ObjectEntityInterface;
+use App\Objecting\EntityTrait\Embeddable\ObjectAuditEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectIdentityEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectStateEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectTitleEmbeddableTrait;
 use App\Paging\Enum\PageKind;
 use App\Paging\Enum\PageStatus;
 use App\Paging\Repository\PageRepository;
@@ -18,8 +23,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'page_status_idx', columns: ['status'])]
 #[ORM\UniqueConstraint(name: 'page_code_uniq', columns: ['code'])]
 #[ORM\UniqueConstraint(name: 'page_slug_uniq', columns: ['slug'])]
-class Page
+class Page implements ObjectEntityInterface
 {
+    use ObjectIdentityEmbeddableTrait;
+    use ObjectTitleEmbeddableTrait;
+    use ObjectAuditEmbeddableTrait;
+    use ObjectStateEmbeddableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -28,17 +37,11 @@ class Page
     #[ORM\Column(type: 'string', length: 128)]
     private string $code;
 
-    #[ORM\Column(type: 'string', length: 36)]
-    private string $slug;
-
     #[ORM\Column(type: 'string', length: 255)]
     private string $title;
 
     #[ORM\Column(type: 'string', length: 32, enumType: PageKind::class)]
     private PageKind $kind;
-
-    #[ORM\Column(type: 'string', length: 32, enumType: PageStatus::class)]
-    private PageStatus $status = PageStatus::Draft;
 
     #[ORM\Column(type: 'string', length: 128, nullable: true)]
     private ?string $ownerUserId = null;
@@ -69,22 +72,23 @@ class Page
     #[ORM\OneToMany(mappedBy: 'page', targetEntity: PageGrant::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $grants;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private string $draftBodyHtml = '';
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $updatedAt;
+    private ?string $draftChangeNote = null;
 
     public function __construct(string $code, string $slug, string $title, PageKind $kind = PageKind::Page, ?string $ownerUserId = null)
     {
         $now = new \DateTimeImmutable();
         $this->code = $code;
-        $this->slug = PageSlug::fromSource($slug)->value();
+        $normalizedSlug = PageSlug::fromSource($slug)->value();
         $this->title = $title;
         $this->kind = $kind;
         $this->ownerUserId = $ownerUserId;
-        $this->createdAt = $now;
-        $this->updatedAt = $now;
+        $this->initializeObjectIdentity(objectSlug: $normalizedSlug);
+        $this->initializeObjectTitle($title);
+        $this->initializeObjectAudit($now, $ownerUserId);
+        $this->touchModified($now, $ownerUserId);
+        $this->initializeObjectState(objectStatus: PageStatus::Draft->value);
         $this->revisions = new ArrayCollection();
         $this->publications = new ArrayCollection();
         $this->attachmentReferences = new ArrayCollection();
@@ -103,7 +107,7 @@ class Page
 
     public function getSlug(): string
     {
-        return $this->slug;
+        return $this->getObjectSlug();
     }
 
     public function getTitle(): string
@@ -118,7 +122,7 @@ class Page
 
     public function getStatus(): PageStatus
     {
-        return $this->status;
+        return PageStatus::from($this->getObjectStatus() ?? PageStatus::Draft->value);
     }
 
     public function getOwnerUserId(): ?string
@@ -136,14 +140,34 @@ class Page
         return $this->publishedRevision;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
     public function getUpdatedAt(): \DateTimeImmutable
     {
-        return $this->updatedAt;
+        return $this->getModifiedAt() ?? $this->getCreatedAt();
+    }
+
+    public function getDraftBodyHtml(): string
+    {
+        if ('' !== $this->draftBodyHtml) {
+            return $this->draftBodyHtml;
+        }
+
+        return $this->currentRevision?->getBodyHtml() ?? '';
+    }
+
+    public function setDraftBodyHtml(string $draftBodyHtml): void
+    {
+        $this->draftBodyHtml = $draftBodyHtml;
+    }
+
+    public function getDraftChangeNote(): ?string
+    {
+        return $this->draftChangeNote;
+    }
+
+    public function setDraftChangeNote(?string $draftChangeNote): void
+    {
+        $draftChangeNote = null === $draftChangeNote ? null : trim($draftChangeNote);
+        $this->draftChangeNote = '' === $draftChangeNote ? null : $draftChangeNote;
     }
 
     public function __toString(): string
@@ -178,7 +202,9 @@ class Page
     public function rename(string $title, string $slug): void
     {
         $this->title = $title;
-        $this->slug = PageSlug::fromSource($slug)->value();
+        $normalizedSlug = PageSlug::fromSource($slug)->value();
+        $this->setFirstTitle($title);
+        $this->setObjectSlug($normalizedSlug);
         $this->touch();
     }
 
@@ -200,18 +226,19 @@ class Page
     public function markPublished(PageRevision $revision): void
     {
         $this->publishedRevision = $revision;
-        $this->status = PageStatus::Published;
+        $this->setObjectStatus(PageStatus::Published->value);
         $this->useCurrentRevision($revision);
     }
 
     public function archive(): void
     {
-        $this->status = PageStatus::Archived;
+        $this->setObjectStatus(PageStatus::Archived->value);
+        $this->setObjectActive(false);
         $this->touch();
     }
 
     private function touch(): void
     {
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->touchModified();
     }
 }
