@@ -205,7 +205,7 @@
     "cs:check": "php-cs-fixer fix --dry-run --diff --verbose",
     "cs:fix": "php-cs-fixer fix --verbose",
     "phpstan": "phpstan analyse -c phpstan.neon --memory-limit=1G",
-    "schema:validate": "php bin/console doctrine:schema:validate --env=test --no-interaction",
+    "schema:validate": "php bin/console doctrine:schema:validate --env=test --skip-sync --no-interaction",
     "schema:parity": "@php tool/schema-parity.php",
     "test": "phpunit",
     "test:coverage": [

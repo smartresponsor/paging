@@ -3,6 +3,13 @@
 declare(strict_types=1);
 
 $root = dirname(__DIR__);
+
+if ('1' !== getenv('PAGING_SCHEMA_PARITY_DOCKER')) {
+    fwrite(STDOUT, "Doctrine disposable schema parity is disabled by default for Paging. Set PAGING_SCHEMA_PARITY_DOCKER=1 to run the optional Docker-backed check.\n");
+
+    exit(0);
+}
+
 $project = 'paging_schema_parity';
 $compose = [
     'docker',

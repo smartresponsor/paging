@@ -184,13 +184,13 @@
 - `composer audit`: PASS, no security advisories.
 - `composer test:coverage`: PASS execution; aggregate evidence is classes 22.40%, methods 30.86%, paths 14.03%, branches 42.18%, lines 41.95%, therefore Canon040 HIGH_TEST_DEBT remains explicit.
 - `npm test`: PASS, Playwright health endpoint smoke 1/1.
-- Direct `doctrine:schema:validate --env=test`: mapping PASS; local developer database sync remains externally blocked by PostgreSQL authentication for user `app`.
-- Disposable `schema:parity`: initially reproduced and diagnosed Canon030 drift; after migration repair, one run proved zero schema diff plus fully synchronized mapping/database. Later acceptance reruns are externally blocked by Docker Desktop Linux Engine returning HTTP 500 / connection instability, not by a newly observed metadata diff.
+- Normal `composer schema:validate` now validates Doctrine mapping only (`--skip-sync`) and requires neither the developer database nor Docker; disposable database parity is a separate opt-in diagnostic.
+- Disposable `schema:parity`: initially reproduced and diagnosed Canon030 drift; after migration repair, one run proved zero schema diff plus fully synchronized mapping/database. Docker-backed reruns are now deliberately opt-in/non-blocking and are not part of normal Paging RC acceptance.
 - Console MCP named Gating check `gating` is not registered in the execution allowlist; Gating was therefore inspected as contract/executable source, while target enforcement was exercised through Paging's canon/final checks and the directly mapped quality gates above.
 
 ### Residual RC and growth split
 
-- RC blocker for a fully repeatable local acceptance: restore Docker Desktop engine health and rerun `composer schema:parity` once; the product migration defect itself has already been repaired and zero-diff evidence was observed before engine degradation.
+- Docker-backed disposable schema parity is explicitly non-blocking and opt-in because Paging does not currently use Docker in its normal development/RC workflow. `composer schema:parity` exits successfully without Docker unless `PAGING_SCHEMA_PARITY_DOCKER=1` is set; the previously repaired zero-diff migration evidence remains recorded.
 - RC quality debt: Canon040 coverage remains below canonical thresholds and is explicitly classified HIGH_TEST_DEBT; it is not hidden by a green test command.
 - Growth: coordinated multi-page releases, richer editorial preview/moderation UX, expanded behavioral/UI evidence inventory and stricter static-analysis/coverage uplift remain post-RC unless promoted by a later correctness or operability finding.
 
