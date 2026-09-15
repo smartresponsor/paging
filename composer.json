@@ -3,35 +3,67 @@
   "description": "Paging process app",
   "type": "symfony-bundle",
   "license": "proprietary",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "repositories": [
     {
       "type": "path",
       "url": "../Cruding",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "cruding/crud": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Collectioning",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "collectioning/collection": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Tabling",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "tabling/table": "dev-master"
+        }
       }
     },
     {
       "type": "path",
       "url": "../Objecting",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "objecting/object": "dev-master"
+        }
       }
     },
     {
       "type": "path",
       "url": "../Viewing",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "viewing/view": "dev-master"
+        }
       }
     },
     {
       "type": "path",
       "url": "../Interfacing",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "interfacing/interface": "dev-master"
+        }
       }
     }
   ],
@@ -40,13 +72,15 @@
     "doctrine/doctrine-bundle": "^3.0",
     "doctrine/doctrine-migrations-bundle": "^4.0",
     "doctrine/orm": "^3.3",
-    "cruding/crud": "*@dev",
+    "collectioning/collection": "dev-master",
+    "cruding/crud": "dev-master",
     "easycorp/easyadmin-bundle": "^5.0",
-    "interfacing/interface": "*@dev",
+    "interfacing/interface": "dev-master",
     "ext-ctype": "*",
     "ext-iconv": "*",
-    "objecting/object": "*@dev",
-    "viewing/view": "*@dev",
+    "objecting/object": "dev-master",
+    "tabling/table": "dev-master",
+    "viewing/view": "dev-master",
     "php": ">=8.4",
     "symfony/console": "^8.1",
     "symfony/dependency-injection": "^8.1",
@@ -63,10 +97,12 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",
-	"friendsofphp/php-cs-fixer": "^3.95",
+    "friendsofphp/php-cs-fixer": "^3.95",
     "phpstan/phpstan": "^2.2",
     "symfony/browser-kit": "^8.1",
-    "symfony/css-selector": "^8.1"
+    "symfony/css-selector": "^8.1",
+    "symfony/panther": "^2.4",
+    "symfony/test-pack": "^1.2"
   },
   "autoload": {
     "psr-4": {
@@ -169,6 +205,12 @@
     "cs:check": "php-cs-fixer fix --dry-run --diff --verbose",
     "cs:fix": "php-cs-fixer fix --verbose",
     "phpstan": "phpstan analyse -c phpstan.neon --memory-limit=1G",
-    "test": "phpunit"
+    "schema:validate": "php bin/console doctrine:schema:validate --env=test --skip-sync --no-interaction",
+    "schema:parity": "@php tool/schema-parity.php",
+    "test": "phpunit",
+    "test:coverage": [
+      "@php -r \"if (!is_dir('var/coverage')) { mkdir('var/coverage', 0777, true); }\"",
+      "@php -d xdebug.mode=coverage vendor/bin/phpunit --path-coverage --coverage-text=var/coverage/summary.txt"
+    ]
   }
 }
