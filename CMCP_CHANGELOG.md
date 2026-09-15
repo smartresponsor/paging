@@ -161,7 +161,7 @@
 - Canon030: Paging is persistence-owning; the migration chain must recreate current Doctrine metadata from an empty isolated PostgreSQL database and expose a zero-diff parity gate.
 - Canon037: tracked `config/reference.php` is non-canonical generated output; current staged deletion remains correct.
 - Canon038: component YAML uses the `page_` subject prefix; active component configuration is `config/packages/page_config.yaml`.
-- Canon039/040: executable Xdebug path/branch coverage evidence exists, but current aggregate coverage is HIGH_TEST_DEBT rather than threshold-complete: lines 41.95%, methods 30.86%, branches 42.18%.
+- Canon039/040: executable Xdebug path/branch coverage evidence exists. Focused lifecycle/HTTP/render/security tests improved aggregate coverage from lines 41.95% / methods 30.86% / branches 42.18% to lines 47.26% / methods 40.37% / branches 50.34%. Canon040 remains `HIGH_TEST_DEBT` because lines and methods are still below 50%, but Canon040 is a runtime warning/remediation rule rather than a hard RC failure.
 - Canon041/042: Playwright/Panther/test-pack tooling is present and the current health behavioral smoke passes; richer behavioral evidence/inventory remains a growth/quality tail rather than a Page-lifecycle ownership expansion.
 - Collectioning owns pagination/search/filter/sort/query execution; Tabling owns provider-neutral table metadata; Paging remains a consumer and does not duplicate either responsibility.
 
@@ -182,7 +182,7 @@
 - `composer cs:check`: PASS, 0 of 191 files fixable.
 - `composer validate --strict --check-lock`: PASS.
 - `composer audit`: PASS, no security advisories.
-- `composer test:coverage`: PASS execution; aggregate evidence is classes 22.40%, methods 30.86%, paths 14.03%, branches 42.18%, lines 41.95%, therefore Canon040 HIGH_TEST_DEBT remains explicit.
+- `composer test:coverage`: PASS execution after focused remediation; aggregate evidence is classes 24.80%, methods 40.37%, paths 17.89%, branches 50.34%, lines 47.26%. Canon040 `HIGH_TEST_DEBT` remains explicit due lines/methods below 50%, while branch debt is now above the high-debt floor.
 - `npm test`: PASS, Playwright health endpoint smoke 1/1.
 - Normal `composer schema:validate` now validates Doctrine mapping only (`--skip-sync`) and requires neither the developer database nor Docker; disposable database parity is a separate opt-in diagnostic.
 - Disposable `schema:parity`: initially reproduced and diagnosed Canon030 drift; after migration repair, one run proved zero schema diff plus fully synchronized mapping/database. Docker-backed reruns are now deliberately opt-in/non-blocking and are not part of normal Paging RC acceptance.
