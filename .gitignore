@@ -26,9 +26,16 @@
 
 # Local generated analysis and backup artifacts
 /.codebase-memory/
+/.console-mcp/
+/config/reference.php
 /config/*.bak-*
 
 ###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+# JavaScript test dependencies and generated Playwright output
+/node_modules/
+/test-results/
+/playwright-report/

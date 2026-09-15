@@ -1,4 +1,7 @@
 {
+    "collectioning/collection": {
+        "version": "dev-master"
+    },
     "cruding/crud": {
         "version": "dev-feature/http-api-crud-classification"
     },
@@ -155,6 +158,15 @@
             "./.editorconfig"
         ]
     },
+    "symfony/panther": {
+        "version": "2.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "814d444c2b82ec0d6dce87ecec32b06c2e89458f"
+        }
+    },
     "symfony/property-info": {
         "version": "8.0",
         "recipe": {
@@ -251,6 +263,9 @@
         "files": [
             "./config/packages/validator.yaml"
         ]
+    },
+    "tabling/table": {
+        "version": "dev-master"
     },
     "twig/extra-bundle": {
         "version": "v3.24.0"

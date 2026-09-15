@@ -107,4 +107,91 @@
 - Post-RC tightening debt is bounded to stricter-than-baseline PHPStan level-8 type coverage and replacement of the explicit Doctrine generated-ID exception with the PHPStan Doctrine extension if desired.
 - Next integration action: inspect final local diff/status, commit only this task's coherent Paging changes, push the actual local branch, then inspect/create/update the downstream PR and merge only when the remote merge gate is green.
 
+## 2026-09-14 RC continuation
+
+### Reconnaissance baseline
+
+- Workspace: `D:\PhpstormProjects\www\Paging`; branch `rc/paging-2026-07-09`.
+- Pre-existing worktree changes are confined to `.gating/**`; they are treated as external/shared tooling state and are not owned or rewritten by this Paging run.
+- Read Paging `AGENTS.md`, `README.md`, `composer.json`, `composer.prod.json`, Symfony bundle/config surfaces, prior CMCP journal, source/test inventory, and RC diagnostics.
+- Read current Objecting, Cruding, Viewing, Interfacing contracts plus Collectioning and Tabling package responsibilities required by the current standalone application baseline.
+- Read Gating `AGENTS.md`, `README.md`, `composer.json` as the executable enforcement companion.
+- Read Canonization `AGENTS.md`, `README.md`, `GUARD_MATRIX.md` and normative Canon000, Canon001, Canon012, Canon017, Canon022, Canon026, Canon031, Canon039, Canon040, Canon043, Canon044, and Canon045 rule texts.
+
+### Target-to-canon mapping
+
+- Canon000/001: `Paging` owns `Page*` subjects in role-first `src/*` layers.
+- Canon012: stable Page application boundaries remain typed; pagination query semantics must not leak into Paging and belong to Collectioning.
+- Canon017: README/runtime/package documentation must describe the current dependency/runtime contract.
+- Canon022: standalone Paging must directly require Cruding, Collectioning, Tabling, Viewing, Interfacing, Objecting, and EasyAdmin.
+- Canon026: PHP 8.4+ / Symfony 8.1+ baseline remains satisfied.
+- Canon031: meaningful PHPDoc coverage remains a measured quality concern, not a substitute for executable tests.
+- Canon039/040: Paging must expose executable PHPUnit branch-coverage tooling and persistent standard coverage evidence.
+- Canon043: first-party local path dependencies use exact `dev-master` plus `options.versions` and development `minimum-stability: dev`.
+- Canon044: active Objecting-backed Doctrine fields remain entity-native without `object*` persisted prefixes.
+- Canon045: root development Composer exposes the complete reachable first-party local path-repository closure.
+
+### Selected RC-critical work
+
+- Align Paging development/production Composer dependency contracts with the current standalone baseline, including Collectioning and Tabling.
+- Align local first-party Composer path identities with `dev-master` and make the reachable repository closure explicit.
+- Add reproducible PHPUnit branch-coverage execution with a persistent summary, then regenerate dependency state and run the complete Paging validation contour.
+- Preserve the Paging responsibility boundary: Page lifecycle/content functionality stays here; collection filtering/sorting/pagination/cursor execution stays in Collectioning.
+
+### Growth workstream (post-RC)
+
+- Evaluate richer Page API/UX pagination presentation only as a consumer of Collectioning contracts; do not implement a competing Paging-owned collection engine.
+- Consider stricter static-analysis and coverage uplift after RC correctness/package/test-contract closure is green.
+
+## 2026-09-15 RC hardening continuation
+
+### Refreshed reconnaissance and market baseline
+
+- Re-read Paging repository docs/manifests/configuration, current Git state, RC journal, PHP/JS test tooling and schema-parity tooling.
+- Re-read every existing required contract surface from Objecting, Cruding, Viewing and Interfacing; Interfacing has no `MANIFEST.json` in the current tree.
+- Re-read Collectioning and Tabling `README.md` plus `composer.json`; neither current repository contains `AGENTS.md` or `MANIFEST.json`.
+- Re-read Gating `AGENTS.md`, `README.md`, `composer.json`, `MANIFEST.json` as executable-canon context.
+- Re-read Canonization `AGENTS.md`, `README.md`, `GUARD_MATRIX.md` and normative Canon000, Canon001, Canon012, Canon017, Canon022, Canon023, Canon024, Canon026, Canon030, Canon031, Canon037, Canon038, Canon039, Canon040, Canon041, Canon042, Canon043, Canon044 and Canon045 rule texts.
+- Market/maturity review used current Sanity, Drupal and Strapi documentation. RC baseline remains revision/live-state separation, explicit workflow/publication transitions, preview/validation and auditability; richer coordinated release orchestration stays growth work unless required for correctness.
+
+### Target-to-canon decisions
+
+- Canon023/043/045: development uses explicit sibling path repositories, symlinks and exact `dev-master` identities for the full first-party dependency closure.
+- Canon024: `composer.prod.json` remains free of sibling path repositories.
+- Canon030: Paging is persistence-owning; the migration chain must recreate current Doctrine metadata from an empty isolated PostgreSQL database and expose a zero-diff parity gate.
+- Canon037: tracked `config/reference.php` is non-canonical generated output; current staged deletion remains correct.
+- Canon038: component YAML uses the `page_` subject prefix; active component configuration is `config/packages/page_config.yaml`.
+- Canon039/040: executable Xdebug path/branch coverage evidence exists, but current aggregate coverage is HIGH_TEST_DEBT rather than threshold-complete: lines 41.95%, methods 30.86%, branches 42.18%.
+- Canon041/042: Playwright/Panther/test-pack tooling is present and the current health behavioral smoke passes; richer behavioral evidence/inventory remains a growth/quality tail rather than a Page-lifecycle ownership expansion.
+- Collectioning owns pagination/search/filter/sort/query execution; Tabling owns provider-neutral table metadata; Paging remains a consumer and does not duplicate either responsibility.
+
+### Material RC hardening
+
+- Hardened `tool/schema-parity.php` to report the exact Doctrine SQL drift from a disposable PostgreSQL database instead of returning an opaque sync failure.
+- The first isolated parity run exposed real post-migration drift: Page ID generation strategy, three index names and seven legacy DBAL datetime comments did not match current Doctrine metadata.
+- Updated `Version20260914090500` so the complete migration chain now applies the current identity strategy, canonical metadata index names and metadata-equivalent comments; added inverse rollback operations for those changes.
+- A subsequent disposable run reached an empty `doctrine:schema:update --dump-sql` result and `doctrine:schema:validate` reported both mapping and database schema in sync before local Docker Desktop later became unstable.
+- Refined the parity harness to validate mapping independently (`--skip-sync`), migrate an empty disposable database to the latest registered migration, require a zero post-migration schema diff, use a stable Compose project identity and perform best-effort stale-stack cleanup.
+- Added Git ignore coverage for `node_modules/`, `test-results/` and `playwright-report/`; authored Playwright config/spec and `package-lock.json` remain source/evidence inputs rather than generated output.
+
+### Verification evidence
+
+- `composer page:final-check`: PASS.
+- `composer phpstan`: PASS, 0 errors over 191 files.
+- `composer test`: PASS, 36 tests / 237 assertions.
+- `composer cs:check`: PASS, 0 of 191 files fixable.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit`: PASS, no security advisories.
+- `composer test:coverage`: PASS execution; aggregate evidence is classes 22.40%, methods 30.86%, paths 14.03%, branches 42.18%, lines 41.95%, therefore Canon040 HIGH_TEST_DEBT remains explicit.
+- `npm test`: PASS, Playwright health endpoint smoke 1/1.
+- Direct `doctrine:schema:validate --env=test`: mapping PASS; local developer database sync remains externally blocked by PostgreSQL authentication for user `app`.
+- Disposable `schema:parity`: initially reproduced and diagnosed Canon030 drift; after migration repair, one run proved zero schema diff plus fully synchronized mapping/database. Later acceptance reruns are externally blocked by Docker Desktop Linux Engine returning HTTP 500 / connection instability, not by a newly observed metadata diff.
+- Console MCP named Gating check `gating` is not registered in the execution allowlist; Gating was therefore inspected as contract/executable source, while target enforcement was exercised through Paging's canon/final checks and the directly mapped quality gates above.
+
+### Residual RC and growth split
+
+- RC blocker for a fully repeatable local acceptance: restore Docker Desktop engine health and rerun `composer schema:parity` once; the product migration defect itself has already been repaired and zero-diff evidence was observed before engine degradation.
+- RC quality debt: Canon040 coverage remains below canonical thresholds and is explicitly classified HIGH_TEST_DEBT; it is not hidden by a green test command.
+- Growth: coordinated multi-page releases, richer editorial preview/moderation UX, expanded behavioral/UI evidence inventory and stricter static-analysis/coverage uplift remain post-RC unless promoted by a later correctness or operability finding.
+
 
