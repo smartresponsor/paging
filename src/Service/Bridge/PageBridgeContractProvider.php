@@ -31,7 +31,7 @@ final readonly class PageBridgeContractProvider implements PageBridgeContractPro
 
     public function bySlug(string $slug): PageBridgePayload
     {
-        $page = $this->pageRepository->findOneBy(['slug' => PageSlug::fromSource($slug)->value()]);
+        $page = $this->pageRepository->findOneBy(['objectIdentity.slug' => PageSlug::fromSource($slug)->value()]);
         if (!$page instanceof Page) {
             throw new \RuntimeException(sprintf('Page with slug "%s" was not found for bridge output.', $slug));
         }

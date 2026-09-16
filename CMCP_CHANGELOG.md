@@ -257,4 +257,33 @@
 
 Что имеем? Green RC/quality gates, substantially reduced executable coverage debt, and no production-boundary expansion. Что осталось? Git integration and post-push repository-state verification; Canon040 threshold uplift remains a follow-on quality workstream, not hidden as complete.
 
+### Second RC coverage/runtime wave
+
+- Added `tests/Integration/PageApplicationFlowTest.php` with in-memory Doctrine schema and real Paging fixtures to exercise published repository ordering, public Page view resolution, authoring/revision/publication persistence, export formats, bridge lookups, and negative-path handling.
+- The DB-backed flow exposed a real production defect hidden by prior unit/smoke coverage: `PageRepository::findPublishedOrdered()` queried synthetic accessor names `page.updatedAt` and `page.slug`, while Objecting persists those values through embedded `objectAudit.modifiedAt` and `objectIdentity.slug` metadata.
+- The same invalid `slug` criterion existed in `PageViewController` and `PageBridgeContractProvider::bySlug()`.
+- Corrected repository ordering to the Objecting embedded Doctrine paths and corrected public/bridge slug lookups to `objectIdentity.slug`; no persistence model, schema ownership, or external contract was expanded.
+- Confirmed no remaining `page.updatedAt` DQL usage and no remaining source `findOneBy(['slug' => ...])` lookup paths.
+- Bridge regression coverage now resolves both code and embedded slug through real Doctrine metadata, including legal render hints and missing-slug failure behavior.
+
+### Second-wave measured result
+
+- `composer test`: PASS, 72 tests / 382 assertions.
+- `composer test:coverage`: PASS; classes 36.80% (46/125), methods 57.54% (248/431), branches 61.68% (655/1062), lines 66.18% (1532/2315).
+- Relative to the 2026-09-16 fresh baseline, methods improved +17.17 percentage points, branches +11.34 pp, and lines +18.92 pp.
+- `PageRepository`, `PageViewController`, and `PageExportController` now report 100% methods/branches/lines; `PageBridgeContractProvider` is 75.00% methods / 87.50% branches / 90.00% lines, and `PageBridgePayloadFactory` rose to 66.67% branches / 83.33% lines.
+- Canon040 remains below canonical 80% methods / 80% lines / 70% branches. This remains explicit test debt, but the repository is well above the Canon040 high-debt floor and all RC correctness/operability gates are green.
+
+### Second-wave verification
+
+- `composer phpstan`: PASS, no errors.
+- `composer cs:check`: PASS after canonical line-ending normalization of the new integration test.
+- `composer schema:validate`: PASS mapping; database synchronization remains intentionally skipped by the declared script.
+- `composer page:final-check`: PASS across container lint, RC readiness, API contract, host integration, operations, final status, handoff, canon/completion and bridge checks.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit --format=summary`: PASS, no security vulnerability advisories.
+- repository PHP lint gate: PASS; `git diff --check`: PASS.
+
+Что имеем? A real Doctrine/Objecting runtime defect is fixed and regression-protected, all second-wave gates are green, and Canon040 evidence materially improved. Что осталось? Integrate this verified checkpoint and continue future focused Canon040 uplift without synthetic coverage or responsibility expansion.
+
 

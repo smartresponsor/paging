@@ -28,8 +28,8 @@ final class PageRepository extends ServiceEntityRepository implements PageReposi
     {
         return $this->createQueryBuilder('page')
             ->andWhere('page.publishedRevision IS NOT NULL')
-            ->orderBy('page.updatedAt', 'DESC')
-            ->addOrderBy('page.slug', 'ASC')
+            ->orderBy('page.objectAudit.modifiedAt', 'DESC')
+            ->addOrderBy('page.objectIdentity.slug', 'ASC')
             ->getQuery()
             ->getResult();
     }
