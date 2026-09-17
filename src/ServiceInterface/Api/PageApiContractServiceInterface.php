@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Paging\ServiceInterface\Contract;
+namespace App\Paging\ServiceInterface\Api;
 
-use App\Paging\DTO\Contract\PageApiContractReport;
+use App\Paging\DTO\Api\PageApiContractReport;
 
 interface PageApiContractServiceInterface
 {

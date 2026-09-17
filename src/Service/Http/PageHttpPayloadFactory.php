@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Http;
 
-use App\Paging\DTO\Contract\PageBridgePayload;
+use App\Paging\DTO\Bridge\PageApiBridgePayload;
 use App\Paging\DTO\Export\PageExportView;
 use App\Paging\DTO\Rendering\PageRenderView;
 use App\Paging\Entity\Page;
@@ -78,7 +78,7 @@ final class PageHttpPayloadFactory implements PageHttpPayloadFactoryInterface
         ];
     }
 
-    public function bridgePayloadToArray(PageBridgePayload $payload): array
+    public function bridgePayloadToArray(PageApiBridgePayload $payload): array
     {
         return [
             'code' => $payload->code,

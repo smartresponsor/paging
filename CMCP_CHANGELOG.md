@@ -286,4 +286,27 @@
 
 Что имеем? A real Doctrine/Objecting runtime defect is fixed and regression-protected, all second-wave gates are green, and Canon040 evidence materially improved. Что осталось? Integrate this verified checkpoint and continue future focused Canon040 uplift without synthetic coverage or responsibility expansion.
 
+### Canon002 taxonomy normalization and Canon040 closure
+
+- Re-read and applied Canon002 as an implementation/interface role-mirroring constraint rather than retaining a generic `Contract` implementation bucket.
+- Removed the ambiguous `Service/Contract`, `ServiceInterface/Contract`, and `DTO/Contract` role usage for API/bridge boundaries. API-contract services/DTOs now live under explicit `Api` roles; API bridge payload/factory contracts live under explicit `Bridge` roles.
+- Distinguished the API bridge model from the richer Interfacing bridge model with explicit `PageApiBridge*` identities instead of keeping two materially different concepts under nearly identical generic contract names.
+- Updated all affected DI aliases, controller/service consumers, readiness/finalization checks, HTTP payload typing, command consumers, and tests. Source searches found no remaining old `ServiceInterface\\Contract`, `Service\\Contract`, or `DTO\\Contract` references; only stale PHPUnit cache metadata retained historical names.
+- Expanded meaningful PHP coverage around API boundary fallbacks, diagnostic failure modes, authoring ownership/default behavior, revision/publication/acceptance missing-resource semantics, bridge attachment/legal composition, publication selection, repository metadata, and service lifecycle behavior.
+- No collection pagination/search/filter/cursor mechanics were introduced into Paging; Collectioning remains the owner of those responsibilities.
+
+### Canon040 final measured evidence
+
+- `composer test`: PASS, 97 tests / 560 assertions.
+- `composer test:coverage`: PASS after canonical formatter normalization; classes 63.20% (79/125), methods 81.44% (351/431), branches 83.36% (937/1124), lines 93.43% (2163/2315).
+- Canon040 canonical thresholds are therefore satisfied: methods >=80%, lines >=80%, branches >=70%.
+- `composer cs:check`: PASS, 0 of 195 files fixable after `composer cs:fix`.
+- `composer phpstan`: PASS, no errors over the current 195-file analysis contour.
+- `composer schema:validate`: PASS Doctrine mapping; database synchronization intentionally skipped by the repository script contract.
+- `composer page:final-check`: PASS across container lint, RC readiness, API contract, host integration, operations, final RC status, handoff, canon/completion and bridge contours.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit --format=summary`: PASS, no security vulnerability advisories.
+- changed/untracked PHP lint: PASS for 21 files.
+
+Что имеем? Canon002 taxonomy debt is normalized, Canon040 is no longer residual debt, and the complete Paging RC quality contour is green. Что осталось? Commit/push this verified coherent change set and confirm clean synchronized post-integration Git state.
 

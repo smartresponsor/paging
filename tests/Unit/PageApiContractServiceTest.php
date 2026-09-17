@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\Service\Contract\PageApiContractService;
+use App\Paging\Service\Api\PageApiContractService;
 use PHPUnit\Framework\TestCase;
 
 final class PageApiContractServiceTest extends TestCase

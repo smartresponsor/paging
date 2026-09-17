@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Paging\Service\Contract;
+namespace App\Paging\Service\Api;
 
-use App\Paging\DTO\Contract\PageApiContractReport;
-use App\Paging\DTO\Contract\PageApiEndpointContract;
-use App\Paging\ServiceInterface\Contract\PageApiContractServiceInterface;
+use App\Paging\DTO\Api\PageApiContractReport;
+use App\Paging\DTO\Api\PageApiEndpointContract;
+use App\Paging\ServiceInterface\Api\PageApiContractServiceInterface;
 
 /**
  * Defines the stable API/output contract for Page consumers.

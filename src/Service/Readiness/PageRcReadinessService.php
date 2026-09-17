@@ -28,7 +28,7 @@ use App\Paging\Form\PageRevisionForm;
 use App\Paging\ServiceInterface\Acceptance\PageAcceptanceServiceInterface;
 use App\Paging\ServiceInterface\Attachment\PageAttachmentReferenceServiceInterface;
 use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
-use App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface;
+use App\Paging\ServiceInterface\Bridge\PageApiBridgePayloadFactoryInterface;
 use App\Paging\ServiceInterface\Editor\PageEditorPayloadNormalizerInterface;
 use App\Paging\ServiceInterface\Export\PageExportServiceInterface;
 use App\Paging\ServiceInterface\Interfacing\PageInterfacingContractServiceInterface;
@@ -70,7 +70,7 @@ final class PageRcReadinessService implements PageRcReadinessServiceInterface
                 PageExportServiceInterface::class,
                 PageAttachmentReferenceServiceInterface::class,
                 PageGrantServiceInterface::class,
-                PageBridgePayloadFactoryInterface::class,
+                PageApiBridgePayloadFactoryInterface::class,
                 PageEditorPayloadNormalizerInterface::class,
                 PageAcceptanceServiceInterface::class,
             ]),
