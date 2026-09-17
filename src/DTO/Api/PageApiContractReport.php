@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Paging\DTO\Contract;
+namespace App\Paging\DTO\Api;
 
 /**
  * Stable contract report for the Page API/output surface.

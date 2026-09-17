@@ -34,11 +34,11 @@ services:
   App\Paging\ServiceInterface\Security\PageGrantServiceInterface:
     alias: App\Paging\Service\Security\PageGrantService
 
-  App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface:
-    alias: App\Paging\Service\Contract\PageBridgePayloadFactory
+  App\Paging\ServiceInterface\Bridge\PageApiBridgePayloadFactoryInterface:
+    alias: App\Paging\Service\Bridge\PageApiBridgePayloadFactory
 
-  App\Paging\ServiceInterface\Contract\PageApiContractServiceInterface:
-    alias: App\Paging\Service\Contract\PageApiContractService
+  App\Paging\ServiceInterface\Api\PageApiContractServiceInterface:
+    alias: App\Paging\Service\Api\PageApiContractService
 
   App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface:
     alias: App\Paging\Service\Http\PageHttpPayloadFactory

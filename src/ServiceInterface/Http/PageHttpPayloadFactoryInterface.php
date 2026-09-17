@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\ServiceInterface\Http;
 
-use App\Paging\DTO\Contract\PageBridgePayload;
+use App\Paging\DTO\Bridge\PageApiBridgePayload;
 use App\Paging\DTO\Export\PageExportView;
 use App\Paging\DTO\Rendering\PageRenderView;
 use App\Paging\Entity\Page;
@@ -26,7 +26,7 @@ interface PageHttpPayloadFactoryInterface
     public function renderViewToArray(PageRenderView $view): array;
 
     /** @return array<string, mixed> */
-    public function bridgePayloadToArray(PageBridgePayload $payload): array;
+    public function bridgePayloadToArray(PageApiBridgePayload $payload): array;
 
     /** @return array<string, mixed> */
     public function exportViewToArray(PageExportView $view): array;

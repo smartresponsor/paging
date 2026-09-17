@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Paging\DTO\Contract;
+namespace App\Paging\DTO\Api;
 
 /**
  * Describes one stable public or API endpoint exposed by the Paging component.

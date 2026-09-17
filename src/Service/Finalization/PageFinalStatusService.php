@@ -23,8 +23,8 @@ use App\Paging\Entity\PagePublication;
 use App\Paging\Entity\PageRevision;
 use App\Paging\PageBundle;
 use App\Paging\ServiceInterface\Acceptance\PageAcceptanceServiceInterface;
-use App\Paging\ServiceInterface\Contract\PageApiContractServiceInterface;
-use App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface;
+use App\Paging\ServiceInterface\Api\PageApiContractServiceInterface;
+use App\Paging\ServiceInterface\Bridge\PageApiBridgePayloadFactoryInterface;
 use App\Paging\ServiceInterface\Export\PageExportServiceInterface;
 use App\Paging\ServiceInterface\Finalization\PageFinalStatusServiceInterface;
 use App\Paging\ServiceInterface\Operations\PageOperationChecklistServiceInterface;
@@ -67,7 +67,7 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
                 PageRcReadinessServiceInterface::class,
                 PageOperationChecklistServiceInterface::class,
                 PageApiContractServiceInterface::class,
-                PageBridgePayloadFactoryInterface::class,
+                PageApiBridgePayloadFactoryInterface::class,
                 PageExportServiceInterface::class,
                 PageGrantServiceInterface::class,
                 PageAcceptanceServiceInterface::class,

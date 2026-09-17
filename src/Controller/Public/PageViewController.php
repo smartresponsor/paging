@@ -43,7 +43,7 @@ final class PageViewController
     #[Route('/page/{slug}', name: 'page_public_view', methods: ['GET'])]
     public function __invoke(string $slug): array
     {
-        $page = $this->pageRepository->findOneBy(['slug' => PageSlug::fromSource($slug)->value()]);
+        $page = $this->pageRepository->findOneBy(['objectIdentity.slug' => PageSlug::fromSource($slug)->value()]);
         if (null === $page || null === $page->getPublishedRevision()) {
             throw new NotFoundHttpException(sprintf('Published page "%s" was not found.', $slug));
         }

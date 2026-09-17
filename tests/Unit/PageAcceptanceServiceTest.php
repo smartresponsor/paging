@@ -20,8 +20,14 @@ final class PageAcceptanceServiceTest extends TestCase
         $revision = new PageRevision($page, 1, 'Privacy Policy', '<p>Policy</p>', 'Policy');
         $acceptance = new PageAcceptance($page, $revision, 'user-1', 'ip-hash', 'agent-hash', ['surface' => 'test']);
 
+        self::assertSame($page, $acceptance->getPage());
+        self::assertSame($revision, $acceptance->getRevision());
+        self::assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $acceptance->getId());
         self::assertSame($revision->getChecksum(), $acceptance->getRevisionChecksum());
         self::assertSame('user-1', $acceptance->getSubjectUserId());
+        self::assertSame('ip-hash', $acceptance->getIpHash());
+        self::assertSame('agent-hash', $acceptance->getUserAgentHash());
+        self::assertInstanceOf(\DateTimeImmutable::class, $acceptance->getAcceptedAt());
         self::assertSame(['surface' => 'test'], $acceptance->getAcceptanceContext());
     }
 

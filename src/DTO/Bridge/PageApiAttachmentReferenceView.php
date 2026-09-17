@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Paging\DTO\Contract;
+namespace App\Paging\DTO\Bridge;
 
 use App\Paging\Enum\PageAttachmentUsage;
 
-final readonly class PageAttachmentReferenceView
+final readonly class PageApiAttachmentReferenceView
 {
     public function __construct(
         public string $attachmentId,

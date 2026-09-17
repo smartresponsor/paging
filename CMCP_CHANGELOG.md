@@ -194,4 +194,152 @@
 - RC quality debt: Canon040 coverage remains below canonical thresholds and is explicitly classified HIGH_TEST_DEBT; it is not hidden by a green test command.
 - Growth: coordinated multi-page releases, richer editorial preview/moderation UX, expanded behavioral/UI evidence inventory and stricter static-analysis/coverage uplift remain post-RC unless promoted by a later correctness or operability finding.
 
+## 2026-09-16 autonomous RC continuation
+
+### Reconnaissance baseline
+
+- Workspace: `D:\PhpstormProjects\www\Paging`; branch `rc/paging-2026-07-09`; initial HEAD `a651ad4f5754aa25503666ea3992ac4648198b5f`; upstream synchronized and worktree clean.
+- Re-read Paging `AGENTS.md`, `README.md`, `composer.json`, prior CMCP journal, PHPUnit configuration, current runtime/service wiring, representative command surfaces, lifecycle/security code, and current test inventory.
+- Re-read Objecting, Cruding, Viewing and Interfacing `AGENTS.md`, `README.md` and `composer.json` contract surfaces.
+- Re-read Gating `AGENTS.md`, `README.md`, `composer.json`, `MANIFEST.json` and Canonization `AGENTS.md`, `README.md`, guard matrix plus normative Canon000, Canon001, Canon012, Canon017, Canon022, Canon026, Canon031, Canon039, Canon040, Canon041, Canon042, Canon043, Canon044 and Canon045 rules.
+- Fresh `composer test:coverage` baseline: 42 tests / 290 assertions; classes 24.80% (31/125), methods 40.37% (174/431), branches 50.34% (439/872), lines 47.26% (1095/2317). Canon040 is therefore still `HIGH_TEST_DEBT` on lines and methods.
+
+### Market / mature-practice boundary check
+
+- Mature REST APIs expose bounded page sizes and navigation metadata; GitHub REST uses Link relations and endpoint-specific page/before/after/since parameters, while GitHub GraphQL uses cursor-based `pageInfo`.
+- Cursor/keyset pagination is the mature default for large or concurrently changing datasets; offset/page pagination remains useful for bounded/stable administrative collections.
+- These practices reinforce the current SmartResponsor ownership split: Collectioning owns search/filter/sort/pagination/cursor query semantics; Paging owns Page lifecycle/content and may consume collection contracts without implementing a parallel pagination engine.
+
+### Target-to-canon mapping
+
+- Canon000/001: retain `Page*` subject vocabulary and role-first `src/*` layout.
+- Canon012: keep Page stable boundaries typed; do not introduce dynamic pagination arrays or collection-query contracts into Paging.
+- Canon017/022/026/043/045: current documentation, standalone dependency baseline, PHP/Symfony floor and local path dependency identity/closure remain constraints for all changes.
+- Canon039/040: the immediate RC workstream is executable PHPUnit coverage remediation using meaningful behavior/integration tests, not test-count heuristics.
+- Canon041/042: existing browser/behavioral tooling remains separate from executable PHP coverage; no fabricated UI coverage percentages are introduced.
+- Canon044: active Objecting-backed persisted fields remain entity-native.
+
+### Selected RC-critical workstream
+
+- Exercise the real registered Page command surface through the standalone Symfony kernel so command wiring, configuration and diagnostic/readiness contracts are measured by PHPUnit coverage rather than only by out-of-band Composer smoke execution.
+- Add direct lifecycle-policy and security-subject behavior tests for currently uncovered stable Page contracts.
+- Re-run coverage and the complete Paging validation contour, then continue with additional bounded coverage remediation if the measured debt remains materially reducible.
+
+### Growth workstream (post-RC)
+
+- Richer API collection navigation, cursor UX and administrative pagination belong to consumers of Collectioning/Tabling contracts and must not become a Paging-owned query engine.
+- Coordinated multi-page editorial releases, richer preview/moderation UX and deeper browser inventory stay post-RC unless a correctness or operability defect promotes them.
+
+### Material implementation
+
+- Added standalone-kernel command-surface coverage for the real registered Paging diagnostics/readiness/contract commands.
+- Added lifecycle transition and security-subject resolver coverage for stable component-owned behavior.
+
+Что имеем? Fresh factual Canon040 baseline plus bounded tests covering real RC/runtime contracts. Что осталось? Re-run targeted tests/coverage, repair any failures, execute full gates, integrate and inspect final repository state.
+
+### Verification and measured result
+
+- `composer test`: PASS, 65 tests / 355 assertions with no PHPUnit notices.
+- `composer test:coverage`: PASS; classes 32.00% (40/125), methods 53.83% (232/431), branches 58.00% (602/1038), lines 60.29% (1397/2317). Compared with the fresh baseline, methods improved +13.46 pp, branches +7.66 pp and lines +13.03 pp.
+- Canon040 remains below canonical 80/80/70 targets, but the repository is no longer `HIGH_TEST_DEBT`: methods and lines are now above 50%, branches above 40%.
+- `composer phpstan`: PASS, no errors.
+- `composer cs:check`: PASS after canonical fixer normalized the two newly created test files.
+- `composer schema:validate`: PASS mapping; database synchronization intentionally skipped by the repository script contract.
+- `composer page:final-check`: PASS for container lint, RC readiness, API contract, host integration, operations, final status, handoff and bridge/canon/completion contours.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit --format=summary`: PASS, no security vulnerability advisories.
+- repository PHP lint gate: PASS; `git diff --check`: PASS.
+
+### RC checkpoint
+
+- RC correctness/operability gates are green and the prior high-test-debt classification has been removed without changing production semantics or expanding Paging into Collectioning-owned pagination/query responsibility.
+- Residual Canon040 uplift from 53.83/60.29/58.00 toward 80/80/70 is measurable quality debt rather than a correctness blocker; further uplift should continue in focused waves around remaining controllers, repositories and bridge/service branches instead of adding synthetic tests.
+
+Что имеем? Green RC/quality gates, substantially reduced executable coverage debt, and no production-boundary expansion. Что осталось? Git integration and post-push repository-state verification; Canon040 threshold uplift remains a follow-on quality workstream, not hidden as complete.
+
+### Second RC coverage/runtime wave
+
+- Added `tests/Integration/PageApplicationFlowTest.php` with in-memory Doctrine schema and real Paging fixtures to exercise published repository ordering, public Page view resolution, authoring/revision/publication persistence, export formats, bridge lookups, and negative-path handling.
+- The DB-backed flow exposed a real production defect hidden by prior unit/smoke coverage: `PageRepository::findPublishedOrdered()` queried synthetic accessor names `page.updatedAt` and `page.slug`, while Objecting persists those values through embedded `objectAudit.modifiedAt` and `objectIdentity.slug` metadata.
+- The same invalid `slug` criterion existed in `PageViewController` and `PageBridgeContractProvider::bySlug()`.
+- Corrected repository ordering to the Objecting embedded Doctrine paths and corrected public/bridge slug lookups to `objectIdentity.slug`; no persistence model, schema ownership, or external contract was expanded.
+- Confirmed no remaining `page.updatedAt` DQL usage and no remaining source `findOneBy(['slug' => ...])` lookup paths.
+- Bridge regression coverage now resolves both code and embedded slug through real Doctrine metadata, including legal render hints and missing-slug failure behavior.
+
+### Second-wave measured result
+
+- `composer test`: PASS, 72 tests / 382 assertions.
+- `composer test:coverage`: PASS; classes 36.80% (46/125), methods 57.54% (248/431), branches 61.68% (655/1062), lines 66.18% (1532/2315).
+- Relative to the 2026-09-16 fresh baseline, methods improved +17.17 percentage points, branches +11.34 pp, and lines +18.92 pp.
+- `PageRepository`, `PageViewController`, and `PageExportController` now report 100% methods/branches/lines; `PageBridgeContractProvider` is 75.00% methods / 87.50% branches / 90.00% lines, and `PageBridgePayloadFactory` rose to 66.67% branches / 83.33% lines.
+- Canon040 remains below canonical 80% methods / 80% lines / 70% branches. This remains explicit test debt, but the repository is well above the Canon040 high-debt floor and all RC correctness/operability gates are green.
+
+### Second-wave verification
+
+- `composer phpstan`: PASS, no errors.
+- `composer cs:check`: PASS after canonical line-ending normalization of the new integration test.
+- `composer schema:validate`: PASS mapping; database synchronization remains intentionally skipped by the declared script.
+- `composer page:final-check`: PASS across container lint, RC readiness, API contract, host integration, operations, final status, handoff, canon/completion and bridge checks.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit --format=summary`: PASS, no security vulnerability advisories.
+- repository PHP lint gate: PASS; `git diff --check`: PASS.
+
+Что имеем? A real Doctrine/Objecting runtime defect is fixed and regression-protected, all second-wave gates are green, and Canon040 evidence materially improved. Что осталось? Integrate this verified checkpoint and continue future focused Canon040 uplift without synthetic coverage or responsibility expansion.
+
+### Canon002 taxonomy normalization and Canon040 closure
+
+- Re-read and applied Canon002 as an implementation/interface role-mirroring constraint rather than retaining a generic `Contract` implementation bucket.
+- Removed the ambiguous `Service/Contract`, `ServiceInterface/Contract`, and `DTO/Contract` role usage for API/bridge boundaries. API-contract services/DTOs now live under explicit `Api` roles; API bridge payload/factory contracts live under explicit `Bridge` roles.
+- Distinguished the API bridge model from the richer Interfacing bridge model with explicit `PageApiBridge*` identities instead of keeping two materially different concepts under nearly identical generic contract names.
+- Updated all affected DI aliases, controller/service consumers, readiness/finalization checks, HTTP payload typing, command consumers, and tests. Source searches found no remaining old `ServiceInterface\\Contract`, `Service\\Contract`, or `DTO\\Contract` references; only stale PHPUnit cache metadata retained historical names.
+- Expanded meaningful PHP coverage around API boundary fallbacks, diagnostic failure modes, authoring ownership/default behavior, revision/publication/acceptance missing-resource semantics, bridge attachment/legal composition, publication selection, repository metadata, and service lifecycle behavior.
+- No collection pagination/search/filter/cursor mechanics were introduced into Paging; Collectioning remains the owner of those responsibilities.
+
+### Canon040 final measured evidence
+
+- `composer test`: PASS, 97 tests / 560 assertions.
+- `composer test:coverage`: PASS after canonical formatter normalization; classes 63.20% (79/125), methods 81.44% (351/431), branches 83.36% (937/1124), lines 93.43% (2163/2315).
+- Canon040 canonical thresholds are therefore satisfied: methods >=80%, lines >=80%, branches >=70%.
+- `composer cs:check`: PASS, 0 of 195 files fixable after `composer cs:fix`.
+- `composer phpstan`: PASS, no errors over the current 195-file analysis contour.
+- `composer schema:validate`: PASS Doctrine mapping; database synchronization intentionally skipped by the repository script contract.
+- `composer page:final-check`: PASS across container lint, RC readiness, API contract, host integration, operations, final RC status, handoff, canon/completion and bridge contours.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit --format=summary`: PASS, no security vulnerability advisories.
+- changed/untracked PHP lint: PASS for 21 files.
+
+Что имеем? Canon002 taxonomy debt is normalized, Canon040 is no longer residual debt, and the complete Paging RC quality contour is green. Что осталось? Commit/push this verified coherent change set and confirm clean synchronized post-integration Git state.
+
+## 2026-09-17 strict Canon038 continuation
+
+### Refreshed baseline and legacy preservation
+
+- Authoritative workspace: `D:\PhpstormProjects\www\Paging`; branch `rc/paging-2026-07-09`; refreshed starting HEAD `645193dbf609ee09770cfc952e74f17bd0c62d09`; upstream synchronized; worktree clean before this continuation.
+- Re-read current Canon038 in Canonization and its executable Gating mirror. Canon038 scans component-owned YAML filenames only under `config/**` and derives the required `page_` prefix from Composer identity.
+- `config/packages/page_config.yaml` remains the active runtime configuration and is canonically named.
+- The historical inert `config/packages/page.yaml` marker was already physically absent on the refreshed HEAD. Its last inert contents were recovered from commit `1d76caf` and preserved at `var/legacy/config/packages/page.yaml` instead of recreating the violating runtime/config path.
+- The preserved legacy file remains comment-only and is outside Symfony package configuration discovery and Canon038's `config/**` scan.
+
+### Acceptance target
+
+- Confirm no active references require `config/packages/page.yaml`.
+- Run the Paging RC Composer/test/static-analysis/final-check/audit contour and verify Canon038 through the current authoritative rule semantics/executable path available locally.
+- Integrate only if the resulting diff is limited to Paging, the preserved legacy marker, and this journal continuation.
+
+### Verification and Canon038 closure
+
+- `composer install --no-interaction` was attempted through the guarded connector but blocked by execution policy; no bypass was attempted. Existing installed dependency state was validated through the full allowed gate contour below.
+- `composer run-script phpstan`: PASS, 0 errors over 195 files.
+- `composer run-script cs:check`: PASS, 0 of 195 files fixable.
+- `composer run-script test`: PASS, 97 tests / 560 assertions.
+- `composer run-script page:check`: PASS across container, operations, readiness, API contract, host integration, final status, handoff, canon/completion and bridge contours.
+- `composer run-script page:admin-check`: PASS.
+- `composer run-script page:canon-check`: PASS.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit --no-interaction --format=summary`: PASS, no security advisories.
+- Console RC validation reported `canon.issue_count = 0`; its only readiness blocker was the expected `workspace_has_uncommitted_changes` while preparing this continuation.
+- Current `config/**` inventory contains `config/packages/page_config.yaml` as the component-owned Page package config and no `config/packages/page.yaml`; Canon038's physical filename blocker is therefore closed.
+- `.gitignore` now contains a narrow re-inclusion chain that tracks only `var/legacy/config/packages/page.yaml` while leaving all other `var/` runtime/cache content ignored.
+
+Что имеем? Strict Canon038 filename debt is closed without deleting the historical marker, and the RC verification contour is green. Что осталось? Commit, push, PR/merge inspection, then post-integration local acceptance and clean-state verification.
 

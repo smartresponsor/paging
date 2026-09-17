@@ -6,7 +6,7 @@ namespace App\Paging\Controller\Api;
 
 use App\Paging\Entity\Page;
 use App\Paging\Repository\PageRepository;
-use App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface;
+use App\Paging\ServiceInterface\Bridge\PageApiBridgePayloadFactoryInterface;
 use App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,7 +19,7 @@ final class PageReadController
     public function __construct(
         private readonly PageRepository $pageRepository,
         private readonly PageRenderServiceInterface $pageRenderService,
-        private readonly PageBridgePayloadFactoryInterface $pageBridgePayloadFactory,
+        private readonly PageApiBridgePayloadFactoryInterface $pageBridgePayloadFactory,
         private readonly PageHttpPayloadFactoryInterface $pageHttpPayloadFactory,
     ) {
     }

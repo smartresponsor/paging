@@ -9,13 +9,17 @@ use App\Paging\DTO\Rendering\PageRenderView;
 use App\Paging\DTO\Security\PageGrantCheck;
 use App\Paging\DTO\Security\PageGrantInput;
 use App\Paging\Entity\Page;
+use App\Paging\Entity\PageAttachmentReference;
 use App\Paging\Entity\PageGrant;
 use App\Paging\Entity\PagePublication;
 use App\Paging\Entity\PageRevision;
+use App\Paging\Enum\PageAttachmentUsage;
 use App\Paging\Enum\PageExportFormat;
 use App\Paging\Enum\PageGrantType;
 use App\Paging\Enum\PageKind;
 use App\Paging\Enum\PageStatus;
+use App\Paging\Service\Bridge\PageApiBridgePayloadFactory;
+use App\Paging\Service\Bridge\PageBridgePayloadFactory;
 use App\Paging\Service\Http\PageHttpPayloadFactory;
 use App\Paging\Service\Rendering\PageRenderService;
 use App\Paging\Service\Security\PageGrantService;
@@ -108,6 +112,50 @@ final class PageHttpPayloadFactoryTest extends TestCase
         $this->expectExceptionMessage('Page "draft" does not have a published revision.');
 
         (new PageRenderService())->renderPublished(new Page('draft', 'draft', 'Draft'));
+    }
+
+    public function testBridgeFactoriesComposeAttachmentsAndLegalHintsAcrossApiAndInterfacingBoundaries(): void
+    {
+        $page = new Page('privacy', 'privacy', 'Privacy', PageKind::Policy);
+        $first = new PageRevision($page, 1, 'Privacy v1', '<p>Old</p>', 'Old');
+        $revision = new PageRevision($page, 2, 'Privacy v2', '<p>Policy</p>', 'Policy', '# Policy');
+        $page->markPublished($revision);
+        $page->getPublications()->add(new PagePublication($page, $first, new \DateTimeImmutable('2026-09-01T00:00:00+00:00')));
+        $publication = new PagePublication(
+            $page,
+            $revision,
+            new \DateTimeImmutable('2026-09-02T00:00:00+00:00'),
+            new \DateTimeImmutable('2027-09-02T00:00:00+00:00'),
+        );
+        $page->getPublications()->add($publication);
+        $page->getAttachmentReferences()->add(new PageAttachmentReference(
+            $page,
+            'attachment-1',
+            PageAttachmentUsage::LegalSupport,
+            $revision,
+            'terms-pdf',
+            3,
+        ));
+
+        $renderer = new PageRenderService();
+        $api = (new PageApiBridgePayloadFactory($renderer))->createForPublishedPage($page);
+        self::assertTrue($api->renderHints['show_version']);
+        self::assertCount(1, $api->attachments);
+
+        $bridge = (new PageBridgePayloadFactory($renderer))->createForPublishedPage($page);
+        self::assertTrue($bridge->renderHints->legalMode);
+        self::assertCount(1, $bridge->attachments);
+        self::assertSame('2027-09-02T00:00:00+00:00', $bridge->expiresAt?->format(DATE_ATOM));
+    }
+
+    public function testRichBridgeFactoryRejectsDraftPage(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('does not have a published revision for bridge output');
+
+        (new PageBridgePayloadFactory(new PageRenderService()))->createForPublishedPage(
+            new Page('draft-bridge', 'draft-bridge', 'Draft bridge', PageKind::Rule),
+        );
     }
 
     public function testGrantServicePersistsAndResolvesAuthorizationBranches(): void

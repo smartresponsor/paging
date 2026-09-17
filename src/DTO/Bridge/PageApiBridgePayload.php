@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Paging\DTO\Contract;
+namespace App\Paging\DTO\Bridge;
 
 use App\Paging\Enum\PageKind;
 
-final readonly class PageBridgePayload
+final readonly class PageApiBridgePayload
 {
     /**
-     * @param list<PageAttachmentReferenceView> $attachments
-     * @param array<string, mixed>              $renderHints
+     * @param list<PageApiAttachmentReferenceView> $attachments
+     * @param array<string, mixed>                 $renderHints
      */
     public function __construct(
         public string $code,

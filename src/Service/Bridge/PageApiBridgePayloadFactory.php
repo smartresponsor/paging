@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Paging\Service\Contract;
+namespace App\Paging\Service\Bridge;
 
-use App\Paging\DTO\Contract\PageAttachmentReferenceView;
-use App\Paging\DTO\Contract\PageBridgePayload;
+use App\Paging\DTO\Bridge\PageApiAttachmentReferenceView;
+use App\Paging\DTO\Bridge\PageApiBridgePayload;
 use App\Paging\Entity\Page;
-use App\Paging\ServiceInterface\Contract\PageBridgePayloadFactoryInterface;
+use App\Paging\ServiceInterface\Bridge\PageApiBridgePayloadFactoryInterface;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
 
-final readonly class PageBridgePayloadFactory implements PageBridgePayloadFactoryInterface
+final readonly class PageApiBridgePayloadFactory implements PageApiBridgePayloadFactoryInterface
 {
     public function __construct(private PageRenderServiceInterface $pageRenderService)
     {
     }
 
-    public function createForPublishedPage(Page $page): PageBridgePayload
+    public function createForPublishedPage(Page $page): PageApiBridgePayload
     {
         $view = $this->pageRenderService->renderPublished($page);
         $attachments = [];
 
         foreach ($page->getAttachmentReferences() as $reference) {
-            $attachments[] = new PageAttachmentReferenceView(
+            $attachments[] = new PageApiAttachmentReferenceView(
                 $reference->getAttachmentId(),
                 $reference->getUsage(),
                 $reference->getAttachmentCode(),
@@ -30,7 +30,7 @@ final readonly class PageBridgePayloadFactory implements PageBridgePayloadFactor
             );
         }
 
-        return new PageBridgePayload(
+        return new PageApiBridgePayload(
             $view->code,
             $view->slug,
             $view->title,
