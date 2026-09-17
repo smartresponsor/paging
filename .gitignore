@@ -39,3 +39,14 @@
 /node_modules/
 /test-results/
 /playwright-report/
+
+# Preserve the inert pre-Canon038 legacy marker without exposing runtime var/ contents.
+!/var/
+/var/*
+!/var/legacy/
+/var/legacy/*
+!/var/legacy/config/
+/var/legacy/config/*
+!/var/legacy/config/packages/
+/var/legacy/config/packages/*
+!/var/legacy/config/packages/page.yaml

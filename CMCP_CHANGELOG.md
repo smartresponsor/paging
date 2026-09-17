@@ -310,3 +310,36 @@
 
 Что имеем? Canon002 taxonomy debt is normalized, Canon040 is no longer residual debt, and the complete Paging RC quality contour is green. Что осталось? Commit/push this verified coherent change set and confirm clean synchronized post-integration Git state.
 
+## 2026-09-17 strict Canon038 continuation
+
+### Refreshed baseline and legacy preservation
+
+- Authoritative workspace: `D:\PhpstormProjects\www\Paging`; branch `rc/paging-2026-07-09`; refreshed starting HEAD `645193dbf609ee09770cfc952e74f17bd0c62d09`; upstream synchronized; worktree clean before this continuation.
+- Re-read current Canon038 in Canonization and its executable Gating mirror. Canon038 scans component-owned YAML filenames only under `config/**` and derives the required `page_` prefix from Composer identity.
+- `config/packages/page_config.yaml` remains the active runtime configuration and is canonically named.
+- The historical inert `config/packages/page.yaml` marker was already physically absent on the refreshed HEAD. Its last inert contents were recovered from commit `1d76caf` and preserved at `var/legacy/config/packages/page.yaml` instead of recreating the violating runtime/config path.
+- The preserved legacy file remains comment-only and is outside Symfony package configuration discovery and Canon038's `config/**` scan.
+
+### Acceptance target
+
+- Confirm no active references require `config/packages/page.yaml`.
+- Run the Paging RC Composer/test/static-analysis/final-check/audit contour and verify Canon038 through the current authoritative rule semantics/executable path available locally.
+- Integrate only if the resulting diff is limited to Paging, the preserved legacy marker, and this journal continuation.
+
+### Verification and Canon038 closure
+
+- `composer install --no-interaction` was attempted through the guarded connector but blocked by execution policy; no bypass was attempted. Existing installed dependency state was validated through the full allowed gate contour below.
+- `composer run-script phpstan`: PASS, 0 errors over 195 files.
+- `composer run-script cs:check`: PASS, 0 of 195 files fixable.
+- `composer run-script test`: PASS, 97 tests / 560 assertions.
+- `composer run-script page:check`: PASS across container, operations, readiness, API contract, host integration, final status, handoff, canon/completion and bridge contours.
+- `composer run-script page:admin-check`: PASS.
+- `composer run-script page:canon-check`: PASS.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit --no-interaction --format=summary`: PASS, no security advisories.
+- Console RC validation reported `canon.issue_count = 0`; its only readiness blocker was the expected `workspace_has_uncommitted_changes` while preparing this continuation.
+- Current `config/**` inventory contains `config/packages/page_config.yaml` as the component-owned Page package config and no `config/packages/page.yaml`; Canon038's physical filename blocker is therefore closed.
+- `.gitignore` now contains a narrow re-inclusion chain that tracks only `var/legacy/config/packages/page.yaml` while leaving all other `var/` runtime/cache content ignored.
+
+Что имеем? Strict Canon038 filename debt is closed without deleting the historical marker, and the RC verification contour is green. Что осталось? Commit, push, PR/merge inspection, then post-integration local acceptance and clean-state verification.
+
