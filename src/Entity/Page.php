@@ -22,7 +22,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'page_kind_idx', columns: ['kind'])]
 #[ORM\Index(name: 'page_status_idx', columns: ['status'])]
 #[ORM\UniqueConstraint(name: 'page_code_uniq', columns: ['code'])]
-#[ORM\UniqueConstraint(name: 'page_slug_uniq', columns: ['slug'])]
 class Page implements ObjectEntityInterface
 {
     use ObjectIdentityEmbeddableTrait;
