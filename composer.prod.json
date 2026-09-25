@@ -49,5 +49,15 @@
     "symfony": {
       "require": "8.1.*"
     }
-  }
+  },
+  "require-dev": {
+    "gating/gate": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/smartresponsor/gating.git",
+      "no-api": true
+    }
+  ]
 }

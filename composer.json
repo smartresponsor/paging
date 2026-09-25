@@ -2,7 +2,7 @@
   "name": "paging/page",
   "description": "Paging process app",
   "type": "symfony-bundle",
-  "license": "proprietary",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "repositories": [
@@ -65,6 +65,16 @@
           "interfacing/interface": "dev-master"
         }
       }
+    },
+    {
+      "type": "path",
+      "url": "../Gating",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "gating/gate": "dev-master"
+        }
+      }
     }
   ],
   "require": {
@@ -102,7 +112,7 @@
     "symfony/browser-kit": "^8.1",
     "symfony/css-selector": "^8.1",
     "symfony/panther": "^2.4",
-    "symfony/test-pack": "^1.2"
+    "gating/gate": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -211,6 +221,13 @@
     "test:coverage": [
       "@php -r \"if (!is_dir('var/coverage')) { mkdir('var/coverage', 0777, true); }\"",
       "@php -d xdebug.mode=coverage vendor/bin/phpunit --path-coverage --coverage-text=var/coverage/summary.txt"
+    ],
+    "gate": "@php vendor/bin/gating check --target=.",
+    "quality": [
+      "@cs:check",
+      "@phpstan",
+      "@test",
+      "@gate"
     ]
   }
 }

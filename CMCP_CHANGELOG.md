@@ -46,6 +46,19 @@
 
 Что имеем? Canonicalization hard failures are closed and the complete Paging runtime/admin/quality contour is green. Что осталось? Inspect Git status and staged diff, create a signed explicit-path commit for the coherent RC changes, push, and verify the branch/upstream state.
 
+### Package/Gating metadata integration
+
+- The six preserved pre-existing/concurrent package files were reviewed separately from the RC architecture commit.
+- `composer.json` now declares the canonical local `../Gating` path repository, `gating/gate: dev-master`, `gate` and aggregate `quality` scripts, and PolyForm Noncommercial licensing metadata.
+- `composer.prod.json` declares the same Gating package identity through a production-safe VCS repository with no local path/symlink topology.
+- `composer.lock` reflects the current resolved dependency graph and sibling package metadata; `phpstan.neon` follows the canonical `PageEntity.php` path.
+- `LICENSE` contains PolyForm Noncommercial License 1.0.0 and `NOTICE` carries the required copyright/commercial-license notice.
+- `composer validate --strict --check-lock`: PASS.
+- `composer audit --format=summary`: PASS, no security vulnerability advisories.
+- This package/licensing tail is integrated as a separate signed commit so it remains distinguishable from the Paging RC architecture change.
+
+Что имеем? Architecture and package/Gating metadata are independently verified. Что осталось? Commit this metadata tail, push the current branch, and confirm upstream synchronization while preserving no uncommitted work.
+
 ## engine-20260911144815-paging-4f5db2
 
 ### Iteration 1 — reconnaissance and baseline

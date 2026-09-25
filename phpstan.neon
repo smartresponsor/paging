@@ -6,4 +6,4 @@ parameters:
   ignoreErrors:
     -
       identifier: property.unusedType
-      path: src/Entity/Page.php
+      path: src/Entity/PageEntity.php
