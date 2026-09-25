@@ -1,0 +1,73 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Paging\Tests;
+
+use App\Paging\DataFixtures\PageDemoFixtures;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
+use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Tools\SchemaTool;
+use PHPUnit\Framework\TestCase;
+
+final class PageDemoFixturesContractTest extends TestCase
+{
+    public function testDemoFixturesPersistIntegerPrimaryKeysAndSemanticSlugs(): void
+    {
+        $entityManager = $this->entityManager();
+        (new PageDemoFixtures())->load($entityManager);
+
+        $pages = $entityManager->createQuery('SELECT page FROM '.Page::class.' page ORDER BY page.code ASC')->getResult();
+        $revisions = $entityManager->createQuery('SELECT revision FROM '.PageRevision::class.' revision ORDER BY revision.revisionNumber ASC')->getResult();
+        $publications = $entityManager->createQuery('SELECT publication FROM '.PagePublication::class.' publication ORDER BY publication.publishedAt ASC')->getResult();
+
+        self::assertCount(4, $pages);
+        self::assertCount(8, $revisions);
+        self::assertCount(4, $publications);
+
+        foreach ($pages as $page) {
+            self::assertIsInt($page->getId());
+            self::assertSame($page->getCode(), $page->getSlug());
+            self::assertNotSame('', $page->getObjectUuid());
+            self::assertNotSame($page->getObjectUuid(), $page->getSlug());
+            self::assertSame(2, $page->getRevisions()->count());
+            self::assertNotNull($page->getCurrentRevision());
+            self::assertNotNull($page->getPublishedRevision());
+            self::assertSame($page->getPublishedRevision(), $page->getCurrentRevision());
+            self::assertSame('published', $page->getStatus()->value);
+        }
+
+        foreach ($revisions as $revision) {
+            self::assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $revision->getId());
+            self::assertGreaterThan(0, $revision->getRevisionNumber());
+        }
+
+        foreach ($publications as $publication) {
+            self::assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $publication->getId());
+            self::assertSame('published', $publication->getStatus()->value);
+        }
+    }
+
+    private function entityManager(): EntityManager
+    {
+        $projectDir = dirname(__DIR__);
+        $config = ORMSetup::createAttributeMetadataConfig([$projectDir.'/src/Entity'], true);
+        $config->setNamingStrategy(new UnderscoreNamingStrategy());
+        $config->enableNativeLazyObjects(true);
+        $connection = DriverManager::getConnection([
+            'driver' => 'pdo_sqlite',
+            'memory' => true,
+        ]);
+
+        $entityManager = new EntityManager($connection, $config);
+        $schemaTool = new SchemaTool($entityManager);
+        $schemaTool->createSchema($entityManager->getMetadataFactory()->getAllMetadata());
+
+        return $entityManager;
+    }
+}

@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\DTO\Authoring\PageUpdateInput;
-use App\Paging\DTO\Revision\PageRevisionCreateInput;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PagePublication;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Authoring\PageUpdateInputDTO;
+use App\Paging\DTO\Revision\PageRevisionCreateInputDTO;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 use App\Paging\Enum\PageGrantType;
+use App\Paging\RepositoryInterface\PageRepositoryInterface;
+use App\Paging\RepositoryInterface\PageRevisionRepositoryInterface;
 use App\Paging\Service\Authoring\PageDraftService;
 use App\Paging\Service\Rendering\PageRenderService;
 use App\Paging\Service\Revision\PageRevisionService;
 use App\Paging\ValueObject\PageSlug;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 final class PageServiceContractTest extends TestCase
@@ -29,13 +30,12 @@ final class PageServiceContractTest extends TestCase
 
     public function testRevisionServiceCreatesTextFallbackAndCurrentRevision(): void
     {
-        $entityManager = $this->createMock(EntityManagerInterface::class);
-        $entityManager->expects(self::once())->method('persist');
-        $entityManager->expects(self::once())->method('flush');
+        $repository = $this->createMock(PageRevisionRepositoryInterface::class);
+        $repository->expects(self::once())->method('save');
 
         $page = new Page('terms', PageSlug::fromSource('terms')->value(), 'Terms');
-        $service = new PageRevisionService($entityManager);
-        $revision = $service->createRevision($page, new PageRevisionCreateInput('Terms', '<h1>Terms</h1><p>Hello</p>'));
+        $service = new PageRevisionService($repository);
+        $revision = $service->createRevision($page, new PageRevisionCreateInputDTO('Terms', '<h1>Terms</h1><p>Hello</p>'));
 
         self::assertSame(1, $revision->getRevisionNumber());
         self::assertSame('TermsHello', $revision->getBodyText());
@@ -44,13 +44,13 @@ final class PageServiceContractTest extends TestCase
 
     public function testDraftServiceKeepsExistingSlugWhenUpdateSlugIsBlank(): void
     {
-        $entityManager = $this->createMock(EntityManagerInterface::class);
-        $entityManager->expects(self::once())->method('flush');
+        $repository = $this->createMock(PageRepositoryInterface::class);
+        $repository->expects(self::once())->method('flush');
         $page = new Page('about', 'about-us', 'About');
 
-        $updated = (new PageDraftService($entityManager))->updatePage(
+        $updated = (new PageDraftService($repository))->updatePage(
             $page,
-            new PageUpdateInput('About updated', '   ', 'owner-2'),
+            new PageUpdateInputDTO('About updated', '   ', 'owner-2'),
         );
 
         self::assertSame('about-us', $updated->getSlug());

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Admin;
 
-use App\Paging\DTO\Publication\PagePublishInput;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Publication\PagePublishInputDTO;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -72,7 +72,7 @@ final class PageRevisionCrudController extends AbstractCrudController
     public function publishRevision(AdminContext $context): RedirectResponse
     {
         $revision = $this->resolveRevision($context);
-        $this->pagePublicationService->publishRevision($revision, new PagePublishInput());
+        $this->pagePublicationService->publishRevision($revision, new PagePublishInputDTO());
 
         return $this->redirectToRoute('page_admin_page_revision_index');
     }

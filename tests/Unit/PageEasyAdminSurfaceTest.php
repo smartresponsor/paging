@@ -46,8 +46,8 @@ final class PageEasyAdminSurfaceTest extends TestCase
         self::assertStringContainsString('PageRevisionServiceInterface', $controller);
         self::assertStringContainsString("TextEditorField::new('draftBodyHtml', 'Content')", $controller);
         self::assertStringContainsString("Action::new('revisions', 'Revisions'", $controller);
-        self::assertStringContainsString('createPage(new PageCreateInput', $controller);
-        self::assertStringContainsString('updatePage($entityInstance, new PageUpdateInput', $controller);
+        self::assertStringContainsString('createPage(new PageCreateInputDTO', $controller);
+        self::assertStringContainsString('updatePage($entityInstance, new PageUpdateInputDTO', $controller);
         self::assertStringNotContainsString('persist($entityInstance)', $controller);
     }
 
@@ -57,7 +57,7 @@ final class PageEasyAdminSurfaceTest extends TestCase
 
         self::assertStringContainsString('PagePublicationServiceInterface', $controller);
         self::assertStringContainsString("Action::new('publishRevision', 'Publish')", $controller);
-        self::assertStringContainsString('publishRevision($revision, new PagePublishInput())', $controller);
+        self::assertStringContainsString('publishRevision($revision, new PagePublishInputDTO())', $controller);
     }
 
     private static function read(string $relativePath): string

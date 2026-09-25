@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Revision;
 
-use App\Paging\DTO\Revision\PageRevisionCreateInput;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Revision\PageRevisionCreateInputDTO;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
+use App\Paging\RepositoryInterface\PageRevisionRepositoryInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class PageRevisionService implements PageRevisionServiceInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private PageRevisionRepositoryInterface $pageRevisionRepository)
     {
     }
 
-    public function createRevision(Page $page, PageRevisionCreateInput $input): PageRevision
+    public function createRevision(Page $page, PageRevisionCreateInputDTO $input): PageRevision
     {
         $revision = new PageRevision(
             $page,
@@ -31,8 +31,7 @@ final readonly class PageRevisionService implements PageRevisionServiceInterface
         );
 
         $page->useCurrentRevision($revision);
-        $this->entityManager->persist($revision);
-        $this->entityManager->flush();
+        $this->pageRevisionRepository->save($revision);
 
         return $revision;
     }

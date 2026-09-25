@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Api;
 
-use App\Paging\DTO\Authoring\PageCreateInput;
-use App\Paging\DTO\Authoring\PageUpdateInput;
+use App\Paging\DTO\Authoring\PageCreateInputDTO;
+use App\Paging\DTO\Authoring\PageUpdateInputDTO;
 use App\Paging\Enum\PageKind;
+use App\Paging\FactoryInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
-use App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/authoring/page')]
+#[Route('/api')]
 final class PageAuthoringController
 {
     public function __construct(
@@ -25,11 +25,11 @@ final class PageAuthoringController
     ) {
     }
 
-    #[Route('', name: 'page_api_authoring_create', methods: ['POST'])]
+    #[Route('/page/authoring/page', name: 'page_api_authoring_create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
         $payload = $this->jsonPayload($request);
-        $page = $this->pageDraftService->createPage(new PageCreateInput(
+        $page = $this->pageDraftService->createPage(new PageCreateInputDTO(
             (string) ($payload['code'] ?? ''),
             (string) ($payload['slug'] ?? ''),
             (string) ($payload['title'] ?? ''),
@@ -40,7 +40,7 @@ final class PageAuthoringController
         return new JsonResponse(['page' => $this->pageHttpPayloadFactory->pageToArray($page)], 201);
     }
 
-    #[Route('/{code}', name: 'page_api_authoring_update', methods: ['PATCH'])]
+    #[Route('/page/authoring/page/{code}', name: 'page_api_authoring_update', methods: ['PATCH'])]
     public function update(string $code, Request $request): JsonResponse
     {
         $page = $this->pageRepository->findOneBy(['code' => $code]);
@@ -49,7 +49,7 @@ final class PageAuthoringController
         }
 
         $payload = $this->jsonPayload($request);
-        $page = $this->pageDraftService->updatePage($page, new PageUpdateInput(
+        $page = $this->pageDraftService->updatePage($page, new PageUpdateInputDTO(
             (string) ($payload['title'] ?? $page->getTitle()),
             (string) ($payload['slug'] ?? $page->getSlug()),
             array_key_exists('ownerUserId', $payload) ? (is_string($payload['ownerUserId']) ? $payload['ownerUserId'] : null) : $page->getOwnerUserId(),

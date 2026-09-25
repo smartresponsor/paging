@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Admin;
 
-use App\Paging\Entity\PagePublication;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;

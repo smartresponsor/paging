@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Form;
 
-use App\Paging\DTO\Revision\PageRevisionCreateInput;
+use App\Paging\DTO\Revision\PageRevisionCreateInputDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,8 +26,8 @@ final class PageRevisionForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PageRevisionCreateInput::class,
-            'empty_data' => static fn ($form): PageRevisionCreateInput => new PageRevisionCreateInput(
+            'data_class' => PageRevisionCreateInputDTO::class,
+            'empty_data' => static fn ($form): PageRevisionCreateInputDTO => new PageRevisionCreateInputDTO(
                 (string) $form->get('title')->getData(),
                 (string) $form->get('bodyHtml')->getData(),
                 null,

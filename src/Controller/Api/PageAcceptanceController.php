@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Api;
 
-use App\Paging\DTO\Acceptance\PageAcceptanceInput;
-use App\Paging\DTO\Acceptance\PageAcceptanceView;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Acceptance\PageAcceptanceInputDTO;
+use App\Paging\DTO\Acceptance\PageAcceptanceViewDTO;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Acceptance\PageAcceptanceServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/acceptance')]
+#[Route('/api')]
 final class PageAcceptanceController
 {
     public function __construct(
@@ -24,7 +24,7 @@ final class PageAcceptanceController
     ) {
     }
 
-    #[Route('/revision/{revisionNumber}', name: 'page_api_accept_revision', methods: ['POST'])]
+    #[Route('/page/acceptance/revision/{revisionNumber}', name: 'page_api_accept_revision', methods: ['POST'])]
     public function accept(int $revisionNumber, Request $request): JsonResponse
     {
         $payload = $this->jsonPayload($request);
@@ -35,7 +35,7 @@ final class PageAcceptanceController
             return new JsonResponse(['error' => 'subjectUserId is required.'], 422);
         }
 
-        $acceptance = $this->pageAcceptanceService->accept(new PageAcceptanceInput(
+        $acceptance = $this->pageAcceptanceService->accept(new PageAcceptanceInputDTO(
             $revision,
             $subjectUserId,
             $request->getClientIp(),
@@ -46,7 +46,7 @@ final class PageAcceptanceController
         return new JsonResponse(['acceptance' => $this->viewToArray($this->pageAcceptanceService->view($acceptance))], 201);
     }
 
-    #[Route('/revision/{revisionNumber}/subject/{subjectUserId}', name: 'page_api_acceptance_check', methods: ['GET'])]
+    #[Route('/page/acceptance/revision/{revisionNumber}/subject/{subjectUserId}', name: 'page_api_acceptance_check', methods: ['GET'])]
     public function check(string $subjectUserId, Request $request): JsonResponse
     {
         $code = $this->pageCodeFromRequest($request, []);
@@ -118,7 +118,7 @@ final class PageAcceptanceController
     }
 
     /** @return array<string, mixed> */
-    private function viewToArray(PageAcceptanceView $view): array
+    private function viewToArray(PageAcceptanceViewDTO $view): array
     {
         return [
             'id' => $view->id,

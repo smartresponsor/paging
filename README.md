@@ -1,6 +1,6 @@
 # Paging
 
-Smart Responsor Paging component.
+Paging component for the multi-domain platform.
 
 ## Canon
 
@@ -171,8 +171,8 @@ The release stamp keeps the final canon explicit: `App\Paging\...` namespace, `P
 Paging now exposes an explicit `Bridge` namespace for Interfacing consumers:
 
 - `App\Paging\DTO\Bridge\PageBridgePayload`
-- `App\Paging\ServiceInterface\Bridge\PageBridgeContractProviderInterface`
-- `App\Paging\ServiceInterface\Bridge\PageBridgePayloadFactoryInterface`
+- `App\Paging\ProviderInterface\Bridge\PageBridgeContractProviderInterface`
+- `App\Paging\FactoryInterface\Bridge\PageBridgePayloadFactoryInterface`
 
 Interfacing should consume bridge payloads and must not use Doctrine `Page` entities as the visual rendering boundary.
 

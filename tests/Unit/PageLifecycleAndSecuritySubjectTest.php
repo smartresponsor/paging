@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\Lifecycle\PageLifecyclePolicy;
-use App\Paging\Service\Security\PageSecuritySubjectResolver;
+use App\Paging\Policy\PageLifecyclePolicy;
+use App\Paging\Resolver\Security\PageSecuritySubjectResolver;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

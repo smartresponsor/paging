@@ -1,0 +1,14 @@
+cruding:
+  entity_class_alias_map:
+    page: App\Paging\Entity\PageEntity
+    page-revision: App\Paging\Entity\PageRevisionEntity
+    page-publication: App\Paging\Entity\PagePublicationEntity
+    page-grant: App\Paging\Entity\PageGrantEntity
+    page-acceptance: App\Paging\Entity\PageAcceptanceEntity
+  form_type_map:
+    App\Paging\Entity\Page: App\Paging\Form\PageForm
+    App\Paging\Entity\PageRevisionEntity: App\Paging\Form\PageRevisionForm
+    App\Paging\Entity\PagePublicationEntity: App\Paging\Form\PagePublicationForm
+
+  route_guard:
+    require_runtime_lock: false

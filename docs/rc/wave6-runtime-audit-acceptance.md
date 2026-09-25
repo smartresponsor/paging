@@ -5,7 +5,7 @@ Wave 6 adds the first legal acceptance baseline for governed pages. The componen
 ## Added
 
 - `PageAcceptance` entity and repository.
-- `PageAcceptanceInput` and `PageAcceptanceView` DTOs.
+- `PageAcceptanceInputDTO` and `PageAcceptanceViewDTO` DTOs.
 - `PageAcceptanceServiceInterface` and implementation.
 - `PageAcceptanceController` API endpoints.
 - `page:audit:readiness` runtime command.

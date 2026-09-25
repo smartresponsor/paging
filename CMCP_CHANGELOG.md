@@ -1,5 +1,51 @@
 # CMCP Orchestration Journal
 
+## 2026-09-23 autonomous RC continuation
+
+### Reconnaissance baseline
+
+- Workspace: `D:\\PhpstormProjects\\www\\Paging`; branch `rc/paging-2026-07-09`.
+- Initial worktree is dirty with 34 pre-existing changes: tracked Composer/Gating integration changes plus an untracked `.gating/` materialization. These are preserved as pre-existing state and will not be reset or silently attributed to this run.
+- Current Paging `README.md`, `composer.json`, `AGENTS.md`, Git status/diff and prior CMCP journal were read before implementation.
+- The component is a Page/content-lifecycle component, not the owner of generic collection pagination. Market comparison therefore targets mature CMS/headless-CMS revision, publication, moderation, scheduling and release practices; Collectioning remains the owner of pagination/search/filter/sort execution.
+- Direct sibling-repository reads for Canonization/Gating/Objecting/Cruding/Viewing/Interfacing are currently failing through Console MCP. The prior target journal records the most recently consulted canonical rule set, but this run does not falsely claim a fresh sibling read; current target-local Gating materialization and executable gates are used where available until the connector permits direct sibling reads.
+
+### Target-to-canon mapping carried into verification
+
+- Canon000/001/002: retain `Page*` vocabulary and role-first Symfony-oriented typed layers; no `/src/Domain`, Port or Adapter tree.
+- Canon012: stable application boundaries remain typed.
+- Canon021/022: generic CRUD belongs to Cruding; Paging may expose its permitted Page-specific/operator integration without duplicating generic CRUD ownership; standalone dependency contour includes Objecting, Cruding, Viewing and Interfacing.
+- Canon026: PHP 8.4+ / Symfony 8.1+ baseline.
+- Canon039/040: executable tests and coverage remain release evidence; previous accepted baseline exceeded the canonical method/line/branch thresholds.
+- Canon043/045: first-party local path dependencies and reachable development closure must remain coherent.
+
+### RC-critical workstream
+
+- Validate the current pre-existing Gating/Composer integration against Paging's full declared quality, runtime, API/bridge, security and package gates.
+- Repair only factual Paging-owned regressions that are exposed by those gates; do not overwrite unrelated pre-existing work.
+- Reinspect final Git state and integrate only a coherent in-scope change set when safe.
+
+### Growth workstream (post-RC)
+
+- Coordinated multi-page releases, richer editorial moderation/preview, scheduled publication UX and broader enterprise workflow remain post-RC unless a current correctness or operability failure proves they are required.
+
+Что имеем? Factual dirty-state baseline, corrected market boundary, and an RC regression-validation target. Что осталось? Run the declared gates, repair concrete failures, then integrate and verify final repository state.
+
+### 2026-09-24/25 convergence result
+
+- Recovered direct Console MCP access to current Canonization and Gating sources; textual Canon047/052/055 were read and applied. Canonization remains normative when executable tooling drifts.
+- Normalized role-first source placement for policy/factory/provider/normalizer/resolver roles and removed obsolete duplicate role files.
+- Canonicalized Page entity terminal class names, DTO filenames/classes (`*DTO`), fixture identity, component-owned YAML filenames, and stable API route owner roots while preserving external route paths.
+- Moved Doctrine manager access behind repository contracts; application services no longer inject Doctrine manager infrastructure directly.
+- Consumer-local `.gating/` was reduced to the permitted artifact-boundary README; copied Gating engine/policy/config/vendor state was removed from the consumer surface and transient cache.
+- Applied neutral multi-domain platform terminology required by Canon055 without changing technical package/vendor locators.
+- Current executable Gating result: PASS, 0 failed / 0 warnings (2 profile-related skips).
+- Final quality/acceptance evidence: `composer cs:check` PASS (0/194 fixable), `composer phpstan` PASS, `composer test` PASS (97 tests / 560 assertions), `composer page:final-check` PASS, `composer page:admin-check` PASS.
+- Console MCP instability was observed during the run: some long operations coincided with runtime restarts/PID changes. Work was therefore continued with isolated tool calls and all final evidence above was collected after the last code changes.
+- Pre-existing/concurrent Composer/license work remains intentionally separate from this RC change set unless explicitly staged during integration.
+
+Что имеем? Canonicalization hard failures are closed and the complete Paging runtime/admin/quality contour is green. Что осталось? Inspect Git status and staged diff, create a signed explicit-path commit for the coherent RC changes, push, and verify the branch/upstream state.
+
 ## engine-20260911144815-paging-4f5db2
 
 ### Iteration 1 — reconnaissance and baseline

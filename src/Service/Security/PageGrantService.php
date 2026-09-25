@@ -4,29 +4,28 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Security;
 
-use App\Paging\DTO\Security\PageGrantCheck;
-use App\Paging\DTO\Security\PageGrantInput;
-use App\Paging\Entity\PageGrant;
+use App\Paging\DTO\Security\PageGrantCheckDTO;
+use App\Paging\DTO\Security\PageGrantInputDTO;
+use App\Paging\Entity\PageGrantEntity as PageGrant;
 use App\Paging\Enum\PageGrantType;
+use App\Paging\RepositoryInterface\PageGrantRepositoryInterface;
 use App\Paging\ServiceInterface\Security\PageGrantServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class PageGrantService implements PageGrantServiceInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private PageGrantRepositoryInterface $pageGrantRepository)
     {
     }
 
-    public function grant(PageGrantInput $input): PageGrant
+    public function grant(PageGrantInputDTO $input): PageGrant
     {
         $grant = new PageGrant($input->page, $input->grant, $input->subjectUserId, $input->subjectRole, $input->createdByUserId);
-        $this->entityManager->persist($grant);
-        $this->entityManager->flush();
+        $this->pageGrantRepository->save($grant);
 
         return $grant;
     }
 
-    public function isGranted(PageGrantCheck $check): bool
+    public function isGranted(PageGrantCheckDTO $check): bool
     {
         if ($this->hasGlobalAuthority($check->roles)) {
             return true;

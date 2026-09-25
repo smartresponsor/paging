@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Paging\Command;
 
-use App\Paging\DTO\Authoring\PageCreateInput;
-use App\Paging\DTO\Publication\PagePublishInput;
-use App\Paging\DTO\Revision\PageRevisionCreateInput;
+use App\Paging\DTO\Authoring\PageCreateInputDTO;
+use App\Paging\DTO\Publication\PagePublishInputDTO;
+use App\Paging\DTO\Revision\PageRevisionCreateInputDTO;
 use App\Paging\Enum\PageKind;
 use App\Paging\Repository\PageRepository;
 use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
@@ -38,7 +38,7 @@ final class PageSeedDemoCommand extends Command
                 continue;
             }
 
-            $page = $this->drafts->createPage(new PageCreateInput(
+            $page = $this->drafts->createPage(new PageCreateInputDTO(
                 code: $demo['code'],
                 slug: $demo['slug'],
                 title: $demo['title'],
@@ -46,7 +46,7 @@ final class PageSeedDemoCommand extends Command
                 ownerUserId: 'demo-owner',
             ));
 
-            $revision = $this->revisions->createRevision($page, new PageRevisionCreateInput(
+            $revision = $this->revisions->createRevision($page, new PageRevisionCreateInputDTO(
                 title: $demo['title'],
                 bodyHtml: $demo['bodyHtml'],
                 bodyText: null,
@@ -55,7 +55,7 @@ final class PageSeedDemoCommand extends Command
                 createdByUserId: 'demo-owner',
             ));
 
-            $this->publications->publishRevision($revision, new PagePublishInput(publishedByUserId: 'demo-owner'));
+            $this->publications->publishRevision($revision, new PagePublishInputDTO(publishedByUserId: 'demo-owner'));
             $output->writeln(sprintf('Seeded page: %s', $demo['code']));
         }
 

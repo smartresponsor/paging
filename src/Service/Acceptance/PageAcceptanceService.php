@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Acceptance;
 
-use App\Paging\DTO\Acceptance\PageAcceptanceInput;
-use App\Paging\DTO\Acceptance\PageAcceptanceView;
-use App\Paging\Entity\PageAcceptance;
-use App\Paging\Entity\PageRevision;
-use App\Paging\Repository\PageAcceptanceRepository;
+use App\Paging\DTO\Acceptance\PageAcceptanceInputDTO;
+use App\Paging\DTO\Acceptance\PageAcceptanceViewDTO;
+use App\Paging\Entity\PageAcceptanceEntity as PageAcceptance;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
+use App\Paging\RepositoryInterface\PageAcceptanceRepositoryInterface;
 use App\Paging\ServiceInterface\Acceptance\PageAcceptanceServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class PageAcceptanceService implements PageAcceptanceServiceInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private PageAcceptanceRepository $pageAcceptanceRepository,
+        private PageAcceptanceRepositoryInterface $pageAcceptanceRepository,
     ) {
     }
 
-    public function accept(PageAcceptanceInput $input): PageAcceptance
+    public function accept(PageAcceptanceInputDTO $input): PageAcceptance
     {
         $acceptance = new PageAcceptance(
             $input->revision->getPage(),
@@ -31,8 +29,7 @@ final readonly class PageAcceptanceService implements PageAcceptanceServiceInter
             $input->acceptanceContext,
         );
 
-        $this->entityManager->persist($acceptance);
-        $this->entityManager->flush();
+        $this->pageAcceptanceRepository->save($acceptance);
 
         return $acceptance;
     }
@@ -46,9 +43,9 @@ final readonly class PageAcceptanceService implements PageAcceptanceServiceInter
         ]);
     }
 
-    public function view(PageAcceptance $acceptance): PageAcceptanceView
+    public function view(PageAcceptance $acceptance): PageAcceptanceViewDTO
     {
-        return new PageAcceptanceView(
+        return new PageAcceptanceViewDTO(
             $acceptance->getId(),
             $acceptance->getPage()->getCode(),
             $acceptance->getRevision()->getRevisionNumber(),

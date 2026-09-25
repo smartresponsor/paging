@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Attachment;
 
-use App\Paging\DTO\Attachment\PageAttachmentReferenceInput;
-use App\Paging\Entity\PageAttachmentReference;
+use App\Paging\DTO\Attachment\PageAttachmentReferenceInputDTO;
+use App\Paging\Entity\PageAttachmentReferenceEntity as PageAttachmentReference;
+use App\Paging\RepositoryInterface\PageAttachmentReferenceRepositoryInterface;
 use App\Paging\ServiceInterface\Attachment\PageAttachmentReferenceServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class PageAttachmentReferenceService implements PageAttachmentReferenceServiceInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private PageAttachmentReferenceRepositoryInterface $pageAttachmentReferenceRepository)
     {
     }
 
-    public function attach(PageAttachmentReferenceInput $input): PageAttachmentReference
+    public function attach(PageAttachmentReferenceInputDTO $input): PageAttachmentReference
     {
         $reference = new PageAttachmentReference(
             $input->page,
@@ -26,8 +26,7 @@ final readonly class PageAttachmentReferenceService implements PageAttachmentRef
             $input->position,
         );
 
-        $this->entityManager->persist($reference);
-        $this->entityManager->flush();
+        $this->pageAttachmentReferenceRepository->save($reference);
 
         return $reference;
     }

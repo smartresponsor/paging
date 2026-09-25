@@ -13,35 +13,35 @@ use App\Paging\Controller\Admin\PageRevisionCrudController;
 use App\Paging\Controller\Public\PageHealthController;
 use App\Paging\DependencyInjection\Configuration;
 use App\Paging\DependencyInjection\PageExtension;
-use App\Paging\DTO\Finalization\PageFinalStatusItem;
-use App\Paging\DTO\Finalization\PageFinalStatusReport;
-use App\Paging\DTO\Handoff\PageHandoffItem;
-use App\Paging\DTO\Handoff\PageHandoffReport;
-use App\Paging\DTO\Operations\PageOperationChecklistItem;
-use App\Paging\DTO\Operations\PageOperationChecklistReport;
-use App\Paging\DTO\Readiness\PageRcChecklistItem;
-use App\Paging\DTO\Readiness\PageRcReadinessReport;
-use App\Paging\DTO\Release\PageReleaseStampItem;
-use App\Paging\DTO\Release\PageReleaseStampReport;
-use App\Paging\DTO\Usability\PageUserUsabilityItem;
-use App\Paging\DTO\Usability\PageUserUsabilityReport;
-use App\Paging\DTO\Workflow\PageWorkflowAcceptanceReport;
-use App\Paging\DTO\Workflow\PageWorkflowAcceptanceStep;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageAcceptance;
-use App\Paging\Entity\PageGrant;
-use App\Paging\Entity\PagePublication;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Finalization\PageFinalStatusItemDTO;
+use App\Paging\DTO\Finalization\PageFinalStatusReportDTO;
+use App\Paging\DTO\Handoff\PageHandoffItemDTO;
+use App\Paging\DTO\Handoff\PageHandoffReportDTO;
+use App\Paging\DTO\Operations\PageOperationChecklistItemDTO;
+use App\Paging\DTO\Operations\PageOperationChecklistReportDTO;
+use App\Paging\DTO\Readiness\PageRcChecklistItemDTO;
+use App\Paging\DTO\Readiness\PageRcReadinessReportDTO;
+use App\Paging\DTO\Release\PageReleaseStampItemDTO;
+use App\Paging\DTO\Release\PageReleaseStampReportDTO;
+use App\Paging\DTO\Usability\PageUserUsabilityItemDTO;
+use App\Paging\DTO\Usability\PageUserUsabilityReportDTO;
+use App\Paging\DTO\Workflow\PageWorkflowAcceptanceReportDTO;
+use App\Paging\DTO\Workflow\PageWorkflowAcceptanceStepDTO;
+use App\Paging\Entity\PageAcceptanceEntity as PageAcceptance;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageGrantEntity as PageGrant;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 use App\Paging\Form\PageForm;
 use App\Paging\Form\PagePublicationForm;
 use App\Paging\Form\PageRevisionForm;
+use App\Paging\ResolverInterface\Security\PageSecuritySubjectResolverInterface;
 use App\Paging\Service\Editor\PageContentSanitizer;
 use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
 use App\Paging\ServiceInterface\Runtime\PageRuntimeProbeServiceInterface;
 use App\Paging\ServiceInterface\Security\PageGrantServiceInterface;
-use App\Paging\ServiceInterface\Security\PageSecuritySubjectResolverInterface;
 use App\Paging\Voter\PageVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -182,18 +182,18 @@ final class PageFrameworkCoverageTest extends TestCase
 
     public function testReadinessReportObjectsExposeFailureAsWellAsSuccessBranches(): void
     {
-        $final = new PageFinalStatusReport([
-            new PageFinalStatusItem('ok', 'OK', true, 'ok'),
-            new PageFinalStatusItem('bad', 'Bad', false, 'bad'),
+        $final = new PageFinalStatusReportDTO([
+            new PageFinalStatusItemDTO('ok', 'OK', true, 'ok'),
+            new PageFinalStatusItemDTO('bad', 'Bad', false, 'bad'),
         ]);
         self::assertFalse($final->passed());
         self::assertSame(1, $final->passedCount());
         self::assertSame(1, $final->failedCount());
         self::assertFalse($final->toArray()['passed']);
 
-        $handoff = new PageHandoffReport([
-            new PageHandoffItem('ok', 'ready', 'ok'),
-            new PageHandoffItem('bad', 'blocked', 'bad'),
+        $handoff = new PageHandoffReportDTO([
+            new PageHandoffItemDTO('ok', 'ready', 'ok'),
+            new PageHandoffItemDTO('bad', 'blocked', 'bad'),
         ]);
         self::assertSame('attention_required', $handoff->status());
         self::assertFalse($handoff->passed());
@@ -201,35 +201,35 @@ final class PageFrameworkCoverageTest extends TestCase
         self::assertSame(1, $handoff->failedCount());
         self::assertSame('attention_required', $handoff->toArray()['status']);
 
-        $operations = new PageOperationChecklistReport([
-            new PageOperationChecklistItem('ok', 'OK', true, 'ok'),
-            new PageOperationChecklistItem('bad', 'Bad', false, 'bad'),
+        $operations = new PageOperationChecklistReportDTO([
+            new PageOperationChecklistItemDTO('ok', 'OK', true, 'ok'),
+            new PageOperationChecklistItemDTO('bad', 'Bad', false, 'bad'),
         ]);
         self::assertFalse($operations->passed());
         self::assertSame(1, $operations->passedCount());
         self::assertSame(1, $operations->failedCount());
 
-        $readiness = new PageRcReadinessReport([
-            new PageRcChecklistItem('ok', 'OK', true, 'ok'),
-            new PageRcChecklistItem('bad', 'Bad', false, 'bad'),
+        $readiness = new PageRcReadinessReportDTO([
+            new PageRcChecklistItemDTO('ok', 'OK', true, 'ok'),
+            new PageRcChecklistItemDTO('bad', 'Bad', false, 'bad'),
         ]);
         self::assertFalse($readiness->passed());
         self::assertSame(1, $readiness->passedCount());
         self::assertSame(1, $readiness->failedCount());
         self::assertFalse($readiness->toArray()['passed']);
 
-        $release = new PageReleaseStampReport('RC', [
-            new PageReleaseStampItem('ok', 'OK', true, 'ok'),
-            new PageReleaseStampItem('bad', 'Bad', false, 'bad'),
+        $release = new PageReleaseStampReportDTO('RC', [
+            new PageReleaseStampItemDTO('ok', 'OK', true, 'ok'),
+            new PageReleaseStampItemDTO('bad', 'Bad', false, 'bad'),
         ]);
         self::assertFalse($release->passed());
         self::assertSame(1, $release->passedCount());
         self::assertSame(1, $release->failedCount());
         self::assertFalse($release->toArray()['passed']);
 
-        $usability = new PageUserUsabilityReport([
-            new PageUserUsabilityItem('ok', 'Host', true, 'ok'),
-            new PageUserUsabilityItem('bad', 'Host', false, 'bad'),
+        $usability = new PageUserUsabilityReportDTO([
+            new PageUserUsabilityItemDTO('ok', 'Host', true, 'ok'),
+            new PageUserUsabilityItemDTO('bad', 'Host', false, 'bad'),
         ]);
         self::assertFalse($usability->componentReady());
         self::assertSame(1, $usability->readyCount());
@@ -237,62 +237,62 @@ final class PageFrameworkCoverageTest extends TestCase
         self::assertSame(['Host'], $usability->ownerLayers());
         self::assertFalse($usability->toArray()['componentReady']);
 
-        $workflow = new PageWorkflowAcceptanceReport([
-            new PageWorkflowAcceptanceStep('bad', 'Bad', 'Host', false, 'bad'),
+        $workflow = new PageWorkflowAcceptanceReportDTO([
+            new PageWorkflowAcceptanceStepDTO('bad', 'Bad', 'Host', false, 'bad'),
         ]);
         self::assertFalse($workflow->passed());
         self::assertSame(1, $workflow->stepCount());
         self::assertSame('incomplete', $workflow->toArray()['status']);
-        self::assertFalse((new PageWorkflowAcceptanceReport([]))->passed());
+        self::assertFalse((new PageWorkflowAcceptanceReportDTO([]))->passed());
     }
 
     public function testDiagnosticCommandsExposeFailureBranches(): void
     {
         $canon = $this->createStub(\App\Paging\ServiceInterface\Guard\PageCanonGuardServiceInterface::class);
-        $canon->method('buildReport')->willReturn(new \App\Paging\DTO\Guard\PageCanonGuardReport([
-            new \App\Paging\DTO\Guard\PageCanonGuardItem('broken', 'Broken canon', false, 'missing'),
+        $canon->method('buildReport')->willReturn(new \App\Paging\DTO\Guard\PageCanonGuardReportDTO([
+            new \App\Paging\DTO\Guard\PageCanonGuardItemDTO('broken', 'Broken canon', false, 'missing'),
         ]));
         $tester = new \Symfony\Component\Console\Tester\CommandTester(new \App\Paging\Command\PageCanonGuardCommand($canon));
         self::assertSame(\Symfony\Component\Console\Command\Command::FAILURE, $tester->execute([]));
 
         $completion = $this->createStub(\App\Paging\ServiceInterface\Completion\PageCompletionServiceInterface::class);
-        $completion->method('buildReport')->willReturn(new \App\Paging\DTO\Completion\PageCompletionReport([
-            new \App\Paging\DTO\Completion\PageCompletionItem('broken', 'Broken completion', false, 'missing'),
+        $completion->method('buildReport')->willReturn(new \App\Paging\DTO\Completion\PageCompletionReportDTO([
+            new \App\Paging\DTO\Completion\PageCompletionItemDTO('broken', 'Broken completion', false, 'missing'),
         ]));
         $tester = new \Symfony\Component\Console\Tester\CommandTester(new \App\Paging\Command\PageCompletionStatusCommand($completion));
         self::assertSame(\Symfony\Component\Console\Command\Command::FAILURE, $tester->execute([]));
 
         $final = $this->createStub(\App\Paging\ServiceInterface\Finalization\PageFinalStatusServiceInterface::class);
-        $final->method('buildReport')->willReturn(new PageFinalStatusReport([
-            new PageFinalStatusItem('broken', 'Broken final status', false, 'missing'),
+        $final->method('buildReport')->willReturn(new PageFinalStatusReportDTO([
+            new PageFinalStatusItemDTO('broken', 'Broken final status', false, 'missing'),
         ]));
         $tester = new \Symfony\Component\Console\Tester\CommandTester(new \App\Paging\Command\PageFinalRcStatusCommand($final));
         self::assertSame(\Symfony\Component\Console\Command\Command::FAILURE, $tester->execute([]));
 
         $release = $this->createStub(\App\Paging\ServiceInterface\Release\PageReleaseStampServiceInterface::class);
-        $release->method('buildReport')->willReturn(new PageReleaseStampReport('RC', [
-            new PageReleaseStampItem('broken', 'Broken release', false, 'missing'),
+        $release->method('buildReport')->willReturn(new PageReleaseStampReportDTO('RC', [
+            new PageReleaseStampItemDTO('broken', 'Broken release', false, 'missing'),
         ]));
         $tester = new \Symfony\Component\Console\Tester\CommandTester(new \App\Paging\Command\PageReleaseStampCommand($release));
         self::assertSame(\Symfony\Component\Console\Command\Command::FAILURE, $tester->execute([]));
 
         $operations = $this->createStub(\App\Paging\ServiceInterface\Operations\PageOperationChecklistServiceInterface::class);
-        $operations->method('buildReport')->willReturn(new PageOperationChecklistReport([
-            new PageOperationChecklistItem('broken', 'Broken operation', false, 'missing'),
+        $operations->method('buildReport')->willReturn(new PageOperationChecklistReportDTO([
+            new PageOperationChecklistItemDTO('broken', 'Broken operation', false, 'missing'),
         ]));
         $tester = new \Symfony\Component\Console\Tester\CommandTester(new \App\Paging\Command\PageOperationalChecklistCommand($operations));
         self::assertSame(\Symfony\Component\Console\Command\Command::FAILURE, $tester->execute([]));
 
         $readiness = $this->createStub(\App\Paging\ServiceInterface\Readiness\PageRcReadinessServiceInterface::class);
-        $readiness->method('buildReport')->willReturn(new PageRcReadinessReport([
-            new PageRcChecklistItem('broken', 'Broken readiness', false, 'missing'),
+        $readiness->method('buildReport')->willReturn(new PageRcReadinessReportDTO([
+            new PageRcChecklistItemDTO('broken', 'Broken readiness', false, 'missing'),
         ]));
         $tester = new \Symfony\Component\Console\Tester\CommandTester(new \App\Paging\Command\PageRcReadinessCommand($readiness));
         self::assertSame(\Symfony\Component\Console\Command\Command::FAILURE, $tester->execute([]));
 
         $usability = $this->createStub(\App\Paging\ServiceInterface\Usability\PageUserUsabilityServiceInterface::class);
-        $usability->method('buildReport')->willReturn(new PageUserUsabilityReport([
-            new PageUserUsabilityItem('broken', 'Host', false, 'missing'),
+        $usability->method('buildReport')->willReturn(new PageUserUsabilityReportDTO([
+            new PageUserUsabilityItemDTO('broken', 'Host', false, 'missing'),
         ]));
         $human = new \Symfony\Component\Console\Tester\CommandTester(new \App\Paging\Command\PageUserUsabilityCommand($usability));
         self::assertSame(\Symfony\Component\Console\Command\Command::FAILURE, $human->execute([]));

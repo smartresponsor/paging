@@ -14,8 +14,8 @@ use App\Paging\Command\PageSecurityContractCommand;
 use App\Paging\Command\PageSeedDemoCommand;
 use App\Paging\Command\PageUserUsabilityCommand;
 use App\Paging\Command\PageWorkflowAcceptanceCommand;
-use App\Paging\DTO\Operations\PageOperationChecklistItem;
-use App\Paging\DTO\Operations\PageOperationChecklistReport;
+use App\Paging\DTO\Operations\PageOperationChecklistItemDTO;
+use App\Paging\DTO\Operations\PageOperationChecklistReportDTO;
 use App\Paging\PageBundle;
 use App\Paging\ServiceInterface\Operations\PageOperationChecklistServiceInterface;
 
@@ -29,9 +29,9 @@ use App\Paging\ServiceInterface\Operations\PageOperationChecklistServiceInterfac
  */
 final class PageOperationChecklistService implements PageOperationChecklistServiceInterface
 {
-    public function buildReport(): PageOperationChecklistReport
+    public function buildReport(): PageOperationChecklistReportDTO
     {
-        return new PageOperationChecklistReport([
+        return new PageOperationChecklistReportDTO([
             $this->classes('bundle_entry', 'Bundle entrypoint exists', [PageBundle::class]),
             $this->classes('console_commands', 'Standalone and host console checks exist', [
                 PageDebugContainerCommand::class,
@@ -73,7 +73,7 @@ final class PageOperationChecklistService implements PageOperationChecklistServi
     }
 
     /** @param list<class-string> $classes */
-    private function classes(string $code, string $label, array $classes): PageOperationChecklistItem
+    private function classes(string $code, string $label, array $classes): PageOperationChecklistItemDTO
     {
         $missing = [];
         foreach ($classes as $class) {
@@ -82,7 +82,7 @@ final class PageOperationChecklistService implements PageOperationChecklistServi
             }
         }
 
-        return new PageOperationChecklistItem(
+        return new PageOperationChecklistItemDTO(
             $code,
             $label,
             [] === $missing,
@@ -91,7 +91,7 @@ final class PageOperationChecklistService implements PageOperationChecklistServi
     }
 
     /** @param list<string> $paths */
-    private function paths(string $code, string $label, array $paths): PageOperationChecklistItem
+    private function paths(string $code, string $label, array $paths): PageOperationChecklistItemDTO
     {
         $basePath = dirname(__DIR__, 3);
         $missing = [];
@@ -101,7 +101,7 @@ final class PageOperationChecklistService implements PageOperationChecklistServi
             }
         }
 
-        return new PageOperationChecklistItem(
+        return new PageOperationChecklistItemDTO(
             $code,
             $label,
             [] === $missing,

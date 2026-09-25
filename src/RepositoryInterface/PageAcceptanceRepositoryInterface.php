@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\RepositoryInterface;
 
-use App\Paging\Entity\PageAcceptance;
+use App\Paging\Entity\PageAcceptanceEntity as PageAcceptance;
 
 /**
  * Contract for PageAcceptance persistence access.
@@ -13,4 +13,5 @@ use App\Paging\Entity\PageAcceptance;
  */
 interface PageAcceptanceRepositoryInterface extends \Doctrine\Persistence\ObjectRepository
 {
+    public function save(PageAcceptance $acceptance, bool $flush = true): void;
 }

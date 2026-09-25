@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\DTO\Completion\PageCompletionReport;
-use App\Paging\DTO\Guard\PageCanonGuardReport;
-use App\Paging\DTO\Handoff\PageHandoffReport;
+use App\Paging\DTO\Completion\PageCompletionReportDTO;
+use App\Paging\DTO\Guard\PageCanonGuardReportDTO;
+use App\Paging\DTO\Handoff\PageHandoffReportDTO;
 use App\Paging\Service\Release\PageReleaseStampService;
 use App\Paging\ServiceInterface\Completion\PageCompletionServiceInterface;
 use App\Paging\ServiceInterface\Guard\PageCanonGuardServiceInterface;
@@ -19,21 +19,21 @@ final class PageReleaseStampServiceTest extends TestCase
     {
         $service = new PageReleaseStampService(
             new class implements PageCompletionServiceInterface {
-                public function buildReport(): PageCompletionReport
+                public function buildReport(): PageCompletionReportDTO
                 {
-                    return new PageCompletionReport([]);
+                    return new PageCompletionReportDTO([]);
                 }
             },
             new class implements PageCanonGuardServiceInterface {
-                public function buildReport(): PageCanonGuardReport
+                public function buildReport(): PageCanonGuardReportDTO
                 {
-                    return new PageCanonGuardReport([]);
+                    return new PageCanonGuardReportDTO([]);
                 }
             },
             new class implements PageHandoffSummaryServiceInterface {
-                public function buildReport(): PageHandoffReport
+                public function buildReport(): PageHandoffReportDTO
                 {
-                    return new PageHandoffReport([]);
+                    return new PageHandoffReportDTO([]);
                 }
             },
         );

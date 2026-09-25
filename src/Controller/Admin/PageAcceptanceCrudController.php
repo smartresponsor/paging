@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Admin;
 
-use App\Paging\Entity\PageAcceptance;
+use App\Paging\Entity\PageAcceptanceEntity as PageAcceptance;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;

@@ -8,7 +8,26 @@ services:
     exclude:
       - '../src/DependencyInjection/'
       - '../src/Entity/'
+      - '../src/DTO/'
       - '../src/Kernel.php'
+
+  App\Paging\RepositoryInterface\PageRepositoryInterface:
+    alias: App\Paging\Repository\PageRepository
+
+  App\Paging\RepositoryInterface\PageRevisionRepositoryInterface:
+    alias: App\Paging\Repository\PageRevisionRepository
+
+  App\Paging\RepositoryInterface\PagePublicationRepositoryInterface:
+    alias: App\Paging\Repository\PagePublicationRepository
+
+  App\Paging\RepositoryInterface\PageGrantRepositoryInterface:
+    alias: App\Paging\Repository\PageGrantRepository
+
+  App\Paging\RepositoryInterface\PageAcceptanceRepositoryInterface:
+    alias: App\Paging\Repository\PageAcceptanceRepository
+
+  App\Paging\RepositoryInterface\PageAttachmentReferenceRepositoryInterface:
+    alias: App\Paging\Repository\PageAttachmentReferenceRepository
 
   App\Paging\ServiceInterface\Runtime\PageRuntimeProbeServiceInterface:
     alias: App\Paging\Service\Runtime\PageRuntimeProbeService
@@ -34,24 +53,24 @@ services:
   App\Paging\ServiceInterface\Security\PageGrantServiceInterface:
     alias: App\Paging\Service\Security\PageGrantService
 
-  App\Paging\ServiceInterface\Bridge\PageApiBridgePayloadFactoryInterface:
-    alias: App\Paging\Service\Bridge\PageApiBridgePayloadFactory
+  App\Paging\FactoryInterface\Bridge\PageApiBridgePayloadFactoryInterface:
+    alias: App\Paging\Factory\Bridge\PageApiBridgePayloadFactory
 
   App\Paging\ServiceInterface\Api\PageApiContractServiceInterface:
     alias: App\Paging\Service\Api\PageApiContractService
 
-  App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface:
-    alias: App\Paging\Service\Http\PageHttpPayloadFactory
+  App\Paging\FactoryInterface\Http\PageHttpPayloadFactoryInterface:
+    alias: App\Paging\Factory\Http\PageHttpPayloadFactory
 
 
-  App\Paging\ServiceInterface\Editor\PageEditorPayloadNormalizerInterface:
-    alias: App\Paging\Service\Editor\PageEditorPayloadNormalizer
+  App\Paging\NormalizerInterface\Editor\PageEditorPayloadNormalizerInterface:
+    alias: App\Paging\Normalizer\Editor\PageEditorPayloadNormalizer
 
   App\Paging\ServiceInterface\Editor\PageContentSanitizerInterface:
     alias: App\Paging\Service\Editor\PageContentSanitizer
 
-  App\Paging\ServiceInterface\Security\PageSecuritySubjectResolverInterface:
-    alias: App\Paging\Service\Security\PageSecuritySubjectResolver
+  App\Paging\ResolverInterface\Security\PageSecuritySubjectResolverInterface:
+    alias: App\Paging\Resolver\Security\PageSecuritySubjectResolver
 
   App\Paging\ServiceInterface\Acceptance\PageAcceptanceServiceInterface:
     alias: App\Paging\Service\Acceptance\PageAcceptanceService
@@ -77,11 +96,11 @@ services:
   App\Paging\ServiceInterface\Release\PageReleaseStampServiceInterface:
     alias: App\Paging\Service\Release\PageReleaseStampService
 
-  App\Paging\ServiceInterface\Bridge\PageBridgePayloadFactoryInterface:
-    alias: App\Paging\Service\Bridge\PageBridgePayloadFactory
+  App\Paging\FactoryInterface\Bridge\PageBridgePayloadFactoryInterface:
+    alias: App\Paging\Factory\Bridge\PageBridgePayloadFactory
 
-  App\Paging\ServiceInterface\Bridge\PageBridgeContractProviderInterface:
-    alias: App\Paging\Service\Bridge\PageBridgeContractProvider
+  App\Paging\ProviderInterface\Bridge\PageBridgeContractProviderInterface:
+    alias: App\Paging\Provider\Bridge\PageBridgeContractProvider
 
   App\Paging\ServiceInterface\Usability\PageUserUsabilityServiceInterface:
     alias: App\Paging\Service\Usability\PageUserUsabilityService

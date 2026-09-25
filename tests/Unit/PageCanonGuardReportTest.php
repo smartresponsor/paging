@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\DTO\Guard\PageCanonGuardItem;
-use App\Paging\DTO\Guard\PageCanonGuardReport;
+use App\Paging\DTO\Guard\PageCanonGuardItemDTO;
+use App\Paging\DTO\Guard\PageCanonGuardReportDTO;
 use PHPUnit\Framework\TestCase;
 
 final class PageCanonGuardReportTest extends TestCase
 {
     public function testReportCountsPassedAndFailedItems(): void
     {
-        $report = new PageCanonGuardReport([
-            new PageCanonGuardItem('a', 'A', true, 'ok'),
-            new PageCanonGuardItem('b', 'B', false, 'no'),
+        $report = new PageCanonGuardReportDTO([
+            new PageCanonGuardItemDTO('a', 'A', true, 'ok'),
+            new PageCanonGuardItemDTO('b', 'B', false, 'no'),
         ]);
 
         self::assertFalse($report->passed());

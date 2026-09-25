@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Repository;
 
-use App\Paging\Entity\Page;
+use App\Paging\Entity\PageEntity as Page;
 use App\Paging\RepositoryInterface\PageRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -32,5 +32,24 @@ final class PageRepository extends ServiceEntityRepository implements PageReposi
             ->addOrderBy('page.objectIdentity.slug', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function save(Page $page, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($page);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
+    }
+
+    /** @param class-string $entityClass */
+    public function tableNameFor(string $entityClass): string
+    {
+        return $this->getEntityManager()->getClassMetadata($entityClass)->getTableName();
     }
 }

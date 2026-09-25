@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageRevision;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 use PHPUnit\Framework\TestCase;
 
 final class PageRevisionLifecycleCompatibilityTest extends TestCase

@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Admin;
 
-use App\Paging\DTO\Authoring\PageCreateInput;
-use App\Paging\DTO\Authoring\PageUpdateInput;
-use App\Paging\DTO\Revision\PageRevisionCreateInput;
-use App\Paging\Entity\Page;
+use App\Paging\DTO\Authoring\PageCreateInputDTO;
+use App\Paging\DTO\Authoring\PageUpdateInputDTO;
+use App\Paging\DTO\Revision\PageRevisionCreateInputDTO;
+use App\Paging\Entity\PageEntity as Page;
 use App\Paging\Enum\PageKind;
 use App\Paging\Enum\PageStatus;
 use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -104,9 +103,9 @@ final class PageCrudController extends AbstractCrudController
         return new Page('draft-'.$suffix, 'draft-'.$suffix, 'Draft page '.$suffix, PageKind::Page);
     }
 
-    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    public function persistEntity(mixed $entityManager, $entityInstance): void
     {
-        $page = $this->pageDraftService->createPage(new PageCreateInput(
+        $page = $this->pageDraftService->createPage(new PageCreateInputDTO(
             $entityInstance->getCode(),
             $entityInstance->getSlug(),
             $entityInstance->getTitle(),
@@ -116,9 +115,9 @@ final class PageCrudController extends AbstractCrudController
         $this->createRevisionFromForm($page, $entityInstance);
     }
 
-    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    public function updateEntity(mixed $entityManager, $entityInstance): void
     {
-        $this->pageDraftService->updatePage($entityInstance, new PageUpdateInput(
+        $this->pageDraftService->updatePage($entityInstance, new PageUpdateInputDTO(
             $entityInstance->getTitle(),
             $entityInstance->getSlug(),
             $entityInstance->getOwnerUserId(),
@@ -163,7 +162,7 @@ final class PageCrudController extends AbstractCrudController
             return;
         }
 
-        $this->pageRevisionService->createRevision($page, new PageRevisionCreateInput(
+        $this->pageRevisionService->createRevision($page, new PageRevisionCreateInputDTO(
             title: $page->getTitle(),
             bodyHtml: $bodyHtml,
             changeNote: $formPage->getDraftChangeNote(),

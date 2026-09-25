@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Api;
 
-use App\Paging\DTO\Api\PageApiContractReport;
-use App\Paging\DTO\Api\PageApiEndpointContract;
+use App\Paging\DTO\Api\PageApiContractReportDTO;
+use App\Paging\DTO\Api\PageApiEndpointContractDTO;
 use App\Paging\ServiceInterface\Api\PageApiContractServiceInterface;
 
 /**
@@ -17,10 +17,10 @@ use App\Paging\ServiceInterface\Api\PageApiContractServiceInterface;
  */
 final class PageApiContractService implements PageApiContractServiceInterface
 {
-    public function buildReport(): PageApiContractReport
+    public function buildReport(): PageApiContractReportDTO
     {
-        return new PageApiContractReport([
-            new PageApiEndpointContract(
+        return new PageApiContractReportDTO([
+            new PageApiEndpointContractDTO(
                 'page_public_index',
                 'GET',
                 '/page/',
@@ -28,7 +28,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 ['html'],
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_public_view',
                 'GET',
                 '/page/{slug}',
@@ -36,7 +36,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 ['html'],
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_api_read',
                 'GET',
                 '/api/page/{code}',
@@ -44,7 +44,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 ['json'],
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_api_bridge',
                 'GET',
                 '/api/page/bridge/{code}',
@@ -52,7 +52,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 ['json'],
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_export_html',
                 'GET',
                 '/api/page/export/{code}?format=html',
@@ -60,7 +60,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 ['html'],
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_export_json',
                 'GET',
                 '/api/page/export/{code}?format=json',
@@ -68,7 +68,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 ['json'],
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_export_markdown',
                 'GET',
                 '/api/page/export/{code}?format=md',
@@ -76,14 +76,14 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 ['markdown'],
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_revision_list',
                 'GET',
                 '/api/page/revision/{code}',
                 'List Page revisions for authoring and audit surfaces.',
                 ['json'],
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_revision_create',
                 'POST',
                 '/api/page/revision/{code}',
@@ -92,14 +92,14 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 false,
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_publication_list',
                 'GET',
                 '/api/page/publication/{code}',
                 'List Page publication events for audit and legal traceability.',
                 ['json'],
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_publication_create',
                 'POST',
                 '/api/page/publication/revision/{revisionNumber}',
@@ -108,7 +108,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 false,
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_authoring_create',
                 'POST',
                 '/api/page/authoring/page',
@@ -117,7 +117,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 false,
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_authoring_update',
                 'PATCH',
                 '/api/page/authoring/page/{code}',
@@ -126,7 +126,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 false,
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_acceptance_create',
                 'POST',
                 '/api/page/acceptance/revision/{revisionNumber}',
@@ -135,7 +135,7 @@ final class PageApiContractService implements PageApiContractServiceInterface
                 false,
                 true,
             ),
-            new PageApiEndpointContract(
+            new PageApiEndpointContractDTO(
                 'page_acceptance_check',
                 'GET',
                 '/api/page/acceptance/subject/{subjectUserId}?code={code}&revisionNumber={revisionNumber}',

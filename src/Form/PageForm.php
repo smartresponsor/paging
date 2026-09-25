@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Form;
 
-use App\Paging\DTO\Authoring\PageCreateInput;
+use App\Paging\DTO\Authoring\PageCreateInputDTO;
 use App\Paging\Enum\PageKind;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -32,8 +32,8 @@ final class PageForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PageCreateInput::class,
-            'empty_data' => static fn ($form): PageCreateInput => new PageCreateInput(
+            'data_class' => PageCreateInputDTO::class,
+            'empty_data' => static fn ($form): PageCreateInputDTO => new PageCreateInputDTO(
                 (string) $form->get('code')->getData(),
                 (string) $form->get('slug')->getData(),
                 (string) $form->get('title')->getData(),

@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\DTO\Export\PageExportView;
-use App\Paging\DTO\Rendering\PageRenderView;
-use App\Paging\DTO\Security\PageGrantCheck;
-use App\Paging\DTO\Security\PageGrantInput;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageAttachmentReference;
-use App\Paging\Entity\PageGrant;
-use App\Paging\Entity\PagePublication;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Export\PageExportViewDTO;
+use App\Paging\DTO\Rendering\PageRenderViewDTO;
+use App\Paging\DTO\Security\PageGrantCheckDTO;
+use App\Paging\DTO\Security\PageGrantInputDTO;
+use App\Paging\Entity\PageAttachmentReferenceEntity as PageAttachmentReference;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageGrantEntity as PageGrant;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 use App\Paging\Enum\PageAttachmentUsage;
 use App\Paging\Enum\PageExportFormat;
 use App\Paging\Enum\PageGrantType;
 use App\Paging\Enum\PageKind;
 use App\Paging\Enum\PageStatus;
-use App\Paging\Service\Bridge\PageApiBridgePayloadFactory;
-use App\Paging\Service\Bridge\PageBridgePayloadFactory;
-use App\Paging\Service\Http\PageHttpPayloadFactory;
+use App\Paging\Factory\Bridge\PageApiBridgePayloadFactory;
+use App\Paging\Factory\Bridge\PageBridgePayloadFactory;
+use App\Paging\Factory\Http\PageHttpPayloadFactory;
+use App\Paging\RepositoryInterface\PageGrantRepositoryInterface;
 use App\Paging\Service\Rendering\PageRenderService;
 use App\Paging\Service\Security\PageGrantService;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 final class PageHttpPayloadFactoryTest extends TestCase
@@ -31,7 +31,7 @@ final class PageHttpPayloadFactoryTest extends TestCase
     public function testRenderViewPayloadUsesScalarValuesForHttpBoundary(): void
     {
         $factory = new PageHttpPayloadFactory();
-        $payload = $factory->renderViewToArray(new PageRenderView(
+        $payload = $factory->renderViewToArray(new PageRenderViewDTO(
             'privacy_policy',
             'privacy-policy',
             'Privacy Policy',
@@ -79,7 +79,7 @@ final class PageHttpPayloadFactoryTest extends TestCase
     public function testExportPayloadContainsContractMetadata(): void
     {
         $factory = new PageHttpPayloadFactory();
-        $payload = $factory->exportViewToArray(new PageExportView('privacy', 'privacy', 'Privacy', PageExportFormat::Markdown, '# Privacy', 'text/markdown', str_repeat('b', 64)));
+        $payload = $factory->exportViewToArray(new PageExportViewDTO('privacy', 'privacy', 'Privacy', PageExportFormat::Markdown, '# Privacy', 'text/markdown', str_repeat('b', 64)));
 
         self::assertSame('markdown', $payload['format']);
         self::assertSame('text/markdown', $payload['contentType']);
@@ -161,22 +161,21 @@ final class PageHttpPayloadFactoryTest extends TestCase
     public function testGrantServicePersistsAndResolvesAuthorizationBranches(): void
     {
         $page = new Page('policy', 'policy', 'Policy', ownerUserId: 'owner-1');
-        $entityManager = $this->createMock(EntityManagerInterface::class);
-        $entityManager->expects(self::once())->method('persist')->with(self::isInstanceOf(PageGrant::class));
-        $entityManager->expects(self::once())->method('flush');
-        $service = new PageGrantService($entityManager);
+        $repository = $this->createMock(PageGrantRepositoryInterface::class);
+        $repository->expects(self::once())->method('save')->with(self::isInstanceOf(PageGrant::class));
+        $service = new PageGrantService($repository);
 
-        $grant = $service->grant(new PageGrantInput($page, PageGrantType::Edit, 'user-2', null, 'admin-1'));
+        $grant = $service->grant(new PageGrantInputDTO($page, PageGrantType::Edit, 'user-2', null, 'admin-1'));
         self::assertSame('user-2', $grant->getSubjectUserId());
-        self::assertTrue($service->isGranted(new PageGrantCheck($page, PageGrantType::Publish, null, ['ROLE_PAGE_ADMIN'])));
-        self::assertTrue($service->isGranted(new PageGrantCheck($page, PageGrantType::Edit, 'owner-1')));
-        self::assertFalse($service->isGranted(new PageGrantCheck($page, PageGrantType::Publish, 'owner-1')));
+        self::assertTrue($service->isGranted(new PageGrantCheckDTO($page, PageGrantType::Publish, null, ['ROLE_PAGE_ADMIN'])));
+        self::assertTrue($service->isGranted(new PageGrantCheckDTO($page, PageGrantType::Edit, 'owner-1')));
+        self::assertFalse($service->isGranted(new PageGrantCheckDTO($page, PageGrantType::Publish, 'owner-1')));
 
         $page->getGrants()->add(new PageGrant($page, PageGrantType::Publish, 'publisher-1'));
         $page->getGrants()->add(new PageGrant($page, PageGrantType::Manage, null, 'ROLE_LEGAL'));
-        self::assertTrue($service->isGranted(new PageGrantCheck($page, PageGrantType::Publish, 'publisher-1')));
-        self::assertTrue($service->isGranted(new PageGrantCheck($page, PageGrantType::Edit, null, ['ROLE_LEGAL'])));
-        self::assertFalse($service->isGranted(new PageGrantCheck($page, PageGrantType::Own, 'outsider')));
+        self::assertTrue($service->isGranted(new PageGrantCheckDTO($page, PageGrantType::Publish, 'publisher-1')));
+        self::assertTrue($service->isGranted(new PageGrantCheckDTO($page, PageGrantType::Edit, null, ['ROLE_LEGAL'])));
+        self::assertFalse($service->isGranted(new PageGrantCheckDTO($page, PageGrantType::Own, 'outsider')));
     }
 
     public function testPageRevisionAndPublicationLifecycleAccessors(): void

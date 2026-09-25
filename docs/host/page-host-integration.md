@@ -3,7 +3,7 @@
 Paging is intentionally split into two usable modes:
 
 1. **Standalone runtime** for local debugging, dependency-container inspection, Doctrine mapping checks, smoke tests, fixtures, and direct API probing.
-2. **Host-application bundle mode** where a host Symfony application registers `App\Paging\PageBundle` and wires the Page services into the larger Smart Responsor runtime.
+2. **Host-application bundle mode** where a host Symfony application registers `App\Paging\PageBundle` and wires the Page services into the larger platform runtime.
 
 The component namespace remains `App\Paging\...`, while the business stem is `Page` and all database/configuration prefixes use `page` / `page_`.
 

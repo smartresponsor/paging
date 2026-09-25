@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\DTO\Acceptance\PageAcceptanceInput;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageAcceptance;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Acceptance\PageAcceptanceInputDTO;
+use App\Paging\Entity\PageAcceptanceEntity as PageAcceptance;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 use App\Paging\Enum\PageKind;
 use App\Paging\ValueObject\PageSlug;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +35,7 @@ final class PageAcceptanceServiceTest extends TestCase
     {
         $page = new Page('terms', PageSlug::fromSource('terms')->value(), 'Terms', PageKind::Policy, null);
         $revision = new PageRevision($page, 1, 'Terms', '<p>Terms</p>', 'Terms');
-        $input = new PageAcceptanceInput($revision, 'user-2', '127.0.0.1', 'UnitTest', ['surface' => 'signup']);
+        $input = new PageAcceptanceInputDTO($revision, 'user-2', '127.0.0.1', 'UnitTest', ['surface' => 'signup']);
 
         self::assertSame($revision, $input->revision);
         self::assertSame('user-2', $input->subjectUserId);

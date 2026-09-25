@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Form;
 
-use App\Paging\DTO\Publication\PagePublishInput;
+use App\Paging\DTO\Publication\PagePublishInputDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,8 +24,8 @@ final class PagePublicationForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PagePublishInput::class,
-            'empty_data' => static fn ($form): PagePublishInput => new PagePublishInput(
+            'data_class' => PagePublishInputDTO::class,
+            'empty_data' => static fn ($form): PagePublishInputDTO => new PagePublishInputDTO(
                 $form->get('effectiveFrom')->getData() instanceof \DateTimeImmutable ? $form->get('effectiveFrom')->getData() : null,
                 $form->get('expiresAt')->getData() instanceof \DateTimeImmutable ? $form->get('expiresAt')->getData() : null,
                 null !== $form->get('publishedByUserId')->getData() ? (string) $form->get('publishedByUserId')->getData() : null,

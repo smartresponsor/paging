@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\RepositoryInterface;
 
-use App\Paging\Entity\PageRevision;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 
 /**
  * Contract for PageRevision persistence access.
@@ -13,4 +13,5 @@ use App\Paging\Entity\PageRevision;
  */
 interface PageRevisionRepositoryInterface extends \Doctrine\Persistence\ObjectRepository
 {
+    public function save(PageRevision $revision, bool $flush = true): void;
 }

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Rendering;
 
-use App\Paging\DTO\Rendering\PageRenderView;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PagePublication;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Rendering\PageRenderViewDTO;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
 
 final class PageRenderService implements PageRenderServiceInterface
 {
-    public function renderPublished(Page $page): PageRenderView
+    public function renderPublished(Page $page): PageRenderViewDTO
     {
         $revision = $page->getPublishedRevision();
         if (!$revision instanceof PageRevision) {
@@ -22,16 +22,16 @@ final class PageRenderService implements PageRenderServiceInterface
         return $this->createView($revision, $this->latestPublicationForRevision($page, $revision));
     }
 
-    public function renderRevision(PageRevision $revision): PageRenderView
+    public function renderRevision(PageRevision $revision): PageRenderViewDTO
     {
         return $this->createView($revision, $this->latestPublicationForRevision($revision->getPage(), $revision));
     }
 
-    private function createView(PageRevision $revision, ?PagePublication $publication): PageRenderView
+    private function createView(PageRevision $revision, ?PagePublication $publication): PageRenderViewDTO
     {
         $page = $revision->getPage();
 
-        return new PageRenderView(
+        return new PageRenderViewDTO(
             $page->getCode(),
             $page->getSlug(),
             $revision->getTitle(),

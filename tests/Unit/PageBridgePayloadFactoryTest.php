@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\DTO\Bridge\PageBridgeAttachment;
-use App\Paging\DTO\Bridge\PageBridgeLegalNotice;
-use App\Paging\DTO\Bridge\PageBridgePayload;
-use App\Paging\DTO\Bridge\PageBridgeRenderHints;
+use App\Paging\DTO\Bridge\PageBridgeAttachmentDTO;
+use App\Paging\DTO\Bridge\PageBridgeLegalNoticeDTO;
+use App\Paging\DTO\Bridge\PageBridgePayloadDTO;
+use App\Paging\DTO\Bridge\PageBridgeRenderHintsDTO;
 use App\Paging\Enum\PageAttachmentUsage;
 use App\Paging\Enum\PageKind;
 use App\Paging\Enum\PageStatus;
@@ -17,7 +17,7 @@ final class PageBridgePayloadFactoryTest extends TestCase
 {
     public function testBridgePayloadSerializesStableVisualBoundary(): void
     {
-        $payload = new PageBridgePayload(
+        $payload = new PageBridgePayloadDTO(
             'privacy_policy',
             'privacy-policy',
             'Privacy Policy',
@@ -29,9 +29,9 @@ final class PageBridgePayloadFactoryTest extends TestCase
             '# Privacy Policy',
             ['type' => 'doc'],
             str_repeat('a', 64),
-            [new PageBridgeAttachment('attachment-1', PageAttachmentUsage::Download, 'privacy-pdf', 1)],
-            new PageBridgeRenderHints(preferredTemplateKey: 'page/policy', legalMode: true),
-            new PageBridgeLegalNotice('Version 3', requiresAcceptance: true, acceptanceRevisionNumber: 3),
+            [new PageBridgeAttachmentDTO('attachment-1', PageAttachmentUsage::Download, 'privacy-pdf', 1)],
+            new PageBridgeRenderHintsDTO(preferredTemplateKey: 'page/policy', legalMode: true),
+            new PageBridgeLegalNoticeDTO('Version 3', requiresAcceptance: true, acceptanceRevisionNumber: 3),
         );
 
         $data = $payload->toArray();

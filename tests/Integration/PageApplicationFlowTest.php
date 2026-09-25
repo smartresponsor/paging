@@ -11,11 +11,15 @@ use App\Paging\Controller\Api\PagePublicationController;
 use App\Paging\Controller\Api\PageReadController;
 use App\Paging\Controller\Api\PageRevisionController;
 use App\Paging\Controller\Public\PageViewController;
-use App\Paging\DataFixtures\PagingDemoFixtures;
-use App\Paging\DTO\Authoring\PageCreateInput;
-use App\Paging\DTO\Publication\PagePublishInput;
-use App\Paging\DTO\Revision\PageRevisionCreateInput;
+use App\Paging\DataFixtures\PageDemoFixtures;
+use App\Paging\DTO\Authoring\PageCreateInputDTO;
+use App\Paging\DTO\Publication\PagePublishInputDTO;
+use App\Paging\DTO\Revision\PageRevisionCreateInputDTO;
 use App\Paging\Enum\PageKind;
+use App\Paging\Factory\Bridge\PageApiBridgePayloadFactory;
+use App\Paging\Factory\Bridge\PageBridgePayloadFactory;
+use App\Paging\Factory\Http\PageHttpPayloadFactory;
+use App\Paging\Provider\Bridge\PageBridgeContractProvider;
 use App\Paging\Repository\PageAcceptanceRepository;
 use App\Paging\Repository\PageAttachmentReferenceRepository;
 use App\Paging\Repository\PageGrantRepository;
@@ -24,11 +28,7 @@ use App\Paging\Repository\PageRepository;
 use App\Paging\Repository\PageRevisionRepository;
 use App\Paging\Service\Acceptance\PageAcceptanceService;
 use App\Paging\Service\Authoring\PageDraftService;
-use App\Paging\Service\Bridge\PageApiBridgePayloadFactory;
-use App\Paging\Service\Bridge\PageBridgeContractProvider;
-use App\Paging\Service\Bridge\PageBridgePayloadFactory;
 use App\Paging\Service\Export\PageExportService;
-use App\Paging\Service\Http\PageHttpPayloadFactory;
 use App\Paging\Service\Publication\PagePublicationService;
 use App\Paging\Service\Rendering\PageRenderService;
 use App\Paging\Service\Revision\PageRevisionService;
@@ -47,6 +47,9 @@ final class PageApplicationFlowTest extends TestCase
 {
     private EntityManager $entityManager;
     private PageRepository $pageRepository;
+    private PageRevisionRepository $pageRevisionRepository;
+    private PagePublicationRepository $pagePublicationRepository;
+    private PageAcceptanceRepository $pageAcceptanceRepository;
 
     protected function setUp(): void
     {
@@ -60,11 +63,14 @@ final class PageApplicationFlowTest extends TestCase
             'memory' => true,
         ]), $config);
         (new SchemaTool($this->entityManager))->createSchema($this->entityManager->getMetadataFactory()->getAllMetadata());
-        (new PagingDemoFixtures())->load($this->entityManager);
+        (new PageDemoFixtures())->load($this->entityManager);
 
         $registry = $this->createStub(ManagerRegistry::class);
         $registry->method('getManagerForClass')->willReturn($this->entityManager);
         $this->pageRepository = new PageRepository($registry);
+        $this->pageRevisionRepository = new PageRevisionRepository($registry);
+        $this->pagePublicationRepository = new PagePublicationRepository($registry);
+        $this->pageAcceptanceRepository = new PageAcceptanceRepository($registry);
     }
 
     public function testAllPagingRepositoriesResolveAgainstDoctrineMetadata(): void
@@ -108,19 +114,19 @@ final class PageApplicationFlowTest extends TestCase
 
     public function testAuthoringRevisionAndPublicationServicesPersistLifecycle(): void
     {
-        $draftService = new PageDraftService($this->entityManager);
-        $revisionService = new PageRevisionService($this->entityManager);
-        $publicationService = new PagePublicationService($this->entityManager);
+        $draftService = new PageDraftService($this->pageRepository);
+        $revisionService = new PageRevisionService($this->pageRevisionRepository);
+        $publicationService = new PagePublicationService($this->pagePublicationRepository);
 
-        $page = $draftService->createPage(new PageCreateInput('faq', 'faq', 'FAQ', PageKind::Help, 'owner-9'));
-        $revision = $revisionService->createRevision($page, new PageRevisionCreateInput(
+        $page = $draftService->createPage(new PageCreateInputDTO('faq', 'faq', 'FAQ', PageKind::Help, 'owner-9'));
+        $revision = $revisionService->createRevision($page, new PageRevisionCreateInputDTO(
             'FAQ',
             '<h1>FAQ</h1><p>Answer</p>',
             bodyMarkdown: "# FAQ\n\nAnswer",
             changeNote: 'Initial FAQ',
             createdByUserId: 'owner-9',
         ));
-        $publication = $publicationService->publishRevision($revision, new PagePublishInput(
+        $publication = $publicationService->publishRevision($revision, new PagePublishInputDTO(
             new \DateTimeImmutable('2026-09-16T12:00:00-05:00'),
             null,
             'owner-9',
@@ -204,9 +210,9 @@ final class PageApplicationFlowTest extends TestCase
     public function testApiControllersSupportCompleteAuthoringToAcceptanceWorkflow(): void
     {
         $httpFactory = new PageHttpPayloadFactory();
-        $draftService = new PageDraftService($this->entityManager);
-        $revisionService = new PageRevisionService($this->entityManager);
-        $publicationService = new PagePublicationService($this->entityManager);
+        $draftService = new PageDraftService($this->pageRepository);
+        $revisionService = new PageRevisionService($this->pageRevisionRepository);
+        $publicationService = new PagePublicationService($this->pagePublicationRepository);
 
         $authoring = new PageAuthoringController($this->pageRepository, $draftService, $httpFactory);
         $created = $this->responseArray($authoring->create(Request::create(
@@ -285,7 +291,7 @@ final class PageApplicationFlowTest extends TestCase
 
         $registry = $this->createStub(ManagerRegistry::class);
         $registry->method('getManagerForClass')->willReturn($this->entityManager);
-        $acceptanceService = new PageAcceptanceService($this->entityManager, new PageAcceptanceRepository($registry));
+        $acceptanceService = new PageAcceptanceService($this->pageAcceptanceRepository);
         $acceptanceController = new PageAcceptanceController($this->pageRepository, $acceptanceService);
 
         $missingSubject = $acceptanceController->accept(1, Request::create(
@@ -339,7 +345,7 @@ final class PageApplicationFlowTest extends TestCase
 
         $publication = new PagePublicationController(
             $this->pageRepository,
-            new PagePublicationService($this->entityManager),
+            new PagePublicationService($this->pagePublicationRepository),
             $httpFactory,
         );
         try {
@@ -356,7 +362,7 @@ final class PageApplicationFlowTest extends TestCase
             self::assertStringContainsString('revision 999', $exception->getMessage());
         }
 
-        $authoring = new PageAuthoringController($this->pageRepository, new PageDraftService($this->entityManager), $httpFactory);
+        $authoring = new PageAuthoringController($this->pageRepository, new PageDraftService($this->pageRepository), $httpFactory);
         try {
             $authoring->update('missing', Request::create('/api/page/authoring/page/missing', 'PATCH', content: '{}'));
             self::fail('Missing draft page should fail.');
@@ -370,7 +376,7 @@ final class PageApplicationFlowTest extends TestCase
         $httpFactory = new PageHttpPayloadFactory();
         $revisionController = new PageRevisionController(
             $this->pageRepository,
-            new PageRevisionService($this->entityManager),
+            new PageRevisionService($this->pageRevisionRepository),
             $httpFactory,
         );
 
@@ -391,7 +397,7 @@ final class PageApplicationFlowTest extends TestCase
 
         $publicationController = new PagePublicationController(
             $this->pageRepository,
-            new PagePublicationService($this->entityManager),
+            new PagePublicationService($this->pagePublicationRepository),
             $httpFactory,
         );
         try {
@@ -401,13 +407,13 @@ final class PageApplicationFlowTest extends TestCase
             self::assertStringContainsString('Page "missing-page" was not found', $exception->getMessage());
         }
 
-        $page = (new PageDraftService($this->entityManager))->createPage(new PageCreateInput(
+        $page = (new PageDraftService($this->pageRepository))->createPage(new PageCreateInputDTO(
             'date-fallback',
             'date-fallback',
             'Date fallback',
             PageKind::Page,
         ));
-        (new PageRevisionService($this->entityManager))->createRevision($page, new PageRevisionCreateInput(
+        (new PageRevisionService($this->pageRevisionRepository))->createRevision($page, new PageRevisionCreateInputDTO(
             'Date fallback',
             '<p>Date fallback</p>',
         ));
@@ -422,7 +428,7 @@ final class PageApplicationFlowTest extends TestCase
 
         $authoring = new PageAuthoringController(
             $this->pageRepository,
-            new PageDraftService($this->entityManager),
+            new PageDraftService($this->pageRepository),
             $httpFactory,
         );
         $defaultKind = $this->responseArray($authoring->create(Request::create(
@@ -441,7 +447,7 @@ final class PageApplicationFlowTest extends TestCase
         $registry->method('getManagerForClass')->willReturn($this->entityManager);
         $acceptanceController = new PageAcceptanceController(
             $this->pageRepository,
-            new PageAcceptanceService($this->entityManager, new PageAcceptanceRepository($registry)),
+            new PageAcceptanceService($this->pageAcceptanceRepository),
         );
 
         try {
@@ -540,13 +546,13 @@ final class PageApplicationFlowTest extends TestCase
             self::assertSame('Page code is required.', $exception->getMessage());
         }
 
-        $blankDatesPage = (new PageDraftService($this->entityManager))->createPage(new PageCreateInput(
+        $blankDatesPage = (new PageDraftService($this->pageRepository))->createPage(new PageCreateInputDTO(
             'blank-dates',
             'blank-dates',
             'Blank dates',
             PageKind::Page,
         ));
-        (new PageRevisionService($this->entityManager))->createRevision($blankDatesPage, new PageRevisionCreateInput(
+        (new PageRevisionService($this->pageRevisionRepository))->createRevision($blankDatesPage, new PageRevisionCreateInputDTO(
             'Blank dates',
             '<p>Blank dates</p>',
         ));

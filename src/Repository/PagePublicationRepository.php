@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Paging\Repository;
 
-use App\Paging\Entity\PagePublication;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
 use App\Paging\RepositoryInterface\PagePublicationRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,5 +19,13 @@ final class PagePublicationRepository extends ServiceEntityRepository implements
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PagePublication::class);
+    }
+
+    public function save(PagePublication $publication, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($publication);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 }

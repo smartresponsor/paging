@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Api;
 
-use App\Paging\DTO\Revision\PageRevisionCreateInput;
-use App\Paging\Entity\Page;
+use App\Paging\DTO\Revision\PageRevisionCreateInputDTO;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\FactoryInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\Repository\PageRepository;
-use App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/revision')]
+#[Route('/api')]
 final class PageRevisionController
 {
     public function __construct(
@@ -24,7 +24,7 @@ final class PageRevisionController
     ) {
     }
 
-    #[Route('/{code}', name: 'page_api_revisions', methods: ['GET'])]
+    #[Route('/page/revision/{code}', name: 'page_api_revisions', methods: ['GET'])]
     public function list(string $code): JsonResponse
     {
         $page = $this->findPage($code);
@@ -39,13 +39,13 @@ final class PageRevisionController
         ]);
     }
 
-    #[Route('/{code}', name: 'page_api_revision_create', methods: ['POST'])]
+    #[Route('/page/revision/{code}', name: 'page_api_revision_create', methods: ['POST'])]
     public function create(string $code, Request $request): JsonResponse
     {
         $page = $this->findPage($code);
         $payload = $this->jsonPayload($request);
 
-        $revision = $this->pageRevisionService->createRevision($page, new PageRevisionCreateInput(
+        $revision = $this->pageRevisionService->createRevision($page, new PageRevisionCreateInputDTO(
             (string) ($payload['title'] ?? $page->getTitle()),
             (string) ($payload['bodyHtml'] ?? ''),
             isset($payload['bodyText']) ? (string) $payload['bodyText'] : null,

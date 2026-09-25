@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/export')]
+#[Route('/api')]
 final class PageExportController
 {
     public function __construct(
@@ -21,7 +21,7 @@ final class PageExportController
     ) {
     }
 
-    #[Route('/{code}', name: 'page_api_export', methods: ['GET'])]
+    #[Route('/page/export/{code}', name: 'page_api_export', methods: ['GET'])]
     public function export(string $code, Request $request): Response
     {
         $format = (string) $request->query->get('format', 'html');

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Publication;
 
-use App\Paging\DTO\Publication\PagePublishInput;
-use App\Paging\Entity\PagePublication;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Publication\PagePublishInputDTO;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
+use App\Paging\RepositoryInterface\PagePublicationRepositoryInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class PagePublicationService implements PagePublicationServiceInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private PagePublicationRepositoryInterface $pagePublicationRepository)
     {
     }
 
-    public function publishRevision(PageRevision $revision, PagePublishInput $input): PagePublication
+    public function publishRevision(PageRevision $revision, PagePublishInputDTO $input): PagePublication
     {
         $revision->lock();
         $revision->getPage()->markPublished($revision);
@@ -29,8 +29,7 @@ final readonly class PagePublicationService implements PagePublicationServiceInt
             $input->publishedByUserId,
         );
 
-        $this->entityManager->persist($publication);
-        $this->entityManager->flush();
+        $this->pagePublicationRepository->save($publication);
 
         return $publication;
     }

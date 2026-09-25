@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Release;
 
-use App\Paging\DTO\Release\PageReleaseStampItem;
-use App\Paging\DTO\Release\PageReleaseStampReport;
+use App\Paging\DTO\Release\PageReleaseStampItemDTO;
+use App\Paging\DTO\Release\PageReleaseStampReportDTO;
 use App\Paging\ServiceInterface\Completion\PageCompletionServiceInterface;
 use App\Paging\ServiceInterface\Guard\PageCanonGuardServiceInterface;
 use App\Paging\ServiceInterface\Handoff\PageHandoffSummaryServiceInterface;
@@ -20,9 +20,9 @@ final readonly class PageReleaseStampService implements PageReleaseStampServiceI
     ) {
     }
 
-    public function buildReport(): PageReleaseStampReport
+    public function buildReport(): PageReleaseStampReportDTO
     {
-        return new PageReleaseStampReport('Paging/Page RC1', [
+        return new PageReleaseStampReportDTO('Paging/Page RC1', [
             $this->completionStatus(),
             $this->canonStatus(),
             $this->handoffStatus(),
@@ -31,11 +31,11 @@ final readonly class PageReleaseStampService implements PageReleaseStampServiceI
         ]);
     }
 
-    private function completionStatus(): PageReleaseStampItem
+    private function completionStatus(): PageReleaseStampItemDTO
     {
         $report = $this->completionService->buildReport();
 
-        return new PageReleaseStampItem(
+        return new PageReleaseStampItemDTO(
             'completion_status',
             'Completion status',
             $report->passed(),
@@ -45,11 +45,11 @@ final readonly class PageReleaseStampService implements PageReleaseStampServiceI
         );
     }
 
-    private function canonStatus(): PageReleaseStampItem
+    private function canonStatus(): PageReleaseStampItemDTO
     {
         $report = $this->canonGuardService->buildReport();
 
-        return new PageReleaseStampItem(
+        return new PageReleaseStampItemDTO(
             'canon_status',
             'Canon guard status',
             $report->passed(),
@@ -59,11 +59,11 @@ final readonly class PageReleaseStampService implements PageReleaseStampServiceI
         );
     }
 
-    private function handoffStatus(): PageReleaseStampItem
+    private function handoffStatus(): PageReleaseStampItemDTO
     {
         $report = $this->handoffSummaryService->buildReport();
 
-        return new PageReleaseStampItem(
+        return new PageReleaseStampItemDTO(
             'handoff_status',
             'Handoff status',
             $report->passed(),
@@ -73,9 +73,9 @@ final readonly class PageReleaseStampService implements PageReleaseStampServiceI
         );
     }
 
-    private function componentBoundary(): PageReleaseStampItem
+    private function componentBoundary(): PageReleaseStampItemDTO
     {
-        return new PageReleaseStampItem(
+        return new PageReleaseStampItemDTO(
             'component_boundary',
             'Component boundary',
             true,
@@ -83,9 +83,9 @@ final readonly class PageReleaseStampService implements PageReleaseStampServiceI
         );
     }
 
-    private function nextLayerReadiness(): PageReleaseStampItem
+    private function nextLayerReadiness(): PageReleaseStampItemDTO
     {
-        return new PageReleaseStampItem(
+        return new PageReleaseStampItemDTO(
             'next_layer_readiness',
             'Next layer readiness',
             true,

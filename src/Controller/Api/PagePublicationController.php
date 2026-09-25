@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Api;
 
-use App\Paging\DTO\Publication\PagePublishInput;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Publication\PagePublishInputDTO;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
+use App\Paging\FactoryInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\Repository\PageRepository;
-use App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page/publication')]
+#[Route('/api')]
 final class PagePublicationController
 {
     public function __construct(
@@ -25,7 +25,7 @@ final class PagePublicationController
     ) {
     }
 
-    #[Route('/{code}', name: 'page_api_publications', methods: ['GET'])]
+    #[Route('/page/publication/{code}', name: 'page_api_publications', methods: ['GET'])]
     public function list(string $code): JsonResponse
     {
         $page = $this->findPage($code);
@@ -40,14 +40,14 @@ final class PagePublicationController
         ]);
     }
 
-    #[Route('/revision/{revisionNumber}', name: 'page_api_publish_revision', methods: ['POST'])]
+    #[Route('/page/publication/revision/{revisionNumber}', name: 'page_api_publish_revision', methods: ['POST'])]
     public function publish(int $revisionNumber, Request $request): JsonResponse
     {
         $payload = $this->jsonPayload($request);
         $code = $this->pageCodeFromRequest($request, $payload);
         $revision = $this->findRevision($code, $revisionNumber);
 
-        $publication = $this->pagePublicationService->publishRevision($revision, new PagePublishInput(
+        $publication = $this->pagePublicationService->publishRevision($revision, new PagePublishInputDTO(
             $this->dateFromPayload($payload['effectiveFrom'] ?? null),
             $this->dateFromPayload($payload['expiresAt'] ?? null),
             isset($payload['publishedByUserId']) ? (string) $payload['publishedByUserId'] : null,

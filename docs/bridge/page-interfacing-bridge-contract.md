@@ -13,7 +13,7 @@ Interfacing must consume `PageBridgePayload` through `PageBridgeContractProvider
 ## Provider
 
 ```php
-App\Paging\ServiceInterface\Bridge\PageBridgeContractProviderInterface
+App\Paging\ProviderInterface\Bridge\PageBridgeContractProviderInterface
 ```
 
 Supported entrypoints:

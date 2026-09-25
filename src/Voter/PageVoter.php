@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Paging\Voter;
 
-use App\Paging\DTO\Security\PageGrantCheck;
-use App\Paging\Entity\Page;
+use App\Paging\DTO\Security\PageGrantCheckDTO;
+use App\Paging\Entity\PageEntity as Page;
 use App\Paging\Enum\PageGrantType;
+use App\Paging\ResolverInterface\Security\PageSecuritySubjectResolverInterface;
 use App\Paging\ServiceInterface\Security\PageGrantServiceInterface;
-use App\Paging\ServiceInterface\Security\PageSecuritySubjectResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -45,7 +45,7 @@ final class PageVoter extends Voter
             return false;
         }
 
-        return $this->grantService->isGranted(new PageGrantCheck(
+        return $this->grantService->isGranted(new PageGrantCheckDTO(
             page: $subject,
             grant: self::GRANT_BY_ATTRIBUTE[$attribute],
             userId: $this->subjectResolver->userId($token),

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Paging\ServiceInterface\Operations;
 
-use App\Paging\DTO\Operations\PageOperationChecklistReport;
+use App\Paging\DTO\Operations\PageOperationChecklistReportDTO;
 
 interface PageOperationChecklistServiceInterface
 {
-    public function buildReport(): PageOperationChecklistReport;
+    public function buildReport(): PageOperationChecklistReportDTO;
 }

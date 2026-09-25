@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Paging\Tests\Unit;
 
-use App\Paging\DTO\Completion\PageCompletionItem;
-use App\Paging\DTO\Completion\PageCompletionReport;
+use App\Paging\DTO\Completion\PageCompletionItemDTO;
+use App\Paging\DTO\Completion\PageCompletionReportDTO;
 use PHPUnit\Framework\TestCase;
 
 final class PageCompletionReportTest extends TestCase
 {
     public function testCompletionReportCountsPassedAndFailedItems(): void
     {
-        $report = new PageCompletionReport([
-            new PageCompletionItem('a', 'A', true, 'passed'),
-            new PageCompletionItem('b', 'B', false, 'failed'),
+        $report = new PageCompletionReportDTO([
+            new PageCompletionItemDTO('a', 'A', true, 'passed'),
+            new PageCompletionItemDTO('b', 'B', false, 'failed'),
         ]);
 
         self::assertFalse($report->passed());

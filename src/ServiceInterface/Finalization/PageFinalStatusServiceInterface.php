@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Paging\ServiceInterface\Finalization;
 
-use App\Paging\DTO\Finalization\PageFinalStatusReport;
+use App\Paging\DTO\Finalization\PageFinalStatusReportDTO;
 
 interface PageFinalStatusServiceInterface
 {
-    public function buildReport(): PageFinalStatusReport;
+    public function buildReport(): PageFinalStatusReportDTO;
 }

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Paging\Controller\Api;
 
-use App\Paging\Entity\Page;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\FactoryInterface\Bridge\PageApiBridgePayloadFactoryInterface;
+use App\Paging\FactoryInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\Repository\PageRepository;
-use App\Paging\ServiceInterface\Bridge\PageApiBridgePayloadFactoryInterface;
-use App\Paging\ServiceInterface\Http\PageHttpPayloadFactoryInterface;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/page')]
+#[Route('/api')]
 final class PageReadController
 {
     public function __construct(
@@ -24,7 +24,7 @@ final class PageReadController
     ) {
     }
 
-    #[Route('/{code}', name: 'page_api_read', methods: ['GET'])]
+    #[Route('/page/{code}', name: 'page_api_read', methods: ['GET'])]
     public function read(string $code): JsonResponse
     {
         $page = $this->findPublishedPage($code);
@@ -35,7 +35,7 @@ final class PageReadController
         ]);
     }
 
-    #[Route('/bridge/{code}', name: 'page_api_bridge', methods: ['GET'])]
+    #[Route('/page/bridge/{code}', name: 'page_api_bridge', methods: ['GET'])]
     public function bridge(string $code): JsonResponse
     {
         $page = $this->findPublishedPage($code);

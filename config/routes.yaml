@@ -1,5 +1,5 @@
 page_routes:
-  resource: routes/page.yaml
+  resource: routes/page_routes.yaml
 
 page_admin_routes:
   resource: routes/easyadmin.yaml

@@ -13,18 +13,18 @@ use App\Paging\Command\PageRcReadinessCommand;
 use App\Paging\Command\PageSecurityContractCommand;
 use App\Paging\Command\PageUserUsabilityCommand;
 use App\Paging\Command\PageWorkflowAcceptanceCommand;
-use App\Paging\DTO\Finalization\PageFinalStatusItem;
-use App\Paging\DTO\Finalization\PageFinalStatusReport;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageAcceptance;
-use App\Paging\Entity\PageAttachmentReference;
-use App\Paging\Entity\PageGrant;
-use App\Paging\Entity\PagePublication;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Finalization\PageFinalStatusItemDTO;
+use App\Paging\DTO\Finalization\PageFinalStatusReportDTO;
+use App\Paging\Entity\PageAcceptanceEntity as PageAcceptance;
+use App\Paging\Entity\PageAttachmentReferenceEntity as PageAttachmentReference;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageGrantEntity as PageGrant;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
+use App\Paging\FactoryInterface\Bridge\PageApiBridgePayloadFactoryInterface;
 use App\Paging\PageBundle;
 use App\Paging\ServiceInterface\Acceptance\PageAcceptanceServiceInterface;
 use App\Paging\ServiceInterface\Api\PageApiContractServiceInterface;
-use App\Paging\ServiceInterface\Bridge\PageApiBridgePayloadFactoryInterface;
 use App\Paging\ServiceInterface\Export\PageExportServiceInterface;
 use App\Paging\ServiceInterface\Finalization\PageFinalStatusServiceInterface;
 use App\Paging\ServiceInterface\Operations\PageOperationChecklistServiceInterface;
@@ -43,9 +43,9 @@ use Doctrine\ORM\Mapping\Table;
  */
 final class PageFinalStatusService implements PageFinalStatusServiceInterface
 {
-    public function buildReport(): PageFinalStatusReport
+    public function buildReport(): PageFinalStatusReportDTO
     {
-        return new PageFinalStatusReport([
+        return new PageFinalStatusReportDTO([
             $this->classes('bundle_entry', 'Bundle and standalone component entrypoints exist', [PageBundle::class]),
             $this->classes('entity_surface', 'Page entity-first surface exists', [
                 Page::class,
@@ -103,7 +103,7 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
     }
 
     /** @param list<class-string> $classes */
-    private function classes(string $code, string $label, array $classes, bool $allowInterfaces = false): PageFinalStatusItem
+    private function classes(string $code, string $label, array $classes, bool $allowInterfaces = false): PageFinalStatusItemDTO
     {
         $missing = [];
         foreach ($classes as $class) {
@@ -113,7 +113,7 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
             }
         }
 
-        return new PageFinalStatusItem(
+        return new PageFinalStatusItemDTO(
             $code,
             $label,
             [] === $missing,
@@ -122,7 +122,7 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
     }
 
     /** @param list<class-string> $classes */
-    private function tablePrefix(string $code, string $label, array $classes): PageFinalStatusItem
+    private function tablePrefix(string $code, string $label, array $classes): PageFinalStatusItemDTO
     {
         $invalid = [];
         foreach ($classes as $class) {
@@ -143,7 +143,7 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
             }
         }
 
-        return new PageFinalStatusItem(
+        return new PageFinalStatusItemDTO(
             $code,
             $label,
             [] === $invalid,
@@ -152,7 +152,7 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
     }
 
     /** @param list<string> $paths */
-    private function paths(string $code, string $label, array $paths): PageFinalStatusItem
+    private function paths(string $code, string $label, array $paths): PageFinalStatusItemDTO
     {
         $basePath = dirname(__DIR__, 3);
         $missing = [];
@@ -162,7 +162,7 @@ final class PageFinalStatusService implements PageFinalStatusServiceInterface
             }
         }
 
-        return new PageFinalStatusItem(
+        return new PageFinalStatusItemDTO(
             $code,
             $label,
             [] === $missing,

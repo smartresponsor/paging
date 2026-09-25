@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Export;
 
-use App\Paging\DTO\Export\PageExportView;
-use App\Paging\Entity\Page;
+use App\Paging\DTO\Export\PageExportViewDTO;
+use App\Paging\Entity\PageEntity as Page;
 use App\Paging\Enum\PageExportFormat;
 use App\Paging\ServiceInterface\Export\PageExportServiceInterface;
 use App\Paging\ServiceInterface\Rendering\PageRenderServiceInterface;
@@ -16,14 +16,14 @@ final readonly class PageExportService implements PageExportServiceInterface
     {
     }
 
-    public function exportPublished(Page $page, PageExportFormat $format): PageExportView
+    public function exportPublished(Page $page, PageExportFormat $format): PageExportViewDTO
     {
         $view = $this->pageRenderService->renderPublished($page);
 
         return match ($format) {
-            PageExportFormat::Html => new PageExportView($view->code, $view->slug, $view->title, $format, $view->bodyHtml, 'text/html; charset=UTF-8', $view->checksum),
-            PageExportFormat::Markdown => new PageExportView($view->code, $view->slug, $view->title, $format, $view->bodyMarkdown ?? $view->bodyText, 'text/markdown; charset=UTF-8', $view->checksum),
-            PageExportFormat::Json => new PageExportView($view->code, $view->slug, $view->title, $format, $this->encodeJson($view), 'application/json; charset=UTF-8', $view->checksum),
+            PageExportFormat::Html => new PageExportViewDTO($view->code, $view->slug, $view->title, $format, $view->bodyHtml, 'text/html; charset=UTF-8', $view->checksum),
+            PageExportFormat::Markdown => new PageExportViewDTO($view->code, $view->slug, $view->title, $format, $view->bodyMarkdown ?? $view->bodyText, 'text/markdown; charset=UTF-8', $view->checksum),
+            PageExportFormat::Json => new PageExportViewDTO($view->code, $view->slug, $view->title, $format, $this->encodeJson($view), 'application/json; charset=UTF-8', $view->checksum),
         };
     }
 

@@ -15,22 +15,22 @@ use App\Paging\Controller\Api\PageAuthoringController;
 use App\Paging\Controller\Api\PagePublicationController;
 use App\Paging\Controller\Api\PageRevisionController;
 use App\Paging\Controller\Public\PageViewController;
-use App\Paging\DTO\Usability\PageUserUsabilityItem;
-use App\Paging\DTO\Usability\PageUserUsabilityReport;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageAcceptance;
-use App\Paging\Entity\PageAttachmentReference;
-use App\Paging\Entity\PageGrant;
-use App\Paging\Entity\PagePublication;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Usability\PageUserUsabilityItemDTO;
+use App\Paging\DTO\Usability\PageUserUsabilityReportDTO;
+use App\Paging\Entity\PageAcceptanceEntity as PageAcceptance;
+use App\Paging\Entity\PageAttachmentReferenceEntity as PageAttachmentReference;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageGrantEntity as PageGrant;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
 use App\Paging\Form\PageForm;
 use App\Paging\Form\PagePublicationForm;
 use App\Paging\Form\PageRevisionForm;
+use App\Paging\NormalizerInterface\Editor\PageEditorPayloadNormalizerInterface;
+use App\Paging\ProviderInterface\Bridge\PageBridgeContractProviderInterface;
 use App\Paging\ServiceInterface\Acceptance\PageAcceptanceServiceInterface;
 use App\Paging\ServiceInterface\Attachment\PageAttachmentReferenceServiceInterface;
 use App\Paging\ServiceInterface\Authoring\PageDraftServiceInterface;
-use App\Paging\ServiceInterface\Bridge\PageBridgeContractProviderInterface;
-use App\Paging\ServiceInterface\Editor\PageEditorPayloadNormalizerInterface;
 use App\Paging\ServiceInterface\Interfacing\PageInterfacingContractServiceInterface;
 use App\Paging\ServiceInterface\Publication\PagePublicationServiceInterface;
 use App\Paging\ServiceInterface\Revision\PageRevisionServiceInterface;
@@ -49,9 +49,9 @@ use App\Paging\Voter\PageVoter;
  */
 final class PageUserUsabilityService implements PageUserUsabilityServiceInterface
 {
-    public function buildReport(): PageUserUsabilityReport
+    public function buildReport(): PageUserUsabilityReportDTO
     {
-        return new PageUserUsabilityReport([
+        return new PageUserUsabilityReportDTO([
             $this->classes('database_model', 'Paging', [
                 Page::class,
                 PageRevision::class,
@@ -105,7 +105,7 @@ final class PageUserUsabilityService implements PageUserUsabilityServiceInterfac
     }
 
     /** @param list<class-string> $classes */
-    private function classes(string $code, string $ownerLayer, array $classes): PageUserUsabilityItem
+    private function classes(string $code, string $ownerLayer, array $classes): PageUserUsabilityItemDTO
     {
         $missing = [];
         foreach ($classes as $class) {
@@ -114,6 +114,6 @@ final class PageUserUsabilityService implements PageUserUsabilityServiceInterfac
             }
         }
 
-        return new PageUserUsabilityItem($code, $ownerLayer, [] === $missing, [] === $missing ? 'available' : 'missing: '.implode(', ', $missing));
+        return new PageUserUsabilityItemDTO($code, $ownerLayer, [] === $missing, [] === $missing ? 'available' : 'missing: '.implode(', ', $missing));
     }
 }

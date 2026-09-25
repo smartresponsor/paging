@@ -4,27 +4,26 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Guard;
 
-use App\Paging\DTO\Guard\PageCanonGuardItem;
-use App\Paging\DTO\Guard\PageCanonGuardReport;
-use App\Paging\Entity\Page;
-use App\Paging\Entity\PageAcceptance;
-use App\Paging\Entity\PageAttachmentReference;
-use App\Paging\Entity\PageGrant;
-use App\Paging\Entity\PagePublication;
-use App\Paging\Entity\PageRevision;
+use App\Paging\DTO\Guard\PageCanonGuardItemDTO;
+use App\Paging\DTO\Guard\PageCanonGuardReportDTO;
+use App\Paging\Entity\PageAcceptanceEntity as PageAcceptance;
+use App\Paging\Entity\PageAttachmentReferenceEntity as PageAttachmentReference;
+use App\Paging\Entity\PageEntity as Page;
+use App\Paging\Entity\PageGrantEntity as PageGrant;
+use App\Paging\Entity\PagePublicationEntity as PagePublication;
+use App\Paging\Entity\PageRevisionEntity as PageRevision;
+use App\Paging\RepositoryInterface\PageRepositoryInterface;
 use App\Paging\ServiceInterface\Guard\PageCanonGuardServiceInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\Persistence\ManagerRegistry;
 
 final readonly class PageCanonGuardService implements PageCanonGuardServiceInterface
 {
-    public function __construct(private ManagerRegistry $managerRegistry)
+    public function __construct(private PageRepositoryInterface $pageRepository)
     {
     }
 
-    public function buildReport(): PageCanonGuardReport
+    public function buildReport(): PageCanonGuardReportDTO
     {
-        return new PageCanonGuardReport([
+        return new PageCanonGuardReportDTO([
             $this->namespaceGuard(),
             $this->entitySurfaceGuard(),
             $this->tablePrefixGuard(),
@@ -33,7 +32,7 @@ final readonly class PageCanonGuardService implements PageCanonGuardServiceInter
         ]);
     }
 
-    private function namespaceGuard(): PageCanonGuardItem
+    private function namespaceGuard(): PageCanonGuardItemDTO
     {
         $classes = [
             Page::class,
@@ -46,14 +45,14 @@ final readonly class PageCanonGuardService implements PageCanonGuardServiceInter
 
         foreach ($classes as $class) {
             if (!str_starts_with($class, 'App\\Paging\\')) {
-                return new PageCanonGuardItem('namespace', 'Component namespace', false, sprintf('%s is outside App\\Paging.', $class));
+                return new PageCanonGuardItemDTO('namespace', 'Component namespace', false, sprintf('%s is outside App\\Paging.', $class));
             }
         }
 
-        return new PageCanonGuardItem('namespace', 'Component namespace', true, 'All canonical Page entities live under App\\Paging.');
+        return new PageCanonGuardItemDTO('namespace', 'Component namespace', true, 'All canonical Page entities live under App\\Paging.');
     }
 
-    private function entitySurfaceGuard(): PageCanonGuardItem
+    private function entitySurfaceGuard(): PageCanonGuardItemDTO
     {
         $missing = [];
         foreach ([Page::class, PageRevision::class, PagePublication::class, PageAttachmentReference::class, PageGrant::class, PageAcceptance::class] as $class) {
@@ -63,19 +62,14 @@ final readonly class PageCanonGuardService implements PageCanonGuardServiceInter
         }
 
         if ([] !== $missing) {
-            return new PageCanonGuardItem('entity_surface', 'Page entity surface', false, 'Missing: '.implode(', ', $missing));
+            return new PageCanonGuardItemDTO('entity_surface', 'Page entity surface', false, 'Missing: '.implode(', ', $missing));
         }
 
-        return new PageCanonGuardItem('entity_surface', 'Page entity surface', true, 'Page, revisions, publications, attachments, grants, and acceptances are present.');
+        return new PageCanonGuardItemDTO('entity_surface', 'Page entity surface', true, 'Page, revisions, publications, attachments, grants, and acceptances are present.');
     }
 
-    private function tablePrefixGuard(): PageCanonGuardItem
+    private function tablePrefixGuard(): PageCanonGuardItemDTO
     {
-        $entityManager = $this->managerRegistry->getManagerForClass(Page::class);
-        if (null === $entityManager) {
-            return new PageCanonGuardItem('table_prefix', 'Database table prefix', false, 'No Doctrine manager found for Page.');
-        }
-
         $expected = [
             Page::class => 'page',
             PageRevision::class => 'page_revision',
@@ -86,23 +80,22 @@ final readonly class PageCanonGuardService implements PageCanonGuardServiceInter
         ];
 
         foreach ($expected as $class => $tableName) {
-            /** @var ClassMetadata<object> $metadata */
-            $metadata = $entityManager->getClassMetadata($class);
-            if ($metadata->getTableName() !== $tableName) {
-                return new PageCanonGuardItem('table_prefix', 'Database table prefix', false, sprintf('%s maps to %s, expected %s.', $class, $metadata->getTableName(), $tableName));
+            $actualTableName = $this->pageRepository->tableNameFor($class);
+            if ($actualTableName !== $tableName) {
+                return new PageCanonGuardItemDTO('table_prefix', 'Database table prefix', false, sprintf('%s maps to %s, expected %s.', $class, $actualTableName, $tableName));
             }
         }
 
-        return new PageCanonGuardItem('table_prefix', 'Database table prefix', true, 'All canonical tables use page/page_ names.');
+        return new PageCanonGuardItemDTO('table_prefix', 'Database table prefix', true, 'All canonical tables use page/page_ names.');
     }
 
-    private function configurationGuard(): PageCanonGuardItem
+    private function configurationGuard(): PageCanonGuardItemDTO
     {
-        return new PageCanonGuardItem('configuration', 'Configuration prefix', true, 'Bundle configuration root remains page.');
+        return new PageCanonGuardItemDTO('configuration', 'Configuration prefix', true, 'Bundle configuration root remains page.');
     }
 
-    private function boundaryGuard(): PageCanonGuardItem
+    private function boundaryGuard(): PageCanonGuardItemDTO
     {
-        return new PageCanonGuardItem('boundary', 'Responsibility boundary', true, 'Paging remains page lifecycle plus service-driven EasyAdmin operator UI: no generic business CRUD ownership, no SEO ownership, no locale ownership, no attachment storage.');
+        return new PageCanonGuardItemDTO('boundary', 'Responsibility boundary', true, 'Paging remains page lifecycle plus service-driven EasyAdmin operator UI: no generic business CRUD ownership, no SEO ownership, no locale ownership, no attachment storage.');
     }
 }
