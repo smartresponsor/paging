@@ -42,6 +42,15 @@
 
 Что имеем? The mandatory dependency contour is now executable RC evidence and all applicable deterministic acceptance gates are green. Что осталось? Create an explicit-path signed commit, push the synchronized RC branch, and verify post-push HEAD/upstream state while preserving unrelated `.gating/**` work.
 
+### Publication result
+
+- Signed implementation/evidence commit: `5016d1ca1360b842673e57d2c402def4656dcb9e` (`Harden Paging RC dependency readiness`).
+- Commit scope was explicit and contained only this task's three files; the pre-existing `.gating/**` state was not staged or modified by the integration step.
+- `git push` published `rc/paging-2026-07-09` to `origin/rc/paging-2026-07-09`; immediate post-push state was ahead 0 / behind 0.
+- Residual dirty worktree state consists only of the preserved pre-existing `.gating/**` materialization and does not block the published task-owned commit.
+
+Что имеем? The RC readiness hardening is implemented, deterministically verified, signed, and published. Что осталось? Only persist this publication note and re-confirm the final HEAD/upstream state; no additional Paging-owned implementation tail remains.
+
 ## 2026-09-23 autonomous RC continuation
 
 ### Reconnaissance baseline
