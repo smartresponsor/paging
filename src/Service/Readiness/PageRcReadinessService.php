@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Paging\Service\Readiness;
 
+use App\Cruding\CrudingBundle;
+use App\Interfacing\InterfacingBundle;
+use App\Objecting\ObjectBundle;
 use App\Paging\Command\PageInterfacingContractCommand;
 use App\Paging\Command\PageSecurityContractCommand;
 use App\Paging\Command\PageUserUsabilityCommand;
@@ -41,6 +44,7 @@ use App\Paging\ServiceInterface\Security\PageSecurityContractServiceInterface;
 use App\Paging\ServiceInterface\Usability\PageUserUsabilityServiceInterface;
 use App\Paging\ServiceInterface\Workflow\PageWorkflowAcceptanceServiceInterface;
 use App\Paging\Voter\PageVoter;
+use App\Viewing\ViewingBundle;
 
 /**
  * Builds a static RC readiness report for the Paging component.
@@ -54,6 +58,12 @@ final class PageRcReadinessService implements PageRcReadinessServiceInterface
     public function buildReport(): PageRcReadinessReportDTO
     {
         return new PageRcReadinessReportDTO([
+            $this->classes('dependency_contour', 'Mandatory application dependency contour', [
+                ObjectBundle::class,
+                CrudingBundle::class,
+                ViewingBundle::class,
+                InterfacingBundle::class,
+            ]),
             $this->classes('entities', 'Entity-first Page model', [
                 Page::class,
                 PageRevision::class,

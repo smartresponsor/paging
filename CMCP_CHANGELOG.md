@@ -1,5 +1,47 @@
 # CMCP Orchestration Journal
 
+## engine-20260926085015-paging-e85e6c
+
+### Reconnaissance baseline
+
+- Authoritative workspace: `D:\\PhpstormProjects\\www\\Paging`; branch `rc/paging-2026-07-09`; repository access and mutation use Console MCP.
+- Preserved pre-existing worktree state is confined to the materialized `.gating/**` surface; no reset, clean, stash, overwrite, or attribution to this task is permitted.
+- Read current Paging `AGENTS.md`, `README.md`, `composer.json`, RC journal, readiness/canon services and tests, bundle registration, source/test inventory, and declared Composer gates.
+- Read current Objecting, Cruding, Viewing and Interfacing contract surfaces and verified Paging declares all four direct runtime dependencies with local symlink path repositories.
+- Read Gating as executable enforcement companion and current Canonization materialized rule locations for Canon021 and Canon040.
+- Market/maturity check: mature pagination APIs use deterministic ordering, bounded page sizes and opaque cursor/page-info contracts for large changing collections. Those mechanics remain Collectioning-owned; Paging is the Page content-lifecycle component and must not grow a parallel pagination engine.
+
+### Target-to-canon mapping
+
+- Canon021: generic CRUD remains owned by Cruding; Paging keeps only Page business/API and explicitly permitted operator-admin behavior.
+- Mandatory dependency contour: standalone Paging must have Objecting, Cruding, Viewing and Interfacing available as real application dependencies.
+- Canon040: executable PHP coverage remains independent quality evidence; test counts are not substituted for coverage.
+- Platform structure remains `App\\Paging\\...`, role-first Symfony layers, with no `src/Domain`, Port, Adapter or Adaptor trees.
+
+### Selected work
+
+- RC-critical: make the Objecting/Cruding/Viewing/Interfacing dependency contour an explicit `page:rc:readiness` invariant rather than relying only on the current Composer manifest and bundle configuration.
+- Growth/post-RC: richer cursor/page-info UX, large-collection navigation and query semantics stay in Collectioning/Tabling consumers; coordinated editorial workflow enhancements remain separate Page roadmap work.
+- Baseline gates before mutation: `composer page:final-check` PASS; `composer quality` PASS (PHP-CS-Fixer 0/194, PHPStan 0 errors, PHPUnit 97 tests / 560 assertions, Gating 0 failed / 0 warnings).
+
+Что имеем? Green baseline plus a factual self-diagnostic gap: the required dependency contour exists but was not represented in the RC readiness report. Что осталось? Add the readiness invariant, test it, rerun affected/full deterministic gates, then inspect Git integration state.
+
+### Verification and integration readiness
+
+- Added a dedicated `dependency_contour` RC-readiness item that validates the installed Objecting, Cruding, Viewing and Interfacing bundle surfaces; the existing readiness unit test now regression-protects this item.
+- First post-change `composer quality` found only deterministic import ordering; `composer cs:fix` changed that single source file and the full quality gate then passed.
+- Post-fix `composer quality`: PASS — PHP-CS-Fixer 0/194 fixable, PHPStan 0 errors, PHPUnit 97 tests / 561 assertions, Gating 0 failed / 0 warnings.
+- `composer page:final-check`: PASS with 7 RC-readiness checks, including `dependency_contour = passed / available`.
+- `composer test:coverage`: PASS; methods 81.51% (357/438), branches 83.41% (950/1139), lines 93.35% (2176/2331). Canon040 method/branch/line targets remain satisfied.
+- `composer validate --strict --check-lock`: PASS; `composer audit --format=summary`: PASS with no advisories.
+- `composer schema:validate`: PASS for Doctrine mapping; database synchronicity is intentionally skipped by the declared repository script.
+- `composer page:admin-check`: PASS across container, usability, Interfacing, security, workflow and EasyAdmin route acceptance.
+- No browser/mobile UI, navigation, forms, interaction, templates, assets or user-visible flow changed, so visual/behavioral screenshot evidence is not applicable to this patch.
+- Git diff classification: only `CMCP_CHANGELOG.md`, `src/Service/Readiness/PageRcReadinessService.php`, and `tests/Unit/PageRcReadinessServiceTest.php` belong to this task. Existing `.gating/**` modifications/materialization remain preserved and excluded.
+- `git fetch origin` completed; branch `rc/paging-2026-07-09` remains ahead 0 / behind 0 before commit.
+
+Что имеем? The mandatory dependency contour is now executable RC evidence and all applicable deterministic acceptance gates are green. Что осталось? Create an explicit-path signed commit, push the synchronized RC branch, and verify post-push HEAD/upstream state while preserving unrelated `.gating/**` work.
+
 ## 2026-09-23 autonomous RC continuation
 
 ### Reconnaissance baseline

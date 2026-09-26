@@ -15,7 +15,8 @@ final class PageRcReadinessServiceTest extends TestCase
 
         self::assertTrue($report->passed());
         self::assertSame(0, $report->failedCount());
-        self::assertGreaterThanOrEqual(6, $report->passedCount());
+        self::assertGreaterThanOrEqual(7, $report->passedCount());
+        self::assertContains('dependency_contour', array_column($report->toArray()['items'], 'code'));
         self::assertContains('user_usability', array_column($report->toArray()['items'], 'code'));
         self::assertArrayHasKey('items', $report->toArray());
     }
