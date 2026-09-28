@@ -53,6 +53,9 @@
             "./config/routes/easyadmin.yaml"
         ]
     },
+    "failing/failure": {
+        "version": "dev-master"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.95",
         "recipe": {

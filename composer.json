@@ -68,6 +68,16 @@
     },
     {
       "type": "path",
+      "url": "../Failing",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "failing/failure": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
       "url": "../Gating",
       "options": {
         "symlink": true,
@@ -84,6 +94,7 @@
     "doctrine/orm": "^3.3",
     "collectioning/collection": "dev-master",
     "cruding/crud": "dev-master",
+    "failing/failure": "dev-master",
     "easycorp/easyadmin-bundle": "^5.0",
     "interfacing/interface": "dev-master",
     "ext-ctype": "*",

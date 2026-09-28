@@ -12,6 +12,7 @@
     "doctrine/orm": "^3.3",
     "collectioning/collection": "*@dev",
     "cruding/crud": "*@dev",
+    "failing/failure": "*@dev",
     "easycorp/easyadmin-bundle": "^5.0",
     "interfacing/interface": "*@dev",
     "ext-ctype": "*",
@@ -54,6 +55,11 @@
     "gating/gate": "dev-master"
   },
   "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/smartresponsor/failing.git",
+      "no-api": true
+    },
     {
       "type": "vcs",
       "url": "https://github.com/smartresponsor/gating.git",
