@@ -17,6 +17,7 @@
     "interfacing/interface": "*@dev",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "nelmio/api-doc-bundle": "^5.12",
     "objecting/object": "*@dev",
     "tabling/table": "*@dev",
     "viewing/view": "*@dev",

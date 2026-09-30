@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  title: Paging API
+  version: 1.0.0
+  description: Canonical external HTTP contract for the Paging component.
+paths:
+  /api/page/{code}:
+    get:
+      summary: Read a page by code
+      parameters:
+        - $ref: '#/components/parameters/PageCode'
+      responses:
+        '200':
+          description: Page payload
+        '404':
+          description: Page not found
+  /api/page/bridge/{code}:
+    get:
+      summary: Read the Page API bridge payload
+      parameters:
+        - $ref: '#/components/parameters/PageCode'
+      responses:
+        '200':
+          description: Page bridge payload
+        '404':
+          description: Page not found
+  /api/page/export/{code}:
+    get:
+      summary: Export a page
+      parameters:
+        - $ref: '#/components/parameters/PageCode'
+      responses:
+        '200':
+          description: Exported page representation
+        '404':
+          description: Page not found
+  /api/page/revision/{code}:
+    get:
+      summary: List revisions for a page
+      parameters:
+        - $ref: '#/components/parameters/PageCode'
+      responses:
+        '200':
+          description: Page revision collection
+        '404':
+          description: Page not found
+    post:
+      summary: Create a revision for a page
+      parameters:
+        - $ref: '#/components/parameters/PageCode'
+      responses:
+        '201':
+          description: Revision created
+        '404':
+          description: Page not found
+  /api/page/publication/{code}:
+    get:
+      summary: List publications for a page
+      parameters:
+        - $ref: '#/components/parameters/PageCode'
+      responses:
+        '200':
+          description: Page publication collection
+        '404':
+          description: Page not found
+  /api/page/publication/revision/{revisionNumber}:
+    post:
+      summary: Publish a page revision
+      parameters:
+        - $ref: '#/components/parameters/RevisionNumber'
+      responses:
+        '201':
+          description: Revision published
+        '404':
+          description: Revision not found
+  /api/page/acceptance/revision/{revisionNumber}:
+    post:
+      summary: Accept a page revision
+      parameters:
+        - $ref: '#/components/parameters/RevisionNumber'
+      responses:
+        '201':
+          description: Revision accepted
+        '422':
+          description: Subject user identifier is required
+        '404':
+          description: Revision not found
+  /api/page/acceptance/subject/{subjectUserId}:
+    get:
+      summary: Check subject acceptance state
+      parameters:
+        - $ref: '#/components/parameters/SubjectUserId'
+      responses:
+        '200':
+          description: Acceptance state
+  /api/page/authoring/page:
+    post:
+      summary: Create a page through the authoring API
+      responses:
+        '201':
+          description: Page created
+        '400':
+          description: Invalid authoring payload
+  /api/page/authoring/page/{code}:
+    patch:
+      summary: Update a page through the authoring API
+      parameters:
+        - $ref: '#/components/parameters/PageCode'
+      responses:
+        '200':
+          description: Page updated
+        '400':
+          description: Invalid authoring payload
+        '404':
+          description: Page not found
+components:
+  parameters:
+    PageCode:
+      name: code
+      in: path
+      required: true
+      schema:
+        type: string
+    RevisionNumber:
+      name: revisionNumber
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    SubjectUserId:
+      name: subjectUserId
+      in: path
+      required: true
+      schema:
+        type: string

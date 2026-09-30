@@ -1,5 +1,39 @@
 # CMCP Orchestration Journal
 
+## engine-20260930022154-paging-2f8b38
+
+### Reconnaissance baseline
+
+- Authoritative workspace: `D:\\PhpstormProjects\\www\\Paging`; branch `rc/paging-2026-07-09`; initial HEAD `26d7f1f04a9ddfa7f378d6e07aeafb78f490032f`; upstream synchronized at reconnaissance time.
+- Preserved pre-existing worktree state is the copied/materialized `.gating/**` surface. It is not attributed to this task and destructive cleanup is forbidden by the execution envelope.
+- Consumed upstream CanonScanning evidence for fingerprint `295fff869b6fbc2e3d0155c4976f627536eff6490211924d3e746634e3e34c9d`: Gating hard failures Canon052/056/063; Inspecting four medium observational findings.
+- Read current Paging docs/manifests/routes/runtime/scripts/Git state; mandatory Objecting, Cruding, Viewing and Interfacing dependency contour is declared through direct runtime packages plus development path symlinks.
+- Read Canonization normative Canon052, Canon056, Canon058, Canon061 and Canon063 plus Gating executable mirrors. Market comparison reinforces that pagination/query semantics remain Collectioning-owned; Paging owns only Page lifecycle/content and its external HTTP contract.
+
+### Target-to-canon mapping and selected work
+
+- Canon052: Composer development/production Gating integration is present; pre-existing copied `.gating/**` violates the artifact-only boundary and cannot be destructively removed in this run.
+- Canon056/063: mirror every external `/api/page/**` runtime path and explicit HTTP method in one canonical OpenAPI source.
+- Canon058: canonical source is `config/openapi/page_openapi.yaml`, derived from Composer subject `paging/page`.
+- Canon061: OpenAPI ownership requires direct runtime `nelmio/api-doc-bundle` dependency.
+- RC-critical implementation: add that source/dependency/runtime bundle registration, refresh dependency state, then run Gating and the declared Paging deterministic acceptance contour.
+- Growth/post-RC: richer schemas/examples, API-version migration, cursor/page-info UX and broad Inspecting refactors remain outside this bounded remediation unless a correctness gate promotes them.
+
+Что имеем? The hard API-contract cause is implemented without crossing component boundaries. Что осталось? Refresh Composer state, run deterministic gates, classify the residual Canon052 state, and integrate only task-owned files.
+
+### Verification checkpoint
+
+- Composer dependency reconciliation installed `nelmio/api-doc-bundle v5.12.2`; the first normal update completed dependency resolution but its post-update `cache:clear` hit a pre-existing unwritable Twig cache file, so dependency reconciliation was repeated successfully with scripts disabled rather than deleting cache state.
+- `composer quality`: PASS — PHP-CS-Fixer 0/194, PHPStan 0 errors, PHPUnit 97 tests / 561 assertions, repository Gating contour 0 failed / 0 warnings.
+- `composer page:final-check`: PASS across container lint, RC readiness, API contract, host integration, operational/final/handoff/canon/completion/bridge checks.
+- `composer validate --strict --check-lock`: PASS; `composer audit --format=summary`: PASS with no security advisories.
+- Current RC diagnostic reports `canon.issue_count = 0`; its readiness blocker is only the expected uncommitted worktree while this patch is being prepared.
+- Post-mutation standalone Inspecting was requested twice but the Console MCP quality-inspection call timed out before returning a new report. The upstream Inspecting observations remain relevant because this patch changes Composer/OpenAPI/configuration, not the PHP classes that produced those four observations.
+- No browser/mobile UI, navigation, template, asset, form interaction or user-visible flow changed; behavioral screenshots are not applicable to this patch.
+- Canon052 residual is isolated to the pre-existing copied `.gating/**` engine/policy materialization. Removing or relocating that preserved state would be destructive relative to this execution envelope and is intentionally not performed.
+
+Что имеем? Canon056/058/061/063 remediation is implemented and deterministic application gates are green. Что осталось? Integrate the coherent task-owned patch and publish it; Canon052 remains a bounded policy blocker outside permitted destructive operations.
+
 ## engine-20260926085015-paging-e85e6c
 
 ### Reconnaissance baseline
