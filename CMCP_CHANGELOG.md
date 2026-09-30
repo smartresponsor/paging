@@ -34,6 +34,16 @@
 
 Что имеем? Canon056/058/061/063 remediation is implemented and deterministic application gates are green. Что осталось? Integrate the coherent task-owned patch and publish it; Canon052 remains a bounded policy blocker outside permitted destructive operations.
 
+### Canon052 relocation follow-up
+
+- User explicitly authorized relocation of the preserved pre-existing `.gating/**` materialization.
+- The entire current `.gating/` directory was moved intact to `var/legacy-gating-preexisting-engine-20260930022154/`; no materialized file was deleted.
+- The tracked consumer `.gating/README.md` was recreated exactly from the current HEAD canonical artifact-boundary content. Because `var/` is ignored, the preserved legacy materialization no longer contaminates the consumer Gating source surface or Git status.
+- Immediate post-relocation Git status was clean. `composer gate` passed with 0 failed / 0 warnings and scanned only the canonical consumer surface rather than the copied Gating engine.
+- A clean-worktree RC diagnostic was attempted after relocation, but the Console MCP RC reporter returned an internal tool failure; no false-green RC claim is derived from that failed diagnostic call.
+
+Что имеем? Canon052's materialized-source blocker is physically removed from the consumer surface while preserving the complete previous tree under ignored `var/`. Что осталось? Re-run full quality, journal this relocation in Git, commit, push, and verify upstream synchronization.
+
 ## engine-20260926085015-paging-e85e6c
 
 ### Reconnaissance baseline
