@@ -40,6 +40,11 @@
 /test-results/
 /playwright-report/
 
+# Local IDE and operating-system state
+/.idea/
+.DS_Store
+Thumbs.db
+
 # Preserve the inert pre-Canon038 legacy marker without exposing runtime var/ contents.
 !/var/
 /var/*
